@@ -2,8 +2,8 @@ import React from 'react'
 
 import MainLayout from 'src/layouts/MainLayout'
 
-export default function Landing() {
+export default function Requests() {
   return (
-    <MainLayout title='Landing'></MainLayout>
+    <MainLayout title='Requests'></MainLayout>
   )
 }
