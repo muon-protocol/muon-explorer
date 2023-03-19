@@ -75,7 +75,7 @@ export default function Apps() {
                         activeKey={openMethods}
                         onSelect={handleMethod}
                     >
-                        {info.methods.map((item, index) => (
+                        {info?.methods.map((item, index) => (
                             <Accordion.Item className='mb-2 border-0 rounded-4 bg-gray11' eventKey={index + 1} key={index}>
                                 <Accordion.Header>{item.name}</Accordion.Header>
                                 <Accordion.Body>
@@ -102,7 +102,7 @@ export default function Apps() {
 
                 <Fade in={activePill === 'code'} unmountOnExit>
                     <div className='code bg-gray11 p-4 rounded-4'>
-                        <p className='mb-0 small'>{info.code}</p>
+                        <p className='mb-0 small'>{info?.code}</p>
                     </div>
                 </Fade>
 

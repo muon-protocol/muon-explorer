@@ -9,7 +9,7 @@ export default function Document() {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         {/* <link rel='manifest' href='/manifest.json' /> */}
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
       </Head>
       <body>
         <Main />
