@@ -80,20 +80,20 @@ export default function Apps() {
                                 <Accordion.Header>{item.name}</Accordion.Header>
                                 <Accordion.Body>
                                     {item.args.map((item2, index2) => (
-                                        <div key={index2} className='d-flex flex-column mb-3'>
+                                        <div key={index2} className='d-flex flex-column mb-1'>
                                             <div className='position-relative mb-3 mt-5 mt-md-0'>
                                                 <input
                                                     className='form-control bg-gray10 border-0 pe-md-5 rounded-pill'
                                                     placeholder={item2.type === 'int' ? 0 : '0x00000000000000000000000000000000'}
                                                     type={item2.type === 'int' ? 'number' : 'text'}
                                                 />
-                                                <div className='text-gray2 bg-gray9 small h-100 px-3 input-label d-flex align-items-center'>
+                                                <div className='text-gray2 bg-gray9 small h-100 px-3 input-label d-flex align-items-center justify-content-center'>
                                                     <span>{item2.name}</span>
                                                 </div>
                                             </div>
-                                            <button className='btn bg-primary text-white px-5 py-1 rounded-pill align-self-start fw-bold'>Query</button>
                                         </div>
                                     ))}
+                                    <button className='btn bg-primary text-white px-5 py-1 rounded-pill align-self-start fw-bold'>Query</button>
                                 </Accordion.Body>
                             </Accordion.Item>
                         ))}

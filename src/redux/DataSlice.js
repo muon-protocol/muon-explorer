@@ -16,9 +16,10 @@ export const getChartData = createAsyncThunk(
 
 export const getRequests = createAsyncThunk(
     'getRequests',
-    async ({ page = 0 }) => {
+    async ({ page = 0, q = '' }) => {
         try {
-            const { data } = await axiosInstance.get(`/apps/deus/requests?page=${page}`)
+            const value = q ? `&q=${q}` : ''
+            const { data } = await axiosInstance.get(`/apps/deus/requests?page=${page}${value}`)
             return data
         }
         catch (err) {
@@ -44,10 +45,13 @@ const AuthSlice = createSlice({
     name: 'auth',
     initialState: {
         chartLoading: false,
-        requestsLoading: false,
-        infoLoading: false,
         chartData: [],
+
+        requestsLoading: false,
         requests: [],
+        totalReq: 0,
+
+        infoLoading: false,
         info: null
     },
     extraReducers: builder => {
@@ -71,7 +75,8 @@ const AuthSlice = createSlice({
             })
             .addCase(getRequests.fulfilled, (state, action) => {
                 state.requestsLoading = false
-                state.requests = action.payload
+                state.requests = action.payload.requests
+                state.totalReq = action.payload.total
             })
             .addCase(getRequests.rejected, state => {
                 state.requestsLoading = false

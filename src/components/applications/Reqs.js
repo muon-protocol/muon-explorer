@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import { Icon } from '@iconify/react'
 
@@ -6,36 +6,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRequests } from 'src/redux/DataSlice';
 
 const LIMIT = 10
-const MAX = 20
 
 export default function Reqs() {
 
-    const { requests, requestsLoading } = useSelector(store => store.data)
+    const { requests, requestsLoading, totalReq } = useSelector(store => store.data)
 
     const dispatch = useDispatch()
 
     const [page, setPage] = useState(0)
     const [inputValue, setInputValue] = useState('')
-    const [filteredData, setFilteredData] = useState([])
+
+    const interval = useRef(null)
 
     useEffect(() => {
-        dispatch(getRequests({ page })).then(res => {
-            setFilteredData(res.payload || [])
-        })
+        dispatch(getRequests({ page }))
     }, [dispatch, page])
 
-    const handleSearch = (e) => {
-        setInputValue(e)
-        if (e) {
-            const addressSearch = requests.filter(i => String(i.address).match(e))
-            const gatewaySearch = requests.filter(i => String(i.gateway).match(e))
-            const filtered = addressSearch.length ? addressSearch : gatewaySearch
-            setFilteredData(filtered)
+    useEffect(() => {
+        interval.current = setInterval(() => {
+            dispatch(getRequests({ page, q: inputValue }))
+        }, 5000)
+
+        return () => clearInterval(interval.current)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, inputValue])
+
+    useEffect(() => {
+        if (inputValue) {
+            const delayDebounceFn = setTimeout(() => {
+                dispatch(getRequests({ page: 0, q: inputValue }))
+            }, 2000)
+
+            return () => clearTimeout(delayDebounceFn)
         }
-        else {
-            setFilteredData(requests)
+        else{
+            dispatch(getRequests({ page: 0 }))
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, inputValue])
 
     const handlePrevPage = () => {
         if (page !== 0) {
@@ -44,10 +52,7 @@ export default function Reqs() {
     }
 
     const handleNextPage = () => {
-        // if (page !== Math.floor(data.length / LIMIT)) {
-        //     setPage(page + 1)
-        // }
-        if (filteredData.length) {
+        if (requests.length) {
             setPage(page + 1)
         }
     }
@@ -64,7 +69,7 @@ export default function Reqs() {
                         placeholder='Req Address / Target App / Method Name / ...'
                         className='form-control bg-transparent border-0 ms-1 py-1'
                         value={inputValue}
-                        onChange={e => handleSearch(e.target.value)}
+                        onChange={e => setInputValue(e.target.value)}
                     />
                 </div>
             </div>
@@ -84,27 +89,28 @@ export default function Reqs() {
                             </tr>
                         </thead>
                         <tbody>
-                            {requestsLoading ?
-                                <tr>
+                            {/* requestsLoading ?
+                                <tr className='state-tr'>
                                     <td className='small text-center fw-bold pt-4' colSpan={7}>Loading ...</td>
                                 </tr>
                                 :
-                                !filteredData.length ?
-                                    <tr>
-                                        <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
+                                 */}
+                            {!requests.length ?
+                                <tr className='state-tr'>
+                                    <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
+                                </tr>
+                                :
+                                requests.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className='small'>{item.address.slice(0, 10) + '...' + item.address.slice(-10)}</td>
+                                        <td className='small'>{item.app}</td>
+                                        <td className='small'>{item.method}</td>
+                                        <td className='small'>{item.gateway.slice(0, 10) + '...' + item.gateway.slice(-10)}</td>
+                                        <td className='small'>{item.sigs}</td>
+                                        <td className='small'>{new Date(item.start).toLocaleString()}</td>
+                                        <td className='small'>{new Date(item.confirm).toLocaleString()}</td>
                                     </tr>
-                                    :
-                                    filteredData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td className='small'>{item.address.slice(0, 10) + '...' + item.address.slice(-10)}</td>
-                                            <td className='small'>{item.app}</td>
-                                            <td className='small'>{item.method}</td>
-                                            <td className='small'>{item.gateway.slice(0, 10) + '...' + item.gateway.slice(-10)}</td>
-                                            <td className='small'>{item.sigs}</td>
-                                            <td className='small'>{new Date(item.start).toLocaleString()}</td>
-                                            <td className='small'>{new Date(item.confirm).toLocaleString()}</td>
-                                        </tr>
-                                    ))
+                                ))
                             }
                         </tbody>
                     </table>
@@ -112,7 +118,7 @@ export default function Reqs() {
 
                 <div className='d-flex justify-content-between align-items-center'>
                     <span className='text-primary-light small'>
-                        {(LIMIT * page + 1)}-{filteredData.length + (page * LIMIT)} / {inputValue ? filteredData.length : MAX}
+                        {(LIMIT * page + 1)}-{requests.length + (page * LIMIT)} / {totalReq}
                     </span>
 
                     <div className='d-flex align-items-center'>
@@ -127,16 +133,16 @@ export default function Reqs() {
                                 color={page === 0 ? '#cfd1f9' : '#a5a9f8'}
                             />
                         </button>
-                        <span className='text-primary small'>{page + 1} / {Math.ceil((inputValue ? filteredData.length : MAX) / LIMIT)}</span>
+                        <span className='text-primary small'>{page + 1} / {Math.ceil(totalReq / LIMIT)}</span>
                         <button
                             className='btn border-0 p-0'
                             onClick={handleNextPage}
-                            disabled={page + 1 === Math.ceil((inputValue ? filteredData.length : MAX) / LIMIT)}
+                            disabled={page + 1 === Math.ceil(totalReq / LIMIT)}
                         >
                             <Icon
                                 icon="material-symbols:arrow-right-rounded"
                                 width={50}
-                                color={page + 1 === Math.ceil((inputValue ? filteredData.length : MAX) / LIMIT) ? '#cfd1f9' : '#a5a9f8'}
+                                color={page + 1 === Math.ceil(totalReq / LIMIT) ? '#cfd1f9' : '#a5a9f8'}
                             />
                         </button>
                     </div>
