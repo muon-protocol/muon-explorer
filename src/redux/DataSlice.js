@@ -41,8 +41,8 @@ export const getInfo = createAsyncThunk(
     }
 )
 
-const AuthSlice = createSlice({
-    name: 'auth',
+const DataSlice = createSlice({
+    name: 'data',
     initialState: {
         chartLoading: false,
         chartData: [],
@@ -100,4 +100,4 @@ const AuthSlice = createSlice({
     }
 })
 
-export default AuthSlice.reducer
+export default DataSlice.reducer

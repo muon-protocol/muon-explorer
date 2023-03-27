@@ -1,0 +1,40 @@
+:root {
+  --primary: #5158f6;
+  --primary-light: #a5a9f8;
+  --primary-low: #cfd1f9;
+
+  --secondary: #f59569;
+  --secondary-light: #f6c7b4;
+
+  --muon-gradient: linear-gradient(
+    90.01deg,
+    #64a3f4 0%,
+    #7202f1 18.02%,
+    #a728da 41.61%,
+    #c5759e 82.53%,
+    #f09e5a 105.58%
+  );
+
+  --muon-gradient2: linear-gradient(
+    135deg,
+    rgba(81, 88, 246, 0.17) 0%,
+    rgba(130, 45, 245, 0.17) 33.12%,
+    rgba(243, 167, 97, 0.17) 100%
+  );
+
+  --green: #1ad99d;
+  --dark-green: #169f74;
+
+  --gray1: #313144;
+  --gray2: #313144;
+  --gray5: #58586d;
+  --gray6: #68687f;
+  --gray7: #88889a;
+  --gray8: #a9a9b9;
+  --gray9: #e0e0ea;
+  --gray10: #e9eff6;
+  --gray11: #f2f2f4;
+  --white: #f9f9fa;
+
+  --bg: #eff0f5;
+}

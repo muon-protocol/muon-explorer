@@ -1,13 +1,13 @@
 import React from 'react'
 
-import Footer from 'src/components/common/Footer'
-import Header from 'src/components/common/Header'
-import HeadTag from 'src/components/common/HeadTag'
+import Footer from 'src/components/Footer'
+import Header from 'src/components/Header'
+import Head from 'src/components/Head'
 
 export default function MainLayout({ children, title }) {
     return (
         <main className='d-flex flex-column'>
-            <HeadTag title={`Muon Explorer | ${title}`} />
+            <Head title={`Muon Explorer | ${title}`} />
 
             <Header />
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
 import MainLayout from 'src/layouts/MainLayout'
-import AppDetails from 'src/components/applications/AppDetails'
-import ChartBox from 'src/components/applications/ChartBox'
-import Apps from 'src/components/applications/Apps';
-import Reqs from 'src/components/applications/Reqs';
+import AppDetails from 'src/sections/Applications/AppDetails'
+import ChartBox from 'src/sections/Applications/ChartBox'
+import Apps from 'src/sections/Applications/ApplicationTab';
+import Reqs from 'src/sections/Applications/RequestsTab';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';

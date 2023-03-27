@@ -1,49 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Icon } from '@iconify/react'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequests } from 'src/redux/DataSlice';
 
-const LIMIT = 10
+import { LIMIT } from 'src/constants/applications';
 
-export default function Reqs() {
+import useSearch from 'src/hooks/useSearch';
+import useInterval from 'src/hooks/useInterval';
+
+export default function RequestsTab() {
 
     const { requests, requestsLoading, totalReq } = useSelector(store => store.data)
 
     const dispatch = useDispatch()
 
     const [page, setPage] = useState(0)
+
     const [inputValue, setInputValue] = useState('')
 
-    const interval = useRef(null)
-
     useEffect(() => {
-        dispatch(getRequests({ page }))
+        dispatch(getRequests({ page: page + 1, q: inputValue }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page])
 
-    useEffect(() => {
-        interval.current = setInterval(() => {
-            dispatch(getRequests({ page, q: inputValue }))
-        }, 5000)
+    useInterval({
+        deps: [inputValue, page],
+        delay: 5000,
+        func: () => getRequests({ page: page + 1, q: inputValue })
+    })
 
-        return () => clearInterval(interval.current)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, inputValue])
-
-    useEffect(() => {
-        if (inputValue) {
-            const delayDebounceFn = setTimeout(() => {
-                dispatch(getRequests({ page: 0, q: inputValue }))
-            }, 2000)
-
-            return () => clearTimeout(delayDebounceFn)
-        }
-        else{
-            dispatch(getRequests({ page: 0 }))
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, inputValue])
+    useSearch({
+        inputValue,
+        delay: 1500,
+        searchFunc: () => getRequests({ page: 1, q: inputValue }),
+        callback: () => getRequests({ page: 1 })
+    })
 
     const handlePrevPage = () => {
         if (page !== 0) {
@@ -66,7 +59,7 @@ export default function Reqs() {
                     <Icon icon="material-symbols:search" width={20} color='#88889a' />
                     <input
                         type='search'
-                        placeholder='Req Address / Target App / Method Name / ...'
+                        placeholder='Req Address / Gateway Address'
                         className='form-control bg-transparent border-0 ms-1 py-1'
                         value={inputValue}
                         onChange={e => setInputValue(e.target.value)}
@@ -89,12 +82,6 @@ export default function Reqs() {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* requestsLoading ?
-                                <tr className='state-tr'>
-                                    <td className='small text-center fw-bold pt-4' colSpan={7}>Loading ...</td>
-                                </tr>
-                                :
-                                 */}
                             {!requests.length ?
                                 <tr className='state-tr'>
                                     <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -125,7 +112,7 @@ export default function Reqs() {
                         <button
                             className='btn border-0 p-0'
                             onClick={handlePrevPage}
-                            disabled={page === 0}
+                            disabled={page === 0 || requestsLoading}
                         >
                             <Icon
                                 icon="material-symbols:arrow-left-rounded"
@@ -133,11 +120,11 @@ export default function Reqs() {
                                 color={page === 0 ? '#cfd1f9' : '#a5a9f8'}
                             />
                         </button>
-                        <span className='text-primary small'>{page + 1} / {Math.ceil(totalReq / LIMIT)}</span>
+                        <span className='text-primary small'>{inputValue ? '1' : page + 1} / {Math.ceil(totalReq / LIMIT)}</span>
                         <button
                             className='btn border-0 p-0'
                             onClick={handleNextPage}
-                            disabled={page + 1 === Math.ceil(totalReq / LIMIT)}
+                            disabled={page + 1 === Math.ceil(totalReq / LIMIT) || requestsLoading}
                         >
                             <Icon
                                 icon="material-symbols:arrow-right-rounded"

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+
 import { Nav } from 'react-bootstrap'
-import Chart from '../UI/Chart'
+
+import Chart from '../../components/Chart'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getChartData } from 'src/redux/DataSlice'
@@ -29,18 +31,11 @@ export default function ChartBox() {
                     activeKey={length}
                     onSelect={e => setLength(Number(e))}
                 >
-                    <Nav.Item>
-                        <Nav.Link className='py-1 px-3 text-gray7 smaller rounded-4' eventKey={1}>1d</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link className='py-1 px-3 text-gray7 smaller rounded-4' eventKey={7}>7d</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link className='py-1 px-3 text-gray7 smaller rounded-4' eventKey={14}>14d</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link className='py-1 px-3 text-gray7 smaller rounded-4' eventKey={21}>21d</Nav.Link>
-                    </Nav.Item>
+                    {[1, 7, 14, 21].map((item, index) => (
+                        <Nav.Item key={index}>
+                            <Nav.Link className='py-1 px-3 text-gray7 smaller rounded-4' eventKey={item}>{item}d</Nav.Link>
+                        </Nav.Item>
+                    ))}
                 </Nav>
             </div>
 

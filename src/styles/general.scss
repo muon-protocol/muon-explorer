@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box !important;
+  list-style: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: initial;
+}
+
+body {
+  background-color: var(--bg) !important;
+  font-family: "Lato" !important;
+  overflow-x: hidden;
+}
+
+.smaller {
+  font-size: 12px;
+}
+
+::placeholder {
+  font-size: 14px;
+}
+
+input:focus,
+button:focus {
+  box-shadow: none !important;
+}

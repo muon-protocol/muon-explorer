@@ -8,10 +8,24 @@ import logo from 'public/images/logo.png'
 
 import { Nav, Navbar } from 'react-bootstrap'
 
-
-export default function Header() {
+const HeaderNav = ({ title, path, last }) => {
 
     const { pathname } = useRouter()
+
+    return (
+        <Nav.Item>
+            <Link
+                className={`nav-link fw-bold text-gray1 ${last ? '' : 'me-2'} ${pathname === `/${path}` ? 'active' : ''}`}
+                href={`/${path}`}
+            >
+                {title}
+            </Link>
+        </Nav.Item>
+    )
+}
+
+
+export default function Header() {
 
     return (
         <header className='px-5'>
@@ -28,18 +42,12 @@ export default function Header() {
                 <Navbar.Toggle aria-controls="navbarScroll" className='bg-primary-low border-0 rounded-3 p-1' />
                 <Navbar.Collapse id="navbarScroll" className='flex-grow-0'>
                     <Nav className="me-auto my-2 my-lg-0" navbarScroll>
-                        <Nav.Item>
-                            <Link className={`nav-link fw-bold text-gray1 me-2 ${pathname === '/' ? 'active' : ''}`} href='/'>Home</Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Link className={`nav-link fw-bold text-gray1 me-2 ${pathname === '/applications' ? 'active' : ''}`} href='/applications'>Applications</Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Link className={`nav-link fw-bold text-gray1 me-2 ${pathname === '/requests' ? 'active' : ''}`} href='/requests'>Requests</Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Link className={`nav-link fw-bold text-gray1 ${pathname === '/nodes' ? 'active' : ''}`} href='/nodes'>Nodes</Link>
-                        </Nav.Item>
+
+                        <HeaderNav title='Home' path='' />
+                        <HeaderNav title='Applications' path='applications' />
+                        <HeaderNav title='Requests' path='requests' />
+                        <HeaderNav title='Nodes' path='nodes' last />
+
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

@@ -6,7 +6,7 @@ import Fade from 'react-bootstrap/Fade';
 
 import { useSelector } from 'react-redux';
 
-export default function Apps() {
+export default function ApplicationTab() {
 
     const { info } = useSelector(store => store.data)
 
