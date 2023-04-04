@@ -1,8 +1,15 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import ReactECharts from 'echarts-for-react';
 import { MONTH_NAMES, DAY_HOURS } from 'src/constants/applications';
+import styled, { useTheme } from 'styled-components';
 
-const Chart = ({ data, length }) => {
+const StyledDiv = styled.div`
+    height: 12rem;
+`
+
+export default function LineChart({ data, length }) {
+
+    const theme = useTheme()
 
     const newIndex = useRef(0)
 
@@ -41,15 +48,14 @@ const Chart = ({ data, length }) => {
             axisLabel: {
                 align: 'center',
                 interval: length === 1 ? 1 : '',
-                color: '#a9a9b9',
+                color: theme.palette.gray6,
                 fontFamily: 'Lato',
             },
         },
         yAxis: {
             type: 'value',
             axisLabel: {
-                color: '#a9a9b9',
-                fontFamily: 'Lato',
+                color: theme.palette.gray6
             },
             splitLine: {
                 show: false
@@ -61,24 +67,24 @@ const Chart = ({ data, length }) => {
                 data,
                 type: 'line',
                 smooth: true,
+                silent: true,
                 lineStyle: {
-                    color: '#5158f6',
+                    color: theme.palette.primary1,
                     width: 3
                 },
                 symbol: "none",
                 areaStyle: {
-                    color: 'rgb(81,88,246)',
+                    color: theme.palette.primary4,
                     opacity: .15
                 }
             },
         ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [data, length])
 
     return (
-        <div className='chart-cont'>
+        <StyledDiv>
             <ReactECharts option={options} />
-        </div>
+        </StyledDiv>
     )
 }
-
-export default Chart

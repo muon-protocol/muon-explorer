@@ -1,6 +1,6 @@
 {
-  "name": "muon",
-  "version": "0.1.0",
+  "name": "muon-explorer",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3004",
@@ -21,11 +21,15 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "react-toastify": "^9.1.1",
-    "sharp": "^0.31.3"
+    "sharp": "^0.31.3",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
     "sass": "^1.58.3"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
