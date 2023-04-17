@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
+
+// import useInterval from 'src/hooks/useInterval'
 
 import MainLayout from 'src/layouts/MainLayout'
 import LineChart from 'src/components/Chart/LineChart'
-import PieChart from 'src/components/Chart/piechart'
+import PieChart from 'src/components/Chart/PieChart'
 import LandingSearchbar from 'src/sections/Landing/LandingSearchbar'
 import Card from 'src/components/Card'
 import Table from 'src/components/Table'
@@ -11,15 +14,39 @@ import RequestsChartFooter from 'src/sections/Landing/RequestsChartFooter'
 import NodesChartFooter from 'src/sections/Landing/NodesChartFooter'
 
 import { useSelector } from 'react-redux'
+import { wrapper } from 'src/redux/store'
+import { getApplications } from 'src/redux/ApplicationsSlice'
+import { getRequests } from 'src/redux/RequestsSlice'
+import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice'
+
+export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
+    const res1 = store.dispatch(getApplications({}))
+    const res2 = store.dispatch(getRequests({}))
+    const res3 = store.dispatch(getAllNodes({}))
+    const res4 = store.dispatch(getActiveNodes({}))
+    const res5 = store.dispatch(getDeactiveNodes({}))
+    await Promise.all([res1, res2, res3, res4, res5])
+    return {
+        props: {}
+    }
+})
 
 export default function Landing() {
 
-    const { chartData, chartLoading } = useSelector(store => store.data)
+    const { applications } = useSelector(store => store.applications)
+    const { requests, requestsHistory, historyLoading } = useSelector(store => store.requests)
+    const { nodes, deactiveNodes, activeNodes } = useSelector(store => store.nodes)
 
-    const [length, setLength] = useState(21)
+    const [length, setLength] = useState(1)
+
+    // useInterval({
+    //     deps: [],
+    //     delay: 5000,
+    //     func: () => getRequests({ page: 1 })
+    // })
 
     return (
-        <MainLayout title='Landing'>
+        <MainLayout>
 
             <section className='mb-4'>
                 <LandingSearchbar />
@@ -34,8 +61,7 @@ export default function Landing() {
                     actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
                     footerContent={<RequestsChartFooter />}
                 >
-                    {/* <LineChart data={chartLoading ? [] : chartData} length={length} /> */}
-                    <LineChart data={Array(length * 24).fill('').map(() => Math.random() * 100)} length={length} />
+                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
                 </Card>
             </section>
 
@@ -49,14 +75,24 @@ export default function Landing() {
                             link='/applications'
                         >
                             <Table head={['App Name', 'Most Used Methods', '#Methods', 'Confirmed Requests']}>
-                                {Array(10).fill('').map((item, index) => (
-                                    <tr key={index}>
-                                        <td className='small pe-4 pe-md-5'>Muon Main App</td>
-                                        <td className='small pe-md-4'>FTM Price</td>
-                                        <td className='small'>129</td>
-                                        <td className='small text-end'>46,394</td>
+                                {!applications.length ?
+                                    <tr>
+                                        <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                     </tr>
-                                ))}
+                                    :
+                                    applications.map((item, index) => (
+                                        <tr key={index}>
+                                            <td className='small pe-md-4'>
+                                                <Link href={`/applications/${item.id}`}>
+                                                    {item.name}
+                                                </Link>
+                                            </td>
+                                            <td className='small pe-md-4'>{item.mostUsedMethod}</td>
+                                            <td className='small'>{item.methods.length || 0}</td>
+                                            <td className='small text-end'>{item.confirmed_requests}</td>
+                                        </tr>
+                                    ))
+                                }
                             </Table>
                         </Card>
                     </div>
@@ -68,14 +104,19 @@ export default function Landing() {
                             link='/requests'
                         >
                             <Table head={['Req Address', 'Target Application', 'Method', 'Confirm Time']}>
-                                {Array(10).fill('').map((item, index) => (
-                                    <tr key={index}>
-                                        <td className='small pe-4 pe-md-5'>Muon Main App</td>
-                                        <td className='small pe-md-4'>FTM Price</td>
-                                        <td className='small'>129</td>
-                                        <td className='small text-end'>46,394</td>
+                                {!requests.length ?
+                                    <tr>
+                                        <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                     </tr>
-                                ))}
+                                    :
+                                    requests.map((item, index) => (
+                                        <tr key={index}>
+                                            <td className='small pe-md-4'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
+                                            <td className='small pe-md-4'>{item.app}</td>
+                                            <td className='small'>{item.method}</td>
+                                            <td className='small text-end'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
+                                        </tr>
+                                    ))}
                             </Table>
                         </Card>
                     </div>
@@ -86,15 +127,20 @@ export default function Landing() {
                             actionContent='View All Nodes'
                             link='/nodes'
                         >
-                            <Table head={['Node Address', 'Status', '#Signed Requests', 'Start Time']}>
-                                {Array(10).fill('').map((item, index) => (
-                                    <tr key={index}>
-                                        <td className='small pe-4 pe-md-5'>Muon Main App</td>
-                                        <td className='small pe-md-4'>FTM Price</td>
-                                        <td className='small'>129</td>
-                                        <td className='small text-end'>46,394</td>
+                            <Table head={['Node ID', 'Node Address', 'Status', 'Start Time']}>
+                                {!nodes.length ?
+                                    <tr>
+                                        <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                     </tr>
-                                ))}
+                                    :
+                                    nodes.slice(0, 10).map((item, index) => (
+                                        <tr key={index}>
+                                            <td className='small'>{item.id}</td>
+                                            <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
+                                            <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
+                                            <td className='small text-end'>{new Date(item.startTime)?.toLocaleString()}</td>
+                                        </tr>
+                                    ))}
                             </Table>
                         </Card>
                     </div>
@@ -104,7 +150,7 @@ export default function Landing() {
                             title='Muon Nodes Status'
                             footerContent={<NodesChartFooter />}
                         >
-                            <PieChart data={[232, 2632]} />
+                            <PieChart data={[activeNodes, deactiveNodes]} />
                         </Card>
                     </div>
                 </div>

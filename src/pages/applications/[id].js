@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
+import styled from 'styled-components';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-
-import { wrapper } from 'src/redux/store';
-import { getInfo } from 'src/redux/DataSlice';
-import { useSelector } from 'react-redux';
 
 import MainLayout from 'src/layouts/MainLayout'
 import AppDetails from 'src/sections/Application/AppDetails'
@@ -14,7 +11,10 @@ import RequestsTab from 'src/sections/Application/RequestsTab';
 import Card from 'src/components/Card';
 import ChartPills from 'src/sections/Landing/ChartPills';
 import LineChart from 'src/components/Chart/LineChart';
-import styled from 'styled-components';
+
+import { wrapper } from 'src/redux/store';
+import { useSelector } from 'react-redux';
+import { getSingleApplication } from 'src/redux/ApplicationsSlice';
 
 const StyledTabs = styled(Tabs)`
     border: none;
@@ -23,12 +23,12 @@ const StyledTabs = styled(Tabs)`
     .nav-link {
       background-color: transparent !important;
       border: none;
-      color: ${({theme}) => theme.palette.gray5};
+      color: ${({ theme }) => theme.palette.gray5};
       padding: 10px 0.5rem;
       margin-left: 2rem;
 
       &.active {
-      color: ${({theme}) => theme.palette.primary1};
+      color: ${({ theme }) => theme.palette.primary1};
         font-weight: bold;
       }
     }
@@ -39,8 +39,13 @@ const StyledTabs = styled(Tabs)`
     }
 `
 
-export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
-    await store.dispatch(getInfo())
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
+    const res = await store.dispatch(getSingleApplication(query.id))
+    if (res.payload?.status !== 200) {
+        return {
+            notFound: true
+        }
+    }
     return {
         props: {}
     }
@@ -48,14 +53,15 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async () =
 
 export default function ApplicationPage() {
 
-    const { chartData, chartLoading } = useSelector(store => store.data)
+    const { requestsHistory, historyLoading } = useSelector(store => store.requests)
+    const { app } = useSelector(store => store.applications)
 
     const [activeTab, setActiveTab] = useState('application')
 
-    const [length, setLength] = useState(21)
+    const [length, setLength] = useState(1)
 
     return (
-        <MainLayout title='Application Name'>
+        <MainLayout title={app?.name}>
 
             <section className='mb-4'>
                 <Card
@@ -63,10 +69,9 @@ export default function ApplicationPage() {
                     Header='h5'
                     title='Deus App Requests History'
                     action='pills'
-                    actionContent={<ChartPills color='gray7' active={length} setActive={setLength} />}
+                    actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
                 >
-                    {/* <LineChart data={chartLoading ? [] : chartData} length={length} /> */}
-                    <LineChart data={Array(length * 24).fill('').map(() => Math.random() * 100)} length={length} />
+                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
                 </Card>
             </section>
 

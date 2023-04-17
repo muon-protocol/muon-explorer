@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import Nav from 'react-bootstrap/Nav';
 import Fade from 'react-bootstrap/Fade';
 
-import { useSelector } from 'react-redux';
-
 import Card from 'src/components/Card';
 import Methods from './Methods';
+import Codes from './Codes';
+
+import { useSelector } from 'react-redux';
 
 const StyledNav = styled(Nav)`
     background-color: ${({ theme }) => theme.palette.gray8};
@@ -29,33 +30,41 @@ const StyledButton = styled.button`
     background-color: ${({ theme }) => theme.palette.gray9} !important;
 `
 
-const StyledDiv = styled.div`
-    background-color: ${({ theme }) => theme.palette.gray9} !important;
-    & p{
-        white-space: pre-wrap;
-    }
-`
-
 export default function ApplicationTab() {
 
-    const { info } = useSelector(store => store.data)
+    const { app } = useSelector(store => store.applications)
 
     const [activePill, setActivePill] = useState('read')
 
     const [openMethods, setOpenMethods] = useState([])
+    const [openCodes, setOpenCodes] = useState([])
 
     const [expand, setExpand] = useState(false)
 
     const handleOpenAll = () => {
         if (!expand) {
-            const all = info.methods.map((_, index) => index + 1)
-            setOpenMethods(all)
+            if (activePill === 'read') {
+                const all = app?.methods.map((_, index) => index + 1)
+                setOpenMethods(all)
+            }
+            else {
+                const all = app?.codes.map((_, index) => index + 1)
+                setOpenCodes(all)
+            }
             setExpand(true)
         }
         else {
             setOpenMethods([])
+            setOpenCodes([])
             setExpand(false)
         }
+    }
+
+    const handleActivatePill = (e) => {
+        setActivePill(e)
+        setOpenMethods([])
+        setOpenCodes([])
+        setExpand(false)
     }
 
     return (
@@ -67,7 +76,7 @@ export default function ApplicationTab() {
                         className='rounded-3 pills p-1 mb-4 mb-sm-0'
                         defaultActiveKey='read'
                         activeKey={activePill}
-                        onSelect={e => setActivePill(e)}
+                        onSelect={handleActivatePill}
                     >
                         <Nav.Item>
                             <StyledNavItem className='px-3' eventKey='read'>Read Method</StyledNavItem>
@@ -76,30 +85,24 @@ export default function ApplicationTab() {
                             <StyledNavItem className='px-4' eventKey='code'>Code</StyledNavItem>
                         </Nav.Item>
                     </StyledNav>
-                    <Fade in={activePill === 'read'}>
-                        <StyledButton
-                            className='btn smaller rounded-pill px-4 py-1 border-0'
-                            onClick={handleOpenAll}
-                        >
-                            {expand ? 'Close All' : 'Expand All'}
-                        </StyledButton>
-                    </Fade>
+                    <StyledButton
+                        className='btn smaller rounded-pill px-4 py-1 border-0'
+                        onClick={handleOpenAll}
+                    >
+                        {expand ? 'Close All' : 'Expand All'}
+                    </StyledButton>
                 </div>
 
                 <Fade in={activePill === 'read'} unmountOnExit>
-                    {!info?.methods ?
-                        <div className='text-center p-3'>
-                            <span className='small'>No methods found</span>
-                        </div>
-                        :
+                    <div>
                         <Methods openMethods={openMethods} setOpenMethods={setOpenMethods} />
-                    }
+                    </div>
                 </Fade>
 
                 <Fade in={activePill === 'code'} unmountOnExit>
-                    <StyledDiv className='p-4 rounded-4'>
-                        <p className='mb-0 small'>{info?.code || 'No code found'}</p>
-                    </StyledDiv>
+                    <div>
+                        <Codes openCodes={openCodes} setOpenCodes={setOpenCodes} />
+                    </div>
                 </Fade>
             </div>
         </Card>

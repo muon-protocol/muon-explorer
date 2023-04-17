@@ -25,7 +25,7 @@ export default function Card(props) {
         footerContent, shrink } = props
 
     return (
-        <StyledCard className={`card border-0 rounded-4 ${shrink ? 'p-0' : 'p-3'} position-relative overflow-hidden`} color={color}>
+        <StyledCard className={`card border-0 rounded-4 ${shrink ? 'p-0' : 'p-3'} position-relative overflow-hidden h-100`} color={color}>
 
             {title &&
                 <div className='card-header border-0 bg-transparent d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center'>
@@ -40,7 +40,7 @@ export default function Card(props) {
                 </div>
             }
 
-            <div className={`card-body ${shrink && 'p-0'}`}>
+            <div className={`card-body pb-0 ${shrink ? 'p-0' : ''}`}>
                 {children}
             </div>
 

@@ -17,10 +17,10 @@ const PieChart = ({ data }) => {
             name: `${Math.floor((v / total) * 100)}%`,
             value: v,
             label: {
-                color: Math.floor((v / total) * 100) > 50 ? theme.palette.primary1 : theme.palette.gray5
+                color: Math.floor((v / total) * 100) < 50 ? theme.palette.primary1 : theme.palette.gray5
             },
             itemStyle: {
-                color: Math.floor((v / total) * 100) > 50 ? 'rgba(114, 2, 241, .6)' : 'rgba(114, 2, 241, .3)'
+                color: Math.floor((v / total) * 100) < 50 ? 'rgba(114, 2, 241, .6)' : 'rgba(114, 2, 241, .3)'
             }
         }]), [])
 

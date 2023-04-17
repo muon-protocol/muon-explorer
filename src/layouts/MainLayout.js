@@ -7,7 +7,7 @@ import Head from 'src/components/Head'
 export default function MainLayout({ children, title }) {
     return (
         <main className='d-flex flex-column'>
-            <Head title={`Muon Explorer | ${title}`} />
+            <Head title={title ? `Muon Explorer | ${title}` : 'Muon Explorer'} />
 
             <Header />
 

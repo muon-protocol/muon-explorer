@@ -13,11 +13,11 @@ import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getApplications } from 'src/redux/ApplicationsSlice';
+import { getAllNodes } from 'src/redux/NodesSlice';
 
-export default function Applications() {
+export default function Nodes() {
 
-    const { applications, loading, totalApps } = useSelector(store => store.applications)
+    const { nodes, loading, totalNodes } = useSelector(store => store.nodes)
 
     const dispatch = useDispatch()
 
@@ -25,73 +25,64 @@ export default function Applications() {
     const [inputValue, setInputValue] = useState('')
 
     useEffect(() => {
-        dispatch(getApplications({ page: page + 1, search: inputValue }))
+        dispatch(getAllNodes({ page: page + 1, q: inputValue }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page])
 
     // useInterval({
     //     deps: [inputValue, page],
     //     delay: 5000,
-    //     func: () => getApplications({ page: page + 1, search: inputValue })
+    //     func: () => getAllNodes({ page: page + 1, q: inputValue })
     // })
 
     useSearch({
         inputValue,
         delay: 1500,
-        searchFunc: () => getApplications({ page: 1, search: inputValue }),
-        callback: () => getApplications({ page: 1 })
+        searchFunc: () => getAllNodes({ page: 1, q: inputValue }),
+        callback: () => getAllNodes({ page: 1 })
     })
 
     return (
-        <MainLayout title='Applications'>
+        <MainLayout title='Nodes'>
 
             <section className='mb-4'>
                 <Card
-                    title='Applications on Muon'
+                    title='Nodes on Muon'
                     action='search'
                     actionContent={
                         <Searchbar
                             value={inputValue}
                             setValue={setInputValue}
-                            placeholder='App Name'
+                            placeholder='Node Address'
                         />
                     }
                     footerContent={
                         <Pagination
                             LIMIT={LIMIT}
-                            dataLength={applications.length}
+                            dataLength={nodes.length}
                             inputValue={inputValue}
                             page={page}
                             setPage={setPage}
                             loading={loading}
-                            total={totalApps}
+                            total={totalNodes}
                         />
                     }
                 >
-                    <Table
-                        head={['App Name', 'Most Used Method', '#Methods',
-                            'Nodes on app', 'Confirmed Requests', 'Start Time']}
-                    >
-                        {!applications.length ?
+                    <Table head={['Node ID', 'Node Address', 'Status', 'Start Time', 'Last Edit Time']}>
+                        {!nodes.length ?
                             <tr>
                                 <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                             </tr>
                             :
-                            applications.map((item, index) => (
+                            nodes.slice(0, 10).map((item, index) => (
                                 <tr key={index}>
-                                    <td className='small'>
-                                        <Link href={`/applications/${item.id}`}>
-                                            {item.name}
-                                        </Link>
-                                    </td>
-                                    <td className='small'>{item.mostUsedMethod}</td>
-                                    <td className='small'>{item.methods.length || 0}</td>
-                                    <td className='small'>{item.nodes}</td>
-                                    <td className='small'>{item.confirmed_requests}</td>
-                                    <td className='small text-end'>{new Date(item.startTime)?.toLocaleString()}</td>
+                                    <td className='small'>{item.id}</td>
+                                    <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
+                                    <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
+                                    <td className='small'>{new Date(item.startTime)?.toLocaleString()}</td>
+                                    <td className='small text-end'>{new Date(item.lastEditTime)?.toLocaleString()}</td>
                                 </tr>
-                            ))
-                        }
+                            ))}
                     </Table>
                 </Card>
             </section>

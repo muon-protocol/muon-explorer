@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 const StyledSpan = styled.span`
@@ -15,21 +16,24 @@ const NodesChartFooterItem = ({ title, value, color }) => {
 }
 
 export default function NodesChartFooter() {
+
+    const { totalNodes, activeNodes, deactiveNodes } = useSelector(store => store.nodes)
+
     return (
         <div className='card-footer border-0 bg-transparent d-flex flex-column'>
             <NodesChartFooterItem
                 title='Total Nodes:'
-                value={2864}
+                value={totalNodes}
                 color='black'
             />
             <NodesChartFooterItem
                 title='Active Nodes:'
-                value={2632}
+                value={activeNodes}
                 color='primary1'
             />
             <NodesChartFooterItem
                 title='Deactive Nodes:'
-                value={232}
+                value={deactiveNodes}
                 color='gray5'
             />
         </div>

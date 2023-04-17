@@ -3,14 +3,15 @@ import React, { useEffect } from 'react'
 import Pills from 'src/components/Pills'
 
 import { useDispatch } from 'react-redux'
-import { getChartData } from 'src/redux/DataSlice'
+import { getRequestHistory } from 'src/redux/RequestsSlice'
 
-export default function ChartPills({ color, active, setActive }) {
+export default function ChartPills({ color, active, setActive, app }) {
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getChartData({ period: active }))
+        dispatch(getRequestHistory({ range: active, app }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, active])
 
     return (

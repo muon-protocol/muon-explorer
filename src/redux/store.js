@@ -1,10 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 
-import DataSlice from './DataSlice'
+import ApplicationsSlice from './ApplicationsSlice'
+import RequestsSlice from './RequestsSlice'
+import NodesSlice from './NodesSlice'
 
 const allReducers = combineReducers({
-    data: DataSlice,
+    applications: ApplicationsSlice,
+    requests: RequestsSlice,
+    nodes: NodesSlice
 })
 
 const masterReducer = (state, action) => {

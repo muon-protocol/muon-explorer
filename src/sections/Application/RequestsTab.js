@@ -1,51 +1,52 @@
 import React, { useState, useEffect } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getRequests } from 'src/redux/DataSlice';
-
 import { LIMIT } from 'src/constants/applications';
 
 import useSearch from 'src/hooks/useSearch';
-import useInterval from 'src/hooks/useInterval';
+// import useInterval from 'src/hooks/useInterval';
+
 import Card from 'src/components/Card';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { getRequests } from 'src/redux/RequestsSlice';
+
 export default function RequestsTab() {
 
-    const { requests, requestsLoading, totalReq } = useSelector(store => store.data)
+    const { app } = useSelector(store => store.applications)
+    const { requests, requestsLoading, totalReqs } = useSelector(store => store.requests)
 
     const dispatch = useDispatch()
 
     const [page, setPage] = useState(0)
-
     const [inputValue, setInputValue] = useState('')
 
-    // useEffect(() => {
-    //     dispatch(getRequests({ page: page + 1, q: inputValue }))
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [dispatch, page])
+    useEffect(() => {
+        dispatch(getRequests({ page: page + 1, search: inputValue, app: app.id }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, page])
 
     // useInterval({
     //     deps: [inputValue, page],
     //     delay: 5000,
-    //     func: () => getRequests({ page: page + 1, q: inputValue })
+    //     func: () => getRequests({ page: page + 1, search: inputValue, app: app.id })
     // })
 
-    // useSearch({
-    //     inputValue,
-    //     delay: 1500,
-    //     searchFunc: () => getRequests({ page: 1, q: inputValue }),
-    //     callback: () => getRequests({ page: 1 })
-    // })
+    useSearch({
+        inputValue,
+        delay: 1500,
+        searchFunc: () => getRequests({ page: 1, search: inputValue, app: app.id }),
+        callback: () => getRequests({ page: 1, app: app.id })
+    })
 
     return (
         <Card
             title='Latest Requests'
             action='search'
             actionContent={
-                <Searchbar 
+                <Searchbar
                     value={inputValue}
                     setValue={setInputValue}
                     placeholder='Req Address / Gateway Address'
@@ -59,12 +60,13 @@ export default function RequestsTab() {
                     loading={requestsLoading}
                     dataLength={requests.length}
                     inputValue={inputValue}
-                    total={totalReq}
+                    total={totalReqs}
                 />
             }
         >
             <Table
-                head={['Req Address', 'Target App', 'Method', 'Gateway Address', '#Signatures', 'Star Time', 'Confirm Time']}
+                head={['Req Address', 'Target App', 'Method', 'Gateway Address',
+                    '#Signatures', 'Start Time', 'Confirm Time']}
             >
                 {!requests.length ?
                     <tr>
@@ -73,13 +75,13 @@ export default function RequestsTab() {
                     :
                     requests.map((item, index) => (
                         <tr key={index}>
-                            <td className='small'>{item.address.slice(0, 10) + '...' + item.address.slice(-10)}</td>
+                            <td className='small'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
                             <td className='small'>{item.app}</td>
                             <td className='small'>{item.method}</td>
-                            <td className='small'>{item.gateway.slice(0, 10) + '...' + item.gateway.slice(-10)}</td>
-                            <td className='small'>{item.sigs}</td>
-                            <td className='small'>{new Date(item.start).toLocaleString()}</td>
-                            <td className='small'>{new Date(item.confirm).toLocaleString()}</td>
+                            <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
+                            <td className='small'>{item.signatures.length || 0}</td>
+                            <td className='small'>{new Date(item.startedAt)?.toLocaleString()}</td>
+                            <td className='small'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
                         </tr>
                     ))
                 }

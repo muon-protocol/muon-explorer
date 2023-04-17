@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 // import Image from 'next/image'
 // import vector from 'public/images/vector.png'
 
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 const StyledHeading = styled.h6`
     color: ${({ theme, color }) => theme.palette[color]};
@@ -22,37 +22,37 @@ const AppDetailsCol = ({ title, data, underline, start, end }) => {
 
 export default function AppDetails() {
 
-    const { info } = useSelector(store => store.data)
+    const { app } = useSelector(store => store.applications)
 
     const [time, setTime] = useState('')
 
     useEffect(() => {
-        setTime(info?.startTime ? new Date(info.startTime).toLocaleString() : '')
-    }, [info])
+        setTime(app?.startTime ? new Date(app.startTime).toLocaleString() : '')
+    }, [app])
 
     return (
         <div className='row g-4 align-items-center'>
             <AppDetailsCol
                 title='App Name'
-                data={info?.name}
+                data={app?.name}
                 start
             />
             <AppDetailsCol
                 title='Most Used Method'
-                data={info?.mostUsedMethod}
+                data={app?.mostUsedMethod}
                 underline
             />
             <AppDetailsCol
                 title='#Methods'
-                data={info?.methods.length}
+                data={app?.methods.length || 0}
             />
             <AppDetailsCol
                 title='#Nodes on app'
-                data={info?.nodes}
+                data={app?.nodes}
             />
             <AppDetailsCol
                 title='#Confirmed Requests'
-                data={info?.confirmedRequests}
+                data={app?.confirmed_requests}
             />
             <AppDetailsCol
                 title='Start Time'
