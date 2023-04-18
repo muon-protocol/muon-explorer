@@ -21,7 +21,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
     }
 
     body {
-        background-color: var(--bg) !important;
+        background-color: ${({ theme }) => theme.palette.gray8} !important;
         ${'' /* font-family: ${latoFont.style.fontFamily}; */}
         font-family: 'Lato';
         overflow-x: hidden;

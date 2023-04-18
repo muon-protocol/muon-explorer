@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-// import Image from 'next/image'
-// import vector from 'public/images/vector.png'
+import Image from 'next/image'
+import vector from 'public/images/vector.png'
 
 import { useSelector } from 'react-redux'
 
 const StyledHeading = styled.h6`
     color: ${({ theme, color }) => theme.palette[color]};
+`
+
+const StyledDiv = styled.div`
+    left: -50px;
 `
 
 const AppDetailsCol = ({ title, data, underline, start, end }) => {
@@ -60,13 +64,13 @@ export default function AppDetails() {
                 end
             />
 
-            {/* <div className='position-absolute' style={{ left: '-15px' }}>
+            <StyledDiv className='position-absolute'>
                 <Image
                     src={vector}
                     alt='muon'
                     className='img-fluid'
                 />
-            </div> */}
+            </StyledDiv>
         </div>
     )
 }

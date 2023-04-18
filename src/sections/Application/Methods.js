@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 
 const StyledAccordion = styled(Accordion)`
     & .accordion-button {
-      border-radius: 1rem;
-      color: var(--gray2);
-      background-color: var(--gray8);
+      border-radius: 1rem !important;
+      color: ${({ theme }) => theme.palette.gray2};
+      background-color: ${({ theme }) => theme.palette.gray8};
       box-shadow: none;
 
       &:after {
@@ -20,6 +20,10 @@ const StyledAccordion = styled(Accordion)`
 `
 
 const StyledItem = styled(Accordion.Item)`
+    background-color: ${({ theme }) => theme.palette.gray9};
+`
+
+const StyledBody = styled(Accordion.Body)`
     background-color: ${({ theme }) => theme.palette.gray9};
 `
 
@@ -74,7 +78,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                 app?.methods.map((item, index) => (
                     <StyledItem className='mb-2 border-0 rounded-4' eventKey={index + 1} key={index}>
                         <Accordion.Header>{item.name}</Accordion.Header>
-                        <Accordion.Body>
+                        <StyledBody>
                             {item.args.map((item2, index2) => (
                                 <div key={index2} className='d-flex flex-column mb-1'>
                                     <div className='position-relative mb-3 mt-5 mt-md-0'>
@@ -90,7 +94,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                 </div>
                             ))}
                             <StyledButton className='btn px-5 py-1 rounded-pill align-self-start fw-bold'>Query</StyledButton>
-                        </Accordion.Body>
+                        </StyledBody>
                     </StyledItem>
                 ))
                 :

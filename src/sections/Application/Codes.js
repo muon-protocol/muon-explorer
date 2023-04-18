@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 
 const StyledAccordion = styled(Accordion)`
     & .accordion-button {
-      border-radius: 1rem;
-      color: var(--gray2);
-      background-color: var(--gray8);
+      border-radius: 1rem !important;
+      color: ${({ theme }) => theme.palette.gray2};
+      background-color: ${({ theme }) => theme.palette.gray9};
       box-shadow: none;
 
       &:after {
@@ -21,6 +21,10 @@ const StyledAccordion = styled(Accordion)`
 
 const StyledItem = styled(Accordion.Item)`
     background-color: ${({ theme }) => theme.palette.gray9};
+`
+
+const StyledBody = styled(Accordion.Body)`
+    background-color: ${({ theme }) => theme.palette.gray8};
 `
 
 const StyledP = styled.p`
@@ -51,9 +55,9 @@ export default function Codes({ openCodes, setOpenCodes }) {
                 app?.codes.map((item, index) => (
                     <StyledItem className='mb-2 border-0 rounded-4' eventKey={index + 1} key={index}>
                         <Accordion.Header>{item.name}</Accordion.Header>
-                        <Accordion.Body>
+                        <StyledBody>
                             <StyledP className='mb-0 small'>{item.code}</StyledP>
-                        </Accordion.Body>
+                        </StyledBody>
                     </StyledItem>
                 ))
                 :

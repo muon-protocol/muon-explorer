@@ -34,7 +34,7 @@ const StyledTabs = styled(Tabs)`
     }
 
     &+.tab-content {
-      background-color: var(--white);
+      background-color: ${({ theme }) => theme.palette.white};
       border-radius: 1rem;
     }
 `
@@ -64,15 +64,17 @@ export default function ApplicationPage() {
         <MainLayout title={app?.name}>
 
             <section className='mb-4'>
-                <Card
-                    color='gradient2'
-                    Header='h5'
-                    title='Deus App Requests History'
-                    action='pills'
-                    actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
-                >
-                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
-                </Card>
+                <div className='bg-white rounded-4'>
+                    <Card
+                        color='gradient2'
+                        Header='h5'
+                        title='Deus App Requests History'
+                        action='pills'
+                        actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
+                    >
+                        <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
+                    </Card>
+                </div>
             </section>
 
             <section className='mb-4'>

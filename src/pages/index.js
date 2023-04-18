@@ -20,12 +20,12 @@ import { getRequests } from 'src/redux/RequestsSlice'
 import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice'
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
-    const res1 = store.dispatch(getApplications({}))
-    const res2 = store.dispatch(getRequests({}))
-    const res3 = store.dispatch(getAllNodes({}))
-    const res4 = store.dispatch(getActiveNodes({}))
-    const res5 = store.dispatch(getDeactiveNodes({}))
-    await Promise.all([res1, res2, res3, res4, res5])
+    const req1 = store.dispatch(getApplications({}))
+    const req2 = store.dispatch(getRequests({}))
+    const req3 = store.dispatch(getAllNodes({}))
+    const req4 = store.dispatch(getActiveNodes({}))
+    const req5 = store.dispatch(getDeactiveNodes({}))
+    await Promise.all([req1, req2, req3, req4, req5])
     return {
         props: {}
     }
@@ -53,16 +53,18 @@ export default function Landing() {
             </section>
 
             <section className='mb-4'>
-                <Card
-                    color='gradient2'
-                    Header='h5'
-                    title='Muon Requests History'
-                    action='pills'
-                    actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
-                    footerContent={<RequestsChartFooter />}
-                >
-                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
-                </Card>
+                <div className='bg-white rounded-4'>
+                    <Card
+                        color='gradient2'
+                        Header='h5'
+                        title='Muon Requests History'
+                        action='pills'
+                        actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
+                        footerContent={<RequestsChartFooter />}
+                    >
+                        <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
+                    </Card>
+                </div>
             </section>
 
             <section className='mb-4'>
@@ -145,13 +147,15 @@ export default function Landing() {
                         </Card>
                     </div>
                     <div className='col-xl-6 col-lg-10 col-12'>
-                        <Card
-                            color='gradient2'
-                            title='Muon Nodes Status'
-                            footerContent={<NodesChartFooter />}
-                        >
-                            <PieChart data={[activeNodes, deactiveNodes]} />
-                        </Card>
+                        <div className='bg-white rounded-4'>
+                            <Card
+                                color='gradient2'
+                                title='Muon Nodes Status'
+                                footerContent={<NodesChartFooter />}
+                            >
+                                <PieChart data={[activeNodes, deactiveNodes]} />
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </section>

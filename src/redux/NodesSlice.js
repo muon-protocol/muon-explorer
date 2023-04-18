@@ -41,6 +41,19 @@ export const getDeactiveNodes = createAsyncThunk(
     }
 )
 
+export const getSearchedNodes = createAsyncThunk(
+    'getSearchedNodes',
+    async (value) => {
+        try {
+            const { data } = await axios.get(`http://103.75.196.96/nodes?page=1&filter=all&q=${value}`)
+            return data
+        }
+        catch (err) {
+            throw err
+        }
+    }
+)
+
 const NodesSlice = createSlice({
     name: 'nodes',
     initialState: {
@@ -48,7 +61,8 @@ const NodesSlice = createSlice({
         nodes: [],
         totalNodes: 0,
         activeNodes: 0,
-        deactiveNodes: 0
+        deactiveNodes: 0,
+        searchedNodes: [],
     },
     extraReducers: builder => {
         builder
@@ -89,6 +103,20 @@ const NodesSlice = createSlice({
                 state.deactiveNodes = action.payload.total_count
             })
             .addCase(getDeactiveNodes.rejected, state => {
+                state.loading = false
+            })
+
+        // ---------------------------------------------------------------------
+
+        builder
+            .addCase(getSearchedNodes.pending, state => {
+                state.loading = true
+            })
+            .addCase(getSearchedNodes.fulfilled, (state, action) => {
+                state.loading = false
+                state.searchedNodes = action.payload.result
+            })
+            .addCase(getSearchedNodes.rejected, state => {
                 state.loading = false
             })
 

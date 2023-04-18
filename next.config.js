@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    BASE_URL: 'http://localhost:8000',
+    BASE_URL: process.env.NODE_ENV === 'production' ? '/api/v1' : 'http://localhost:8004',
     NEXT_SHARP_PATH: "/tmp/node_modules/sharp"
   },
   compiler: {

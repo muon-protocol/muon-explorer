@@ -16,6 +16,19 @@ export const getRequests = createAsyncThunk(
     }
 )
 
+export const getSearchedRequests = createAsyncThunk(
+    'getSearchedRequests',
+    async (value) => {
+        try {
+            const { data } = await axiosInstance.get(`/requests?page=1&limit=10&search=${value}`)
+            return data
+        }
+        catch (err) {
+            throw err
+        }
+    }
+)
+
 export const getRequestHistory = createAsyncThunk(
     'getRequestHistory',
     async ({ range = 21, app = '' }) => {
@@ -39,6 +52,7 @@ const RequestsSlice = createSlice({
         requestsLoading: false,
         requests: [],
         totalReqs: 0,
+        searchedReqs: [],
     },
     extraReducers: builder => {
         builder
@@ -51,6 +65,20 @@ const RequestsSlice = createSlice({
                 state.totalReqs = action.payload.total
             })
             .addCase(getRequests.rejected, state => {
+                state.requestsLoading = false
+            })
+
+        // ---------------------------------------------------------------------
+
+        builder
+            .addCase(getSearchedRequests.pending, state => {
+                state.requestsLoading = true
+            })
+            .addCase(getSearchedRequests.fulfilled, (state, action) => {
+                state.requestsLoading = false
+                state.searchedReqs = action.payload.requests
+            })
+            .addCase(getSearchedRequests.rejected, state => {
                 state.requestsLoading = false
             })
 

@@ -34,7 +34,7 @@ export default function LineChart({ data, length }) {
         .reverse()
 
     const options = useMemo(() => ({
-        grid: { top: 10, right: -10, bottom: 60, left: 50, height: '150px' },
+        grid: { top: 10, right: -10, bottom: 60, left: 30, height: '150px' },
         xAxis: {
             type: 'category',
             data: length === 1 ? DAY_HOURS : days(data.length),
