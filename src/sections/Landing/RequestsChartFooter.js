@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 
@@ -32,8 +32,20 @@ const RequestsChartFooterItem = ({ image, title, value, last }) => {
 export default function RequestsChartFooter() {
 
     const { totalApps } = useSelector(store => store.applications)
-    const { totalReqs } = useSelector(store => store.requests)
-    const { totalNodes } = useSelector(store => store.nodes)
+    const { requestsHistory } = useSelector(store => store.requests)
+    const { activeNodes } = useSelector(store => store.nodes)
+
+    const [sum, setSum] = useState(0)
+
+    useEffect(() => {
+        if(requestsHistory.length){
+            let total = 0
+            requestsHistory.forEach(i => {
+                total += i
+            })
+            setSum(total)
+        }
+    }, [requestsHistory])
 
     return (
         <StyledFooterCard className='card-footer bg-transparent'>
@@ -46,12 +58,12 @@ export default function RequestsChartFooter() {
                 <RequestsChartFooterItem
                     image={shape2}
                     title='Active Nodes'
-                    value={totalNodes}
+                    value={activeNodes}
                 />
                 <RequestsChartFooterItem
                     image={shape3}
                     title='Requests'
-                    value={totalReqs}
+                    value={sum}
                 />
             </div>
         </StyledFooterCard>

@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import vector from 'public/images/vector.png'
 
+import { shortDateFormat } from 'src/utils/times'
+
 import { useSelector } from 'react-redux'
 
 const StyledHeading = styled.h6`
@@ -31,7 +33,7 @@ export default function AppDetails() {
     const [time, setTime] = useState('')
 
     useEffect(() => {
-        setTime(app?.startTime ? new Date(app.startTime).toLocaleString() : '')
+        setTime(app?.startTime ? shortDateFormat(app.startTime) : '')
     }, [app])
 
     return (

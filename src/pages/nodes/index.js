@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link';
+import { dateTimeFormat } from 'src/utils/times';
 
 import { LIMIT } from 'src/constants/applications';
 
 import useSearch from 'src/hooks/useSearch';
-// import useInterval from 'src/hooks/useInterval';
 
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
@@ -28,12 +27,6 @@ export default function Nodes() {
         dispatch(getAllNodes({ page: page + 1, q: inputValue }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page])
-
-    // useInterval({
-    //     deps: [inputValue, page],
-    //     delay: 5000,
-    //     func: () => getAllNodes({ page: page + 1, q: inputValue })
-    // })
 
     useSearch({
         inputValue,
@@ -79,8 +72,8 @@ export default function Nodes() {
                                     <td className='small'>{item.id}</td>
                                     <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
                                     <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
-                                    <td className='small'>{new Date(item.startTime)?.toLocaleString()}</td>
-                                    <td className='small text-end'>{new Date(item.lastEditTime)?.toLocaleString()}</td>
+                                    <td className='small'>{dateTimeFormat(item.startTime)}</td>
+                                    <td className='small text-end'>{dateTimeFormat(item.lastEditTime)}</td>
                                 </tr>
                             ))}
                     </Table>

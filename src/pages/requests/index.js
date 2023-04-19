@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { dateTimeFormat } from 'src/utils/times';
 
 import { LIMIT } from 'src/constants/applications';
 
 import useSearch from 'src/hooks/useSearch';
-// import useInterval from 'src/hooks/useInterval';
+import useInterval from 'src/hooks/useInterval';
 
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
@@ -32,11 +33,11 @@ export default function Requests() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page])
 
-    // useInterval({
-    //     deps: [inputValue, page],
-    //     delay: 5000,
-    //     func: () => getRequests({ page: page + 1, search: inputValue })
-    // })
+    useInterval({
+        deps: [inputValue, page],
+        delay: 5000,
+        func: () => getRequests({ page: page + 1, search: inputValue })
+    })
 
     useSearch({
         inputValue,
@@ -98,8 +99,8 @@ export default function Requests() {
                                     <td className='small'>{item.method}</td>
                                     <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
                                     <td className='small'>{item.signatures.length || 0}</td>
-                                    <td className='small'>{new Date(item.startedAt)?.toLocaleString()}</td>
-                                    <td className='small text-end'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
+                                    <td className='small'>{dateTimeFormat(item.startedAt)}</td>
+                                    <td className='small text-end'>{dateTimeFormat(item?.confirmedAt)}</td>
                                 </tr>
                             ))
                         }

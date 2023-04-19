@@ -6,8 +6,6 @@ export const MONTH_NAMES = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-export const DAY_HOURS = Array(24).fill('').map((_, ind) => ind + 1)
-
 // --------------------------------------------------------------------
 // Requests
 

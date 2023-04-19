@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
+import { dateFormat } from 'src/utils/times';
 
 import { LIMIT } from 'src/constants/applications';
 
 import useSearch from 'src/hooks/useSearch';
-// import useInterval from 'src/hooks/useInterval';
 
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
@@ -28,12 +28,6 @@ export default function Applications() {
         dispatch(getApplications({ page: page + 1, search: inputValue }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page])
-
-    // useInterval({
-    //     deps: [inputValue, page],
-    //     delay: 5000,
-    //     func: () => getApplications({ page: page + 1, search: inputValue })
-    // })
 
     useSearch({
         inputValue,
@@ -88,7 +82,7 @@ export default function Applications() {
                                     <td className='small'>{item.methods.length || 0}</td>
                                     <td className='small'>{item.nodes}</td>
                                     <td className='small'>{item.confirmed_requests}</td>
-                                    <td className='small text-end'>{new Date(item.startTime)?.toLocaleString()}</td>
+                                    <td className='small text-end'>{dateFormat(item.startTime)}</td>
                                 </tr>
                             ))
                         }

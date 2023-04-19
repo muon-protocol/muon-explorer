@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import ReactECharts from 'echarts-for-react';
-import { MONTH_NAMES, DAY_HOURS } from 'src/constants/applications';
+import { MONTH_NAMES } from 'src/constants/applications';
 import styled, { useTheme } from 'styled-components';
 
 const StyledDiv = styled.div`
@@ -33,11 +33,20 @@ export default function LineChart({ data, length }) {
         })
         .reverse()
 
+    const hours = () => {
+        const timeArray = []
+        Array(24).fill('').forEach((_, index) => {
+            const time = new Date(new Date().setHours(new Date().getHours() - index)).getHours()
+            timeArray.unshift(time)
+        })
+        return timeArray
+    }
+
     const options = useMemo(() => ({
         grid: { top: 10, right: -10, bottom: 60, left: 30, height: '150px' },
         xAxis: {
             type: 'category',
-            data: length === 1 ? DAY_HOURS : days(data.length),
+            data: length === 1 ? hours() : days(data.length),
             axisTick: {
                 show: false,
             },
@@ -79,7 +88,7 @@ export default function LineChart({ data, length }) {
                 }
             },
         ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [data, length])
 
     return (

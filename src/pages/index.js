@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { dateTimeFormat, timeFormat } from 'src/utils/times'
 
-// import useInterval from 'src/hooks/useInterval'
+import useInterval from 'src/hooks/useInterval'
 
 import MainLayout from 'src/layouts/MainLayout'
 import LineChart from 'src/components/Chart/LineChart'
@@ -39,11 +40,11 @@ export default function Landing() {
 
     const [length, setLength] = useState(1)
 
-    // useInterval({
-    //     deps: [],
-    //     delay: 5000,
-    //     func: () => getRequests({ page: 1 })
-    // })
+    useInterval({
+        deps: [],
+        delay: 5000,
+        func: () => getRequests({ page: 1 })
+    })
 
     return (
         <MainLayout>
@@ -116,7 +117,7 @@ export default function Landing() {
                                             <td className='small pe-md-4'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
                                             <td className='small pe-md-4'>{item.app}</td>
                                             <td className='small'>{item.method}</td>
-                                            <td className='small text-end'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
+                                            <td className='small text-end'>{timeFormat(item?.confirmedAt)}</td>
                                         </tr>
                                     ))}
                             </Table>
@@ -140,14 +141,14 @@ export default function Landing() {
                                             <td className='small'>{item.id}</td>
                                             <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
                                             <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
-                                            <td className='small text-end'>{new Date(item.startTime)?.toLocaleString()}</td>
+                                            <td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
                                         </tr>
                                     ))}
                             </Table>
                         </Card>
                     </div>
                     <div className='col-xl-6 col-lg-10 col-12'>
-                        <div className='bg-white rounded-4'>
+                        <div className='bg-white rounded-4 h-100'>
                             <Card
                                 color='gradient2'
                                 title='Muon Nodes Status'

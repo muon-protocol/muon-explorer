@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 import axiosInstance from 'src/utils/axios'
 
 export const getApplications = createAsyncThunk(
@@ -41,6 +42,19 @@ export const getSingleApplication = createAsyncThunk(
     }
 )
 
+export const methodQuery = createAsyncThunk(
+    'methodQuery',
+    async ({ app = '', method = '', params = '' }) => {
+        try {
+            const { data } = await axios.get(`/query/v1/?app=${app}&method=${method}${params}`)
+            return data
+        }
+        catch (err) {
+            throw err
+        }
+    }
+)
+
 const ApplicationsSlice = createSlice({
     name: 'applications',
     initialState: {
@@ -48,7 +62,7 @@ const ApplicationsSlice = createSlice({
         applications: [],
         totalApps: 0,
         searchedApps: [],
-        app: null,
+        app: null
     },
     extraReducers: builder => {
         builder
@@ -89,6 +103,19 @@ const ApplicationsSlice = createSlice({
                 state.app = action.payload.application
             })
             .addCase(getSingleApplication.rejected, state => {
+                state.loading = false
+            })
+
+        // ---------------------------------------------------------------------
+
+        builder
+            .addCase(methodQuery.pending, state => {
+                state.loading = true
+            })
+            .addCase(methodQuery.fulfilled, (state, action) => {
+                state.loading = false
+            })
+            .addCase(methodQuery.rejected, state => {
                 state.loading = false
             })
 
