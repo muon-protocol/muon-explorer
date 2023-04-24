@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 const StyledCard = styled.div`
     background: ${({ theme, color }) => theme.palette[color]};
-    box-shadow: ${({ theme }) => theme.shadows.s1};
 `
 
 const StyledLink = styled(Link)`

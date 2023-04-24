@@ -17,10 +17,10 @@ const PieChart = ({ data }) => {
             name: `${Math.floor((v / total) * 100)}%`,
             value: v,
             label: {
-                color: Math.floor((v / total) * 100) < 50 ? theme.palette.primary1 : theme.palette.gray5
+                color: Math.floor((v / total) * 100) > 50 ? theme.palette.primary1 : theme.palette.gray5
             },
             itemStyle: {
-                color: Math.floor((v / total) * 100) < 50 ? 'rgba(114, 2, 241, .6)' : 'rgba(114, 2, 241, .3)'
+                color: Math.floor((v / total) * 100) > 50 ? 'rgba(81, 88, 246, 0.4)' : 'rgba(114, 81, 246, 0.16)'
             }
         }]), [])
 
@@ -41,10 +41,10 @@ const PieChart = ({ data }) => {
                     fontSize: 18,
                     padding: [10, 10, 10, 10]
                 },
-                itemStyle: {
-                    shadowColor: theme.palette.primary2,
-                    shadowBlur: 20
-                },
+                // itemStyle: {
+                //     borderWidth: 4,
+                //     borderColor: theme.palette.primary1
+                // },
                 labelLine: {
                     show: true,
                     length: 30,

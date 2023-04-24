@@ -6,11 +6,11 @@ import Header from 'src/components/Header'
 import Head from 'src/components/Head'
 
 const StyledDiv = styled.div`
-    width: 40%;
-    height: 20rem;
+    width: 20%;
+    height: 10rem;
     position: absolute;
-    top: ${({ right }) => right ? '25vh' : '15vh'};
-    ${({ right }) => right ? 'right: 0;' : 'left: 0;'}
+    top: ${({ right }) => right ? '30vh' : '25vh'};
+    ${({ right }) => right ? 'right: 10%;' : 'left: 10%;'}
     filter: blur(140px);
     background: ${({ theme, right }) => theme.palette[right ? 'secondary1' : 'primary1']};
     z-index: -1;

@@ -1,21 +1,18 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 
-export default function useSearch({ inputValue, delay, searchFunc, callback }) {
-
-    const dispatch = useDispatch()
+export default function useSearch({ inputValue, delay, searchFunc }) {
 
     useEffect(() => {
         if (inputValue) {
             const delayDebounceFn = setTimeout(() => {
-                dispatch(searchFunc())
+                searchFunc()
             }, delay)
 
             return () => clearTimeout(delayDebounceFn)
         }
         else {
-            dispatch(callback())
+            searchFunc()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, inputValue, delay])
+    }, [inputValue, delay])
 }

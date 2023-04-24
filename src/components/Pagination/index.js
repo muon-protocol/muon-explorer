@@ -10,7 +10,7 @@ const StyledSpan2 = styled.span`
     color: ${({theme}) => theme.palette.primary2};
 `
 
-export default function Pagination({ LIMIT, dataLength, total, loading, page, setPage, inputValue }) {
+export default function Pagination({ LIMIT, dataLength, total, loading, page, setPage }) {
 
     const theme = useTheme()
 
@@ -45,7 +45,7 @@ export default function Pagination({ LIMIT, dataLength, total, loading, page, se
                             color={page === 0 ? theme.palette.primary3 : theme.palette.primary2}
                         />
                     </button>
-                    <StyledSpan className='small'>{inputValue ? '1' : page + 1} / {Math.ceil(total / LIMIT)}</StyledSpan>
+                    <StyledSpan className='small'>{page + 1} / {Math.ceil(total / LIMIT)}</StyledSpan>
                     <button
                         className='btn border-0 p-0'
                         onClick={handleNextPage}

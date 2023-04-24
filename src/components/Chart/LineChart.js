@@ -59,6 +59,7 @@ export default function LineChart({ data, length }) {
                 interval: length === 1 ? 1 : '',
                 color: theme.palette.gray6,
                 fontFamily: 'Lato',
+                fontSize: 10
             },
         },
         yAxis: {
@@ -70,6 +71,7 @@ export default function LineChart({ data, length }) {
                 show: false
             },
             scale: true,
+            min: 0
         },
         series: [
             {

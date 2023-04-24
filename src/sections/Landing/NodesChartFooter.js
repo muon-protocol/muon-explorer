@@ -2,40 +2,49 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-const StyledSpan = styled.span`
-    color: ${({ theme, color }) => theme.palette[color]};
-`
-
-const NodesChartFooterItem = ({ title, value, color }) => {
+const NodesChartFooterItem = ({ className, title, value, color }) => {
     return (
-        <div className='d-flex justify-content-between align-items-center mb-2'>
-            <span className='small'>{title}</span>
-            <StyledSpan className='small fw-bold' color={color}>{value?.toLocaleString()}</StyledSpan>
+        <div className={'col-xl-4 col-md-3 col-sm-4 col-8 ' + className}>
+            <div className='rounded-3 d-flex flex-column py-2 px-3'>
+                <span className='small'>{title}</span>
+                <h6 className='fw-bold mb-0 mt-2 align-self-end' color={color}>{value?.toLocaleString()}</h6>
+            </div>
         </div>
     )
 }
+
+const StyledItem = styled(NodesChartFooterItem)`
+    & div.d-flex{
+        background-color: ${({theme}) => theme.palette.primary3};
+    }
+    & h6{
+        color: ${({ theme, color }) => theme.palette[color]};
+    }
+`
 
 export default function NodesChartFooter() {
 
     const { totalNodes, activeNodes, deactiveNodes } = useSelector(store => store.nodes)
 
     return (
-        <div className='card-footer border-0 bg-transparent d-flex flex-column'>
-            <NodesChartFooterItem
-                title='Total Nodes:'
-                value={totalNodes}
-                color='black'
-            />
-            <NodesChartFooterItem
-                title='Active Nodes:'
-                value={activeNodes}
-                color='primary1'
-            />
-            <NodesChartFooterItem
-                title='Deactive Nodes:'
-                value={deactiveNodes}
-                color='gray5'
-            />
+        <div className='card-footer border-0 bg-transparent'>
+            <div className='row g-4 justify-content-around'>
+                <StyledItem
+                    title='Total Nodes:'
+                    value={totalNodes}
+                    color='black'
+                />
+                <StyledItem
+                    title='Active Nodes:'
+                    value={activeNodes}
+                    color='primary1'
+                />
+                <StyledItem
+                    title='Deactive Nodes:'
+                    value={deactiveNodes}
+                    color='black'
+                />
+            </div>
         </div>
     )
 }

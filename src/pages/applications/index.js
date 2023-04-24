@@ -32,8 +32,14 @@ export default function Applications() {
     useSearch({
         inputValue,
         delay: 1500,
-        searchFunc: () => getApplications({ page: 1, search: inputValue }),
-        callback: () => getApplications({ page: 1 })
+        searchFunc: () => {
+            if(page === 0){
+                dispatch(getApplications({ page: page + 1, search: inputValue }))
+            }
+            else {
+                setPage(0)
+            }
+        }
     })
 
     return (

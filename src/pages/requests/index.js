@@ -36,14 +36,20 @@ export default function Requests() {
     useInterval({
         deps: [inputValue, page],
         delay: 5000,
-        func: () => getRequests({ page: page + 1, search: inputValue })
+        func: () => dispatch(getRequests({ page: page + 1, search: inputValue }))
     })
 
     useSearch({
         inputValue,
         delay: 1500,
-        searchFunc: () => getRequests({ page: 1, search: inputValue }),
-        callback: () => getRequests({ page: 1 })
+        searchFunc: () => {
+            if (page === 0) {
+                dispatch(getRequests({ page: page + 1, search: inputValue }))
+            }
+            else {
+                setPage(0)
+            }
+        },
     })
 
     return (

@@ -130,7 +130,7 @@ export default function Landing() {
                             actionContent='View All Nodes'
                             link='/nodes'
                         >
-                            <Table head={['Node ID', 'Node Address', 'Status', 'Start Time']}>
+                            <Table head={['Node ID', 'Status', 'Tier', 'Start Time']}>
                                 {!nodes.length ?
                                     <tr>
                                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -139,8 +139,8 @@ export default function Landing() {
                                     nodes.slice(0, 10).map((item, index) => (
                                         <tr key={index}>
                                             <td className='small'>{item.id}</td>
-                                            <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
-                                            <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
+                                            <td className='small'>Tie-1 (Starter)</td>
+                                            <td className='small'>{item.active ? 'Active' : 'Deactive'}</td>
                                             <td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
                                         </tr>
                                     ))}

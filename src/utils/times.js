@@ -13,7 +13,7 @@ export const dateTimeFormat = (value) => {
     const day = new Date(newValue).getDay()
     const time = timeFormat(value)
 
-    return `${day}${month}, ${time}`
+    return `${day} ${month}, ${time}`
 }
 
 // => 22Nov 2022
@@ -23,7 +23,7 @@ export const dateFormat = (value) => {
     const day = new Date(newValue).getDay()
     const year = new Date(newValue).getFullYear()
 
-    return `${day}${month} ${year}`
+    return `${day} ${month} ${year}`
 }
 
 // => Nov 2022

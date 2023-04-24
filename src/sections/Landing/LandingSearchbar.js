@@ -11,7 +11,6 @@ import { getSearchedNodes } from 'src/redux/NodesSlice'
 
 const StyledDiv = styled.div`
     background-color: ${({ theme }) => theme.palette.white};
-    box-shadow: ${({ theme }) => theme.shadows.s1};
 `
 
 const StyledButton = styled.button`
@@ -76,7 +75,7 @@ export default function LandingSearchbar() {
             <input
                 className='form-control my-3 mx-4 bg-transparent border-0'
                 type='text'
-                placeholder='App Name / Req Address / Gateway Address / Node Address'
+                placeholder='App Name / Req Address / Gateway Address / Node ID'
                 value={value}
                 onChange={e => setValue(e.target.value)}
                 onKeyDown={handleOnKeyDown}
