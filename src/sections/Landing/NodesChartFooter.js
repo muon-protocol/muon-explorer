@@ -24,24 +24,24 @@ const StyledItem = styled(NodesChartFooterItem)`
 
 export default function NodesChartFooter() {
 
-    const { totalNodes, activeNodes, deactiveNodes } = useSelector(store => store.nodes)
+    const { totalNodesCount, activeNodesCount, deactiveNodesCount } = useSelector(store => store.nodes)
 
     return (
         <div className='card-footer border-0 bg-transparent'>
             <div className='row g-4 justify-content-around'>
                 <StyledItem
                     title='Total Nodes:'
-                    value={totalNodes}
+                    value={totalNodesCount}
                     color='black'
                 />
                 <StyledItem
                     title='Active Nodes:'
-                    value={activeNodes}
+                    value={activeNodesCount}
                     color='primary1'
                 />
                 <StyledItem
                     title='Deactive Nodes:'
-                    value={deactiveNodes}
+                    value={deactiveNodesCount}
                     color='black'
                 />
             </div>

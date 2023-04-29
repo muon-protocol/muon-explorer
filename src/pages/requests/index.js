@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link';
 import { dateTimeFormat } from 'src/utils/times';
 
 import { LIMIT } from 'src/constants/applications';
@@ -100,7 +101,11 @@ export default function Requests() {
                             :
                             requests.map((item, index) => (
                                 <tr key={index}>
-                                    <td className='small'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
+                                    <td className='small'>
+                                        <Link href={`/requests/${item.reqId}`}>
+                                            {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
+                                        </Link>
+                                    </td>
                                     <td className='small'>{item.app}</td>
                                     <td className='small'>{item.method}</td>
                                     <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>

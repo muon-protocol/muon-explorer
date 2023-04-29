@@ -16,12 +16,12 @@ const StyledDiv = styled.div`
     z-index: -1;
 `
 
-export default function MainLayout({ children, title }) {
+export default function MainLayout({ children, title, landing }) {
     return (
         <main className='d-flex flex-column'>
             <Head title={title ? `Muon Explorer | ${title}` : 'Muon Explorer'} />
 
-            <Header />
+            <Header landing={landing} />
 
             <div className='container mt-4 position-relative'>
 

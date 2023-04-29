@@ -36,7 +36,7 @@ export default function Landing() {
 
     const { applications } = useSelector(store => store.applications)
     const { requests, requestsHistory, historyLoading } = useSelector(store => store.requests)
-    const { nodes, deactiveNodes, activeNodes } = useSelector(store => store.nodes)
+    const { activeNodes, deactiveNodesCount, activeNodesCount } = useSelector(store => store.nodes)
 
     const [length, setLength] = useState(1)
 
@@ -47,10 +47,10 @@ export default function Landing() {
     })
 
     return (
-        <MainLayout>
+        <MainLayout landing>
 
             <section className='mb-4'>
-                <LandingSearchbar />
+                <LandingSearchbar landing />
             </section>
 
             <section className='mb-4'>
@@ -131,15 +131,15 @@ export default function Landing() {
                             link='/nodes'
                         >
                             <Table head={['Node ID', 'Status', 'Tier', 'Start Time']}>
-                                {!nodes.length ?
+                                {!activeNodes.length ?
                                     <tr>
                                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                     </tr>
                                     :
-                                    nodes.slice(0, 10).map((item, index) => (
+                                    activeNodes.slice(0, 10).map((item, index) => (
                                         <tr key={index}>
                                             <td className='small'>{item.id}</td>
-                                            <td className='small'>Tie-1 (Starter)</td>
+                                            <td className='small'>Tier-1 (Starter)</td>
                                             <td className='small'>{item.active ? 'Active' : 'Deactive'}</td>
                                             <td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
                                         </tr>
@@ -154,7 +154,9 @@ export default function Landing() {
                                 title='Muon Nodes Status'
                                 footerContent={<NodesChartFooter />}
                             >
-                                <PieChart data={[activeNodes, deactiveNodes]} />
+                                <div className='d-flex justify-content-center mb-3'>
+                                    <PieChart data={[activeNodesCount, deactiveNodesCount]} large />
+                                </div>
                             </Card>
                         </div>
                     </div>

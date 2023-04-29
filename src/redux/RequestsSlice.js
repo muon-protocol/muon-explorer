@@ -43,6 +43,19 @@ export const getRequestHistory = createAsyncThunk(
     }
 )
 
+export const getSingleRequest = createAsyncThunk(
+    'getSingleRequest',
+    async (id) => {
+        try {
+            const { data } = await axiosInstance.get(`/requests/${id}`)
+            return data
+        }
+        catch (err) {
+            throw err
+        }
+    }
+)
+
 const RequestsSlice = createSlice({
     name: 'requests',
     initialState: {
@@ -53,6 +66,8 @@ const RequestsSlice = createSlice({
         requests: [],
         totalReqs: 0,
         searchedReqs: [],
+
+        request: null
     },
     extraReducers: builder => {
         builder
@@ -93,6 +108,20 @@ const RequestsSlice = createSlice({
                 state.requestsHistory = action.payload.history
             })
             .addCase(getRequestHistory.rejected, state => {
+                state.historyLoading = false
+            })
+
+        // ---------------------------------------------------------------------
+
+        builder
+            .addCase(getSingleRequest.pending, state => {
+                state.historyLoading = true
+            })
+            .addCase(getSingleRequest.fulfilled, (state, action) => {
+                state.historyLoading = false
+                state.request = action.payload.request
+            })
+            .addCase(getSingleRequest.rejected, state => {
                 state.historyLoading = false
             })
 

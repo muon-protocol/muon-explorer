@@ -15,10 +15,10 @@ export default function Search() {
     const { searchedNodes } = useSelector(store => store.nodes)
 
     return (
-        <MainLayout title='Search'>
+        <MainLayout title='Search' landing>
 
             <section className='mb-4'>
-                <LandingSearchbar />
+                <LandingSearchbar landing />
             </section>
 
             <section className='mb-4'>

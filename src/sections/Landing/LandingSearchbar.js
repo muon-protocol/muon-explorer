@@ -11,17 +11,23 @@ import { getSearchedNodes } from 'src/redux/NodesSlice'
 
 const StyledDiv = styled.div`
     background-color: ${({ theme }) => theme.palette.white};
+    width: ${({landing}) => landing ? '100%' : '24rem'};
+    max-width: 90vw;
+    & input::placeholder{
+        font-size: ${({landing}) => landing ? 'normal' : 'small'};
+    }
 `
 
 const StyledButton = styled.button`
     background-color: ${({ theme }) => theme.palette.primary1};
+    line-height: 10px;
 
     & path{
         fill: ${({ theme }) => theme.palette.white};
     }
 `
 
-export default function LandingSearchbar() {
+export default function LandingSearchbar({ landing }) {
 
     const { pathname, push } = useRouter()
 
@@ -71,9 +77,9 @@ export default function LandingSearchbar() {
     }
 
     return (
-        <StyledDiv className='rounded-pill d-flex align-items-center p-1'>
+        <StyledDiv className='rounded-pill d-flex align-items-center p-1' landing={landing}>
             <input
-                className='form-control my-3 mx-4 bg-transparent border-0'
+                className={`form-control my-${landing ? '3' : '0 py-0 pb-1'} mx-${landing ? '4' : '0'} bg-transparent border-0`}
                 type='text'
                 placeholder='App Name / Req Address / Gateway Address / Node ID'
                 value={value}
@@ -81,14 +87,14 @@ export default function LandingSearchbar() {
                 onKeyDown={handleOnKeyDown}
             />
             <StyledButton
-                className='border-0 rounded-circle p-2 me-1'
+                className={`border-0 rounded-circle p-${landing ? '2' : '1'} me-1`}
                 disabled={!value}
                 onClick={handleSubmit}
             >
                 {loading ?
-                    <Icon icon="eos-icons:loading" width={30} />
+                    <Icon icon="eos-icons:loading" width={landing ? 30 : 20} />
                     :
-                    <Icon icon="material-symbols:search" width={30} />
+                    <Icon icon="material-symbols:search" width={landing ? 30 : 20} />
                 }
             </StyledButton>
         </StyledDiv>

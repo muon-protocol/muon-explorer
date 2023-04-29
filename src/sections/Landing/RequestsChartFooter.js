@@ -33,7 +33,7 @@ export default function RequestsChartFooter() {
 
     const { totalApps } = useSelector(store => store.applications)
     const { requestsHistory } = useSelector(store => store.requests)
-    const { activeNodes } = useSelector(store => store.nodes)
+    const { activeNodesCount } = useSelector(store => store.nodes)
 
     const [sum, setSum] = useState(0)
 
@@ -58,7 +58,7 @@ export default function RequestsChartFooter() {
                 <RequestsChartFooterItem
                     image={shape2}
                     title='Active Nodes'
-                    value={activeNodes}
+                    value={activeNodesCount}
                 />
                 <RequestsChartFooterItem
                     image={shape3}

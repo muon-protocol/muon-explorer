@@ -54,15 +54,30 @@ export const getSearchedNodes = createAsyncThunk(
     }
 )
 
+export const getSingleNode = createAsyncThunk(
+    'getSingleNode',
+    async (id) => {
+        try {
+            const { data } = await axiosInstance.get(`/nodes/${id}/status`)
+            return data
+        }
+        catch (err) {
+            throw err
+        }
+    }
+)
+
 const NodesSlice = createSlice({
     name: 'nodes',
     initialState: {
         loading: false,
         nodes: [],
-        totalNodes: 0,
-        activeNodes: 0,
-        deactiveNodes: 0,
+        activeNodes: [],
+        totalNodesCount: 0,
+        activeNodesCount: 0,
+        deactiveNodesCount: 0,
         searchedNodes: [],
+        node: null
     },
     extraReducers: builder => {
         builder
@@ -72,7 +87,7 @@ const NodesSlice = createSlice({
             .addCase(getAllNodes.fulfilled, (state, action) => {
                 state.loading = false
                 state.nodes = action.payload.result
-                state.totalNodes = action.payload.total_count
+                state.totalNodesCount = action.payload.total_count
             })
             .addCase(getAllNodes.rejected, state => {
                 state.loading = false
@@ -86,7 +101,8 @@ const NodesSlice = createSlice({
             })
             .addCase(getActiveNodes.fulfilled, (state, action) => {
                 state.loading = false
-                state.activeNodes = action.payload.total_count
+                state.activeNodes = action.payload.result
+                state.activeNodesCount = action.payload.total_count
             })
             .addCase(getActiveNodes.rejected, state => {
                 state.loading = false
@@ -100,7 +116,7 @@ const NodesSlice = createSlice({
             })
             .addCase(getDeactiveNodes.fulfilled, (state, action) => {
                 state.loading = false
-                state.deactiveNodes = action.payload.total_count
+                state.deactiveNodesCount = action.payload.total_count
             })
             .addCase(getDeactiveNodes.rejected, state => {
                 state.loading = false
@@ -117,6 +133,20 @@ const NodesSlice = createSlice({
                 state.searchedNodes = action.payload.result
             })
             .addCase(getSearchedNodes.rejected, state => {
+                state.loading = false
+            })
+
+        // ---------------------------------------------------------------------
+
+        builder
+            .addCase(getSingleNode.pending, state => {
+                state.loading = true
+            })
+            .addCase(getSingleNode.fulfilled, (state, action) => {
+                state.loading = false
+                state.node = action.payload.result
+            })
+            .addCase(getSingleNode.rejected, state => {
                 state.loading = false
             })
 

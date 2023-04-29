@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { dateTimeFormat } from 'src/utils/times';
 import styled from 'styled-components';
+import Image from 'next/image';
+
+import Lottie from "lottie-react";
+
+import nodeImage1 from 'public/images/node-shape-1.png'
+import nodeAnimation from "public/animations/Nodes.json";
 
 import { LIMIT } from 'src/constants/applications';
 
@@ -12,17 +18,76 @@ import Card from 'src/components/Card';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
+import PieChart from 'src/components/Chart/PieChart';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllNodes } from 'src/redux/NodesSlice';
+import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice';
+import { wrapper } from 'src/redux/store';
+
+const StyledLottie = styled(Lottie)`
+    position: absolute;
+    left: -6rem;
+    top: -5rem;
+    width: 17rem;
+    ${({ theme }) => theme.breakpoints.md`
+        display: none;
+    `};
+`
+
+const StyledImage = styled(Image)`
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+`
+
+const StyledRow = styled.div`
+    width: 92%;
+    margin-left: auto;
+    ${({ theme }) => theme.breakpoints.md`
+        width: 100%;
+        margin-left: unset;
+    `};
+`
+
+const StyledDevider = styled.div`
+    width: 100%;
+    border-top: 1px dashed ${({ theme }) => theme.palette.white};;
+`
 
 const StyledLink = styled(Link)`
-    color: ${({theme}) => theme.palette.primary1};
+    color: ${({ theme }) => theme.palette.primary1};
 `
+
+const StyledSpan = styled.span`
+    color: ${({ theme }) => theme.palette.gray5};
+`
+
+const StyledSpan2 = styled.span`
+    color: ${({ theme }) => theme.palette.black};
+`
+
+const StyledH4 = styled.h4`
+    color: ${({ theme }) => theme.palette.primary1};
+`
+
+const StyledH5 = styled.h5`
+    color: ${({ theme }) => theme.palette.primary1};
+`
+
+export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
+    const req1 = store.dispatch(getAllNodes({}))
+    const req2 = store.dispatch(getActiveNodes({}))
+    const req3 = store.dispatch(getDeactiveNodes({}))
+    await Promise.all([req1, req2, req3])
+    return {
+        props: {}
+    }
+})
 
 export default function Nodes() {
 
-    const { nodes, loading, totalNodes } = useSelector(store => store.nodes)
+    const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount } = useSelector(store => store.nodes)
 
     const dispatch = useDispatch()
 
@@ -51,6 +116,49 @@ export default function Nodes() {
         <MainLayout title='Nodes'>
 
             <section className='mb-4'>
+                <div className='bg-white rounded-4 position-relative overflow-hidden'>
+                    <Card color='gradient2'>
+                        <StyledRow className='row g-2 justify-content-center py-1'>
+                            <div className='col-lg-8 col-12 d-flex flex-column justify-content-center'>
+                                <div className='row g-4'>
+                                    <div className='col-sm-6 col-12 d-flex align-items-center'>
+                                        <StyledSpan className='me-3'>Total Nodes</StyledSpan>
+                                        <h4 className='fw-bold mb-0'>{totalNodesCount}</h4>
+                                    </div>
+                                    <div className='col-sm-6 col-12 d-flex align-items-center'>
+                                        <StyledSpan className='me-3'>Total Nodes</StyledSpan>
+                                        <StyledH4 className='fw-bold mb-0'>{activeNodesCount} ({((activeNodesCount / totalNodesCount) * 100).toFixed(2) || 0}%)</StyledH4>
+                                    </div>
+                                </div>
+                                <div className='w-100 my-4'>
+                                    <StyledDevider />
+                                </div>
+                                <div className='row g-4'>
+                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                                        <StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
+                                        <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>{totalNodesCount} </StyledSpan2>({activeNodesCount})</StyledH5>
+                                    </div>
+                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                                        <StyledSpan className='mb-2'>Tier - 2 (Pro nodes)</StyledSpan>
+                                        <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>0 </StyledSpan2>(0)</StyledH5>
+                                    </div>
+                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                                        <StyledSpan className='mb-2'>Tier - 3 (Master nodes)</StyledSpan>
+                                        <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>0 </StyledSpan2>(0)</StyledH5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-4 col-12 d-flex justify-content-center'>
+                                <PieChart data={[activeNodesCount, deactiveNodesCount]} />
+                            </div>
+                        </StyledRow>
+                        <StyledLottie animationData={nodeAnimation} loop={true} />
+                        <StyledImage src={nodeImage1} alt='muon' className='img-fluid' />
+                    </Card>
+                </div>
+            </section>
+
+            <section className='mb-4'>
                 <Card
                     title='Muon Nodes'
                     action='search'
@@ -69,7 +177,7 @@ export default function Nodes() {
                             page={page}
                             setPage={setPage}
                             loading={loading}
-                            total={totalNodes}
+                            total={totalNodesCount}
                         />
                     }
                 >
@@ -82,8 +190,8 @@ export default function Nodes() {
                             nodes.map((item, index) => (
                                 <tr key={index}>
                                     <td className='small'>{item.id}</td>
-                                    <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
-                                    <td className='small pe-md-4'>Tie-1 (Starter)</td>
+                                    <td className='small pe-md-4'>{item.active ? 'Active' : 'Deactive'}</td>
+                                    <td className='small pe-md-4'>Tier-1 (Starter)</td>
                                     <td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
                                     <td className='small text-end'>
                                         <StyledLink href={`/nodes/${item.id}`} className='text-decoration-underline'>
