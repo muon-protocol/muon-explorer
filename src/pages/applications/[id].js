@@ -61,14 +61,14 @@ export default function ApplicationPage() {
     const [length, setLength] = useState(1)
 
     return (
-        <MainLayout title={app?.name}>
+        <MainLayout title={app?.name + ' App'}>
 
             <section className='mb-4'>
                 <div className='bg-white rounded-4'>
                     <Card
                         color='gradient2'
                         Header='h5'
-                        title='Deus App Requests History'
+                        title={`${app?.name} App Requests History`}
                         action='pills'
                         actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
                     >

@@ -60,6 +60,10 @@ const StyledDiv = styled.div`
     }
 `
 
+const StyledSpan2 = styled.span`
+    white-space: pre-wrap;
+`
+
 const CopyButton = ({ text }) => {
 
     const handleCopy = () => {
@@ -112,7 +116,7 @@ export default function ApplicationPage() {
     }
 
     return (
-        <MainLayout title='Request ID'>
+        <MainLayout title={`Request ${request?.reqId}`}>
 
             <section className='mb-4'>
                 <div className='bg-white rounded-4 position-relative overflow-hidden'>
@@ -150,11 +154,13 @@ export default function ApplicationPage() {
                                 <p className='small mb-1'>Owner address:
                                     <span className='ms-4'>{request?.signatures[0]?.owner}</span>
                                 </p>
-                                <p className='small mb-1'>Owner public key:
-                                    <span className='ms-4'>
-                                        {request?.signatures[0] ? JSON.stringify(request?.signatures[0]?.ownerPubKey) : ''}
-                                    </span>
-                                </p>
+                                <div className='small mb-1'>Owner public key:
+                                    {request?.signatures[0] ?
+                                        <StyledSpan2 className='ms-4'>{JSON.stringify(request?.signatures[0].ownerPubKey, null, 5)}</StyledSpan2>
+                                        :
+                                        ''
+                                    }
+                                </div>
                             </div>
                         </StyledDiv>
                         <StyledAccordion activeKey={openAccordions} onSelect={handleOpen}>
@@ -177,22 +183,28 @@ export default function ApplicationPage() {
                             </Accordion.Item>
                             <Accordion.Item eventKey="1" className='mb-3 rounded-4'>
                                 <Accordion.Header>Result</Accordion.Header>
-                                <Accordion.Body>
-                                    {request?.data.result?.config ?
-                                        <div className='d-flex flex-column px-3'>
-                                            <h6 className='small'>config:<span className='ms-4'>{request.data.result.config}</span></h6>
-                                            <h6 className='small'>
-                                                routes:
-                                                {/* <span className='ms-4'>{`{ ... }`}</span>
-                                                <button className='btn p-0 mb-1 ms-2'>
-                                                    <Icon icon="material-symbols:add-box-outline" width={22} />
-                                                </button> */}
-                                                <span className='ms-4'>{JSON.stringify(request.data.result.routes)}</span>
-                                            </h6>
-                                            <h6 className='small'>price:<span className='ms-4'>{request.data.result.price}</span></h6>
-                                        </div>
+                                <Accordion.Body className='pt-0'>
+                                    {request?.data.result ?
+                                        typeof request.data.result === 'object' ?
+                                            <div className='d-flex flex-column px-3'>
+                                                {/* {Object.entries(request.data.result).map((item, index) => (
+                                                    <h6 className='small' key={index}>
+                                                        {item[0]}: <StyledSpan2 className='ms-4'>
+                                                            {typeof item[1] === 'object' ?
+                                                                JSON.stringify(item[1], null, 5)
+                                                                :
+                                                                String(item[1])
+                                                            }
+                                                        </StyledSpan2></h6>
+                                                ))} */}
+                                                <StyledSpan2 className='small'>
+                                                    {JSON.stringify(request.data.result, null, 5)}
+                                                </StyledSpan2>
+                                            </div>
+                                            :
+                                            <span className='px-3'>{String(request?.data.result)}</span>
                                         :
-                                        <span className='px-3'>{request?.data.result}</span>
+                                        null
                                     }
                                 </Accordion.Body>
                             </Accordion.Item>

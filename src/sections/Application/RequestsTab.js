@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { dateTimeFormat } from 'src/utils/times';
+import Link from 'next/link';
 
 import { LIMIT } from 'src/constants/applications';
 
@@ -32,14 +33,20 @@ export default function RequestsTab() {
     useInterval({
         deps: [inputValue, page],
         delay: 5000,
-        func: () => getRequests({ page: page + 1, search: inputValue, app: app.id })
+        func: () => dispatch(getRequests({ page: page + 1, search: inputValue, app: app.id }))
     })
 
     useSearch({
         inputValue,
         delay: 1500,
-        searchFunc: () => getRequests({ page: 1, search: inputValue, app: app.id }),
-        callback: () => getRequests({ page: 1, app: app.id })
+        searchFunc: () => {
+            if (page === 0) {
+                dispatch(getRequests({ page: page + 1, search: inputValue, app: app.id  }))
+            }
+            else {
+                setPage(0)
+            }
+        },
     })
 
     return (
@@ -50,7 +57,7 @@ export default function RequestsTab() {
                 <Searchbar
                     value={inputValue}
                     setValue={setInputValue}
-                    placeholder='Req Address / Gateway Address'
+                    placeholder='Req ID / Gateway Address'
                 />
             }
             footerContent={
@@ -65,10 +72,7 @@ export default function RequestsTab() {
                 />
             }
         >
-            <Table
-                head={['Req Address', 'Target App', 'Method', 'Gateway Address',
-                    '#Signatures', 'Start Time', 'Confirm Time']}
-            >
+            <Table head={['Req ID', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
                 {!requests.length ?
                     <tr>
                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -76,12 +80,20 @@ export default function RequestsTab() {
                     :
                     requests.map((item, index) => (
                         <tr key={index}>
-                            <td className='small'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
-                            <td className='small'>{item.app}</td>
+                            <td className='small'>
+                                <Link href={`/requests/${item.reqId}`}>
+                                    {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
+                                </Link>
+                            </td>
+                            <td className='small'>
+                                <Link href={`/applications/${item.app}`}>
+                                    {item.app}
+                                </Link>
+                            </td>
                             <td className='small'>{item.method}</td>
                             <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
                             <td className='small'>{item.signatures.length || 0}</td>
-                            <td className='small'>{dateTimeFormat(item?.confirmedAt)}</td>
+                            <td className='small'>{dateTimeFormat(item?.startedAt)}</td>
                             <td className='small text-end'>{dateTimeFormat(item?.confirmedAt)}</td>
                         </tr>
                     ))

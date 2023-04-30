@@ -81,7 +81,7 @@ export default function LandingSearchbar({ landing }) {
             <input
                 className={`form-control my-${landing ? '3' : '0 py-0 pb-1'} mx-${landing ? '4' : '0'} bg-transparent border-0`}
                 type='text'
-                placeholder='App Name / Req Address / Gateway Address / Node ID'
+                placeholder='App Name / Req ID / Gateway Address / Node ID'
                 value={value}
                 onChange={e => setValue(e.target.value)}
                 onKeyDown={handleOnKeyDown}

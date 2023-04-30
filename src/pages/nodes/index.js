@@ -126,8 +126,10 @@ export default function Nodes() {
                                         <h4 className='fw-bold mb-0'>{totalNodesCount}</h4>
                                     </div>
                                     <div className='col-sm-6 col-12 d-flex align-items-center'>
-                                        <StyledSpan className='me-3'>Total Nodes</StyledSpan>
-                                        <StyledH4 className='fw-bold mb-0'>{activeNodesCount} ({((activeNodesCount / totalNodesCount) * 100).toFixed(2) || 0}%)</StyledH4>
+                                        <StyledSpan className='me-3'>Active Nodes</StyledSpan>
+                                        <StyledH4 className='fw-bold mb-0'>
+                                            {activeNodesCount} ({(activeNodesCount && totalNodesCount) ? ((activeNodesCount / totalNodesCount) * 100).toFixed(2) : 0}%)
+                                        </StyledH4>
                                     </div>
                                 </div>
                                 <div className='w-100 my-4'>
@@ -149,7 +151,7 @@ export default function Nodes() {
                                 </div>
                             </div>
                             <div className='col-lg-4 col-12 d-flex justify-content-center'>
-                                <PieChart data={[activeNodesCount, deactiveNodesCount]} />
+                                <PieChart data={[activeNodesCount || 2, deactiveNodesCount || 1]} />
                             </div>
                         </StyledRow>
                         <StyledLottie animationData={nodeAnimation} loop={true} />

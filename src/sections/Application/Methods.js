@@ -112,7 +112,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
             const values = { app: app.id, method, params }
             const res = await dispatch(methodQuery(values))
             if (res.payload?.success) {
-                setResults([...results, { method, res: JSON.stringify(res.payload.result) }])
+                setResults([...results, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
                 toast.success('Query Successful')
             }
             else {

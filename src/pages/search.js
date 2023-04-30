@@ -53,17 +53,21 @@ export default function Search() {
                     {searchedReqs.length ?
                         <div className='mb-4'>
                             <h6 className='fw-bold'>Requests Result :</h6>
-                            <Table
-                                head={['Req Address', 'Target App', 'Method', 'Gateway Address',
-                                    '#Signatures', 'Start Time', 'Confirm Time']}
-                            >
+                            <Table head={['Req ID', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
                                 {searchedReqs.map((item, index) => (
                                     <tr key={index}>
-                                        <td className='small'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
-                                        <td className='small'>{item.app}</td>
+                                        <td className='small'>
+                                            <Link href={`/requests/${item.reqId}`}>
+                                                {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
+                                            </Link>
+                                        </td>
+                                        <td className='small'>
+                                            <Link href={`/applications/${item.app}`}>
+                                                {item.app}
+                                            </Link>
+                                        </td>
                                         <td className='small'>{item.method}</td>
                                         <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
-                                        <td className='small'>{item.signatures.length || 0}</td>
                                         <td className='small'>{new Date(item.startedAt)?.toLocaleString()}</td>
                                         <td className='small text-end'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
                                     </tr>
@@ -80,7 +84,11 @@ export default function Search() {
                             <Table head={['Node ID', 'Node Address', 'Status', 'Start Time', 'Last Edit Time']}>
                                 {searchedNodes.slice(0, 10).map((item, index) => (
                                     <tr key={index}>
-                                        <td className='small'>{item.id}</td>
+                                        <td className='small'>
+                                            <Link href={`/nodes/${item.id}`}>
+                                                {item.id}
+                                            </Link>
+                                        </td>
                                         <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
                                         <td className='small pe-md-4'>{item.active ? 'Active' : 'Paused'}</td>
                                         <td className='small'>{new Date(item.startTime)?.toLocaleString()}</td>

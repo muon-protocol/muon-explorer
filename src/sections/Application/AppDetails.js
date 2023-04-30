@@ -37,7 +37,7 @@ export default function AppDetails() {
     }, [app])
 
     return (
-        <div className='row g-4 align-items-center'>
+        <div className='row g-4 align-items-center mb-2'>
             <AppDetailsCol
                 title='App Name'
                 data={app?.name}

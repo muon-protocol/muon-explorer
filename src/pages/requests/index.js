@@ -75,7 +75,7 @@ export default function Requests() {
                         <Searchbar
                             value={inputValue}
                             setValue={setInputValue}
-                            placeholder='Req Address / Gateway Address'
+                            placeholder='Req ID / Gateway Address'
                         />
                     }
                     footerContent={
@@ -90,10 +90,7 @@ export default function Requests() {
                         />
                     }
                 >
-                    <Table
-                        head={['Req Address', 'Target App', 'Method', 'Gateway Address',
-                            '#Signatures', 'Start Time', 'Confirm Time']}
-                    >
+                    <Table head={['Req ID', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
                         {!requests.length ?
                             <tr>
                                 <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -106,10 +103,13 @@ export default function Requests() {
                                             {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
                                         </Link>
                                     </td>
-                                    <td className='small'>{item.app}</td>
+                                    <td className='small'>
+                                        <Link href={`/applications/${item.app}`}>
+                                            {item.app}
+                                        </Link>
+                                    </td>
                                     <td className='small'>{item.method}</td>
                                     <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
-                                    <td className='small'>{item.signatures.length || 0}</td>
                                     <td className='small'>{dateTimeFormat(item.startedAt)}</td>
                                     <td className='small text-end'>{dateTimeFormat(item?.confirmedAt)}</td>
                                 </tr>

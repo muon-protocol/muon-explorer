@@ -229,7 +229,7 @@ export default function NodePage() {
                                 <ul className='ps-1'>
                                     {downtimes.map((item, index) => (
                                         <li key={index} className='small mb-1'>
-                                            {fullFormat(item.down)} until {item.up ? fullFormat(item.up) : 'now'} {item.up ? 'for' + dateDiff(item.down, item.up) : null}
+                                            {fullFormat(item.down)} until {item.up ? fullFormat(item.up) : 'now'} {item.up ? 'for ' + dateDiff(item.down, item.up) : null}
                                         </li>
                                     ))}
                                 </ul>

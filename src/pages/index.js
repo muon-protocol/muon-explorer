@@ -14,7 +14,7 @@ import ChartPills from 'src/sections/Landing/ChartPills'
 import RequestsChartFooter from 'src/sections/Landing/RequestsChartFooter'
 import NodesChartFooter from 'src/sections/Landing/NodesChartFooter'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { wrapper } from 'src/redux/store'
 import { getApplications } from 'src/redux/ApplicationsSlice'
 import { getRequests } from 'src/redux/RequestsSlice'
@@ -38,12 +38,14 @@ export default function Landing() {
     const { requests, requestsHistory, historyLoading } = useSelector(store => store.requests)
     const { activeNodes, deactiveNodesCount, activeNodesCount } = useSelector(store => store.nodes)
 
+    const dispatch = useDispatch()
+
     const [length, setLength] = useState(1)
 
     useInterval({
         deps: [],
         delay: 5000,
-        func: () => getRequests({ page: 1 })
+        func: () => dispatch(getRequests({ page: 1 }))
     })
 
     return (
@@ -106,7 +108,7 @@ export default function Landing() {
                             actionContent='View All Requests'
                             link='/requests'
                         >
-                            <Table head={['Req Address', 'Target Application', 'Method', 'Confirm Time']}>
+                            <Table head={['Req ID', 'Target Application', 'Method', 'Confirm Time']}>
                                 {!requests.length ?
                                     <tr>
                                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -114,8 +116,16 @@ export default function Landing() {
                                     :
                                     requests.map((item, index) => (
                                         <tr key={index}>
-                                            <td className='small pe-md-4'>{item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}</td>
-                                            <td className='small pe-md-4'>{item.app}</td>
+                                            <td className='small pe-md-4'>
+                                                <Link href={`/requests/${item.reqId}`}>
+                                                    {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
+                                                </Link>
+                                            </td>
+                                            <td className='small pe-md-4'>
+                                                <Link href={`/applications/${item.app}`}>
+                                                    {item.app}
+                                                </Link>
+                                            </td>
                                             <td className='small'>{item.method}</td>
                                             <td className='small text-end'>{timeFormat(item?.confirmedAt)}</td>
                                         </tr>
@@ -138,7 +148,11 @@ export default function Landing() {
                                     :
                                     activeNodes.slice(0, 10).map((item, index) => (
                                         <tr key={index}>
-                                            <td className='small'>{item.id}</td>
+                                            <td className='small'>
+                                                <Link href={`/nodes/${item.id}`}>
+                                                    {item.id}
+                                                </Link>
+                                            </td>
                                             <td className='small'>Tier-1 (Starter)</td>
                                             <td className='small'>{item.active ? 'Active' : 'Deactive'}</td>
                                             <td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
@@ -155,7 +169,7 @@ export default function Landing() {
                                 footerContent={<NodesChartFooter />}
                             >
                                 <div className='d-flex justify-content-center mb-3'>
-                                    <PieChart data={[activeNodesCount, deactiveNodesCount]} large />
+                                    <PieChart data={[activeNodesCount || 1, deactiveNodesCount || 0]} large />
                                 </div>
                             </Card>
                         </div>

@@ -26,7 +26,7 @@ const PieChart = ({ data, large }) => {
     }, [data])
 
     return (
-        <CustomPieChart width={300} height={large ? 250 : 180}>
+        <CustomPieChart width={large ? 400 : 300} height={large ? 250 : 180}>
             <Pie
                 cx="50%"
                 cy="50%"
