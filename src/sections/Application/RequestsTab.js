@@ -91,8 +91,11 @@ export default function RequestsTab() {
                                 </Link>
                             </td>
                             <td className='small'>{item.method}</td>
-                            <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
-                            <td className='small'>{item.signatures.length || 0}</td>
+                            <td className='small'>
+                                <Link href={`/nodes/${item.gwAddress}`}>
+                                    {item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}
+                                </Link>
+                            </td>
                             <td className='small'>{dateTimeFormat(item?.startedAt)}</td>
                             <td className='small text-end'>{dateTimeFormat(item?.confirmedAt)}</td>
                         </tr>

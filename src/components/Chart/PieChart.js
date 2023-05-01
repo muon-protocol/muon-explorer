@@ -15,10 +15,10 @@ const PieChart = ({ data, large }) => {
         })
 
         const dataArray = data.reduce((a, v) => ([...a, {
-            name: `${Math.floor((v / total) * 100)}%`,
+            name: `${Number(((v / total) * 100).toFixed(1))}%`,
             value: v,
-            labelColor: Math.floor((v / total) * 100) > 50 ? theme.palette.primary1 : theme.palette.gray5,
-            cellColor: Math.floor((v / total) * 100) > 50 ? 'rgba(81, 88, 246, 0.5)' : 'rgba(114, 81, 246, 0.25)'
+            labelColor: Number(((v / total) * 100).toFixed(1)) > 50 ? theme.palette.primary1 : theme.palette.gray5,
+            cellColor: Number(((v / total) * 100).toFixed(1)) > 50 ? 'rgba(81, 88, 246, 0.5)' : 'rgba(114, 81, 246, 0.25)'
         }]), [])
 
         return dataArray

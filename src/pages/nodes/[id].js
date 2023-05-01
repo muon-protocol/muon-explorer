@@ -32,6 +32,7 @@ const StyledLottie = styled(Lottie)`
     left: -6rem;
     top: -5rem;
     width: 17rem;
+    mix-blend-mode: luminosity;
     ${({ theme }) => theme.breakpoints.md`
         display: none;
     `};
@@ -177,7 +178,11 @@ export default function NodePage() {
                                     <div className='col-6 d-flex flex-column justify-content-between align-items-center'>
                                         <div className='d-flex flex-column align-items-center mb-3'>
                                             <span className='small'>Status</span>
-                                            <StyledH6 className='fw-bold mb-0 mt-1'>{node?.node.active ? 'Active' : 'Deactive'}</StyledH6>
+                                            <StyledH6 className='fw-bold mb-0 mt-1'>
+                                                {(node?.node?.tests?.networking && node?.node?.tests?.peerInfo && node?.node?.tests?.status) ?
+                                                    'Active' : 'Deactive'
+                                                }
+                                            </StyledH6>
                                         </div>
                                         <StyledButton
                                             className='btn rounded-3 fw-bold py-1 my-3'

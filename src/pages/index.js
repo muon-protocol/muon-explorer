@@ -154,7 +154,11 @@ export default function Landing() {
                                                 </Link>
                                             </td>
                                             <td className='small'>Tier-1 (Starter)</td>
-                                            <td className='small'>{item.active ? 'Active' : 'Deactive'}</td>
+                                            <td className='small'>
+                                                {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
+                                                    'Active' : 'Deactive'
+                                                }
+                                            </td>
                                             <td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
                                         </tr>
                                     ))}

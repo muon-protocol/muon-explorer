@@ -29,6 +29,7 @@ const StyledLottie = styled(Lottie)`
     left: -6rem;
     top: -5rem;
     width: 17rem;
+    mix-blend-mode: luminosity;
     ${({ theme }) => theme.breakpoints.md`
         display: none;
     `};
@@ -192,7 +193,11 @@ export default function Nodes() {
                             nodes.map((item, index) => (
                                 <tr key={index}>
                                     <td className='small'>{item.id}</td>
-                                    <td className='small pe-md-4'>{item.active ? 'Active' : 'Deactive'}</td>
+                                    <td className='small pe-md-4'>
+                                        {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
+                                            'Active' : 'Deactive'
+                                        }
+                                    </td>
                                     <td className='small pe-md-4'>Tier-1 (Starter)</td>
                                     <td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
                                     <td className='small text-end'>

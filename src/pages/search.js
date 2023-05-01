@@ -67,7 +67,11 @@ export default function Search() {
                                             </Link>
                                         </td>
                                         <td className='small'>{item.method}</td>
-                                        <td className='small'>{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}</td>
+                                        <td className='small'>
+                                            <Link href={`/nodes/${item.gwAddress}`}>
+                                                {item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}
+                                            </Link>
+                                        </td>
                                         <td className='small'>{new Date(item.startedAt)?.toLocaleString()}</td>
                                         <td className='small text-end'>{new Date(item.confirmedAt)?.toLocaleString()}</td>
                                     </tr>

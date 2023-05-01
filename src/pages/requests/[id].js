@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -128,9 +129,13 @@ export default function ApplicationPage() {
                                 <CopyButton text={request?.reqId} />
                             </div>
                             <div className='col-lg-3 col-12 d-flex align-items-center justify-content-lg-end'>
-                                <StyledSpan className='small'>Application:</StyledSpan>
-                                <h6 className='fw-bold small mb-0 mx-2'>{request?.app}</h6>
-                                <CopyButton text={request?.app} />
+                                <StyledSpan className='small'>Application/Method:</StyledSpan>
+                                <h6 className='fw-bold small mb-0 mx-2'>
+                                    <Link href={`/applications/${request?.app}`}>
+                                        {request?.app}
+                                    </Link>
+                                    .{request?.method}
+                                </h6>
                             </div>
                             <div className='col-lg-6 col-12 d-flex flex-wrap align-items-center'>
                                 <StyledSpan className='small'>Initial Request Time:</StyledSpan>
@@ -151,6 +156,9 @@ export default function ApplicationPage() {
                         <StyledDiv className='mb-3 rounded-4 p-3 d-flex flex-column'>
                             <h6 className='mb-4'>Signature</h6>
                             <div className='d-flex flex-column px-3'>
+                                <p className='small mb-1'>Signature:
+                                    <span className='ms-4'>{request?.signatures[0]?.signature}</span>
+                                </p>
                                 <p className='small mb-1'>Owner address:
                                     <span className='ms-4'>{request?.signatures[0]?.owner}</span>
                                 </p>
@@ -165,6 +173,20 @@ export default function ApplicationPage() {
                         </StyledDiv>
                         <StyledAccordion activeKey={openAccordions} onSelect={handleOpen}>
                             <Accordion.Item eventKey="0" className='mb-3 rounded-4'>
+                                <Accordion.Header>Params</Accordion.Header>
+                                <Accordion.Body className='pt-0'>
+                                    {request?.data.params ?
+                                        <div className='d-flex flex-column px-3'>
+                                            <StyledSpan2 className='small'>
+                                                {JSON.stringify(request.data.params, null, 5)}
+                                            </StyledSpan2>
+                                        </div>
+                                        :
+                                        <span>No Params</span>
+                                    }
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="1" className='mb-3 rounded-4'>
                                 <Accordion.Header>Signature params</Accordion.Header>
                                 <Accordion.Body className='pt-0'>
                                     <Table
@@ -181,22 +203,12 @@ export default function ApplicationPage() {
                                     </Table>
                                 </Accordion.Body>
                             </Accordion.Item>
-                            <Accordion.Item eventKey="1" className='mb-3 rounded-4'>
+                            <Accordion.Item eventKey="2" className='mb-3 rounded-4'>
                                 <Accordion.Header>Result</Accordion.Header>
                                 <Accordion.Body className='pt-0'>
                                     {request?.data.result ?
                                         typeof request.data.result === 'object' ?
                                             <div className='d-flex flex-column px-3'>
-                                                {/* {Object.entries(request.data.result).map((item, index) => (
-                                                    <h6 className='small' key={index}>
-                                                        {item[0]}: <StyledSpan2 className='ms-4'>
-                                                            {typeof item[1] === 'object' ?
-                                                                JSON.stringify(item[1], null, 5)
-                                                                :
-                                                                String(item[1])
-                                                            }
-                                                        </StyledSpan2></h6>
-                                                ))} */}
                                                 <StyledSpan2 className='small'>
                                                     {JSON.stringify(request.data.result, null, 5)}
                                                 </StyledSpan2>
