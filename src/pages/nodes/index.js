@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { dateTimeFormat } from 'src/utils/times';
 import styled from 'styled-components';
-import Image from 'next/image';
 
 import Lottie from "lottie-react";
 
-import nodeImage1 from 'public/images/node-shape-1.png'
 import nodeAnimation from "public/animations/Nodes.json";
 
 import { LIMIT } from 'src/constants/applications';
@@ -26,20 +24,15 @@ import { wrapper } from 'src/redux/store';
 
 const StyledLottie = styled(Lottie)`
     position: absolute;
-    left: -6rem;
-    top: -5rem;
-    width: 17rem;
+    left: -8.5rem;
+    top: -8.2rem;
+    width: 22rem;
+    opacity: 0.4;
+    z-index: -1;
     mix-blend-mode: luminosity;
     ${({ theme }) => theme.breakpoints.md`
         display: none;
     `};
-`
-
-const StyledImage = styled(Image)`
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: none;
 `
 
 const StyledRow = styled.div`
@@ -65,7 +58,7 @@ const StyledSpan = styled.span`
 `
 
 const StyledSpan2 = styled.span`
-    color: ${({ theme }) => theme.palette.black};
+    color: ${({ theme }) => theme.palette.gray1};
 `
 
 const StyledH4 = styled.h4`
@@ -116,49 +109,50 @@ export default function Nodes() {
     return (
         <MainLayout title='Nodes'>
 
-            <section className='mb-4'>
-                <div className='bg-white rounded-4 position-relative overflow-hidden'>
-                    <Card color='gradient2'>
-                        <StyledRow className='row g-2 justify-content-center py-1'>
-                            <div className='col-lg-8 col-12 d-flex flex-column justify-content-center'>
-                                <div className='row g-4'>
-                                    <div className='col-sm-6 col-12 d-flex align-items-center'>
-                                        <StyledSpan className='me-3'>Total Nodes</StyledSpan>
-                                        <h4 className='fw-bold mb-0'>{totalNodesCount}</h4>
-                                    </div>
-                                    <div className='col-sm-6 col-12 d-flex align-items-center'>
-                                        <StyledSpan className='me-3'>Active Nodes</StyledSpan>
-                                        <StyledH4 className='fw-bold mb-0'>
-                                            {activeNodesCount} ({(activeNodesCount && totalNodesCount) ? ((activeNodesCount / totalNodesCount) * 100).toFixed(2) : 0}%)
-                                        </StyledH4>
-                                    </div>
+            <section className='mb-4 position-relative overflow-hidden'>
+                <Card color='gradient2'>
+                    <StyledRow className='row g-2 justify-content-end py-1'>
+                        <div className='col-lg-8 col-12 d-flex flex-column justify-content-center me-lg-4'>
+                            <div className='row g-4 justify-content-lg-start justify-content-between'>
+                                <div className='col-md-4 col-12 d-flex align-items-end'>
+                                    <StyledSpan className='me-xl-3 me-lg-2 me-3'>Total Nodes</StyledSpan>
+                                    <h4 className='fw-bold mb-0'>{totalNodesCount}</h4>
                                 </div>
-                                <div className='w-100 my-4'>
-                                    <StyledDevider />
+                                <div className='col-md-7 col-12 d-flex align-items-end justify-content-lg-start justify-content-md-end ms-lg-4 ps-xl-4'>
+                                    <StyledSpan className='me-xl-3 me-lg-2 me-3'>Active Nodes</StyledSpan>
+                                    <StyledH4 className='fw-bold mb-0'>
+                                        {activeNodesCount} ({(activeNodesCount && totalNodesCount) ? ((activeNodesCount / totalNodesCount) * 100).toFixed(2) : 0}%)
+                                    </StyledH4>
                                 </div>
-                                <div className='row g-4'>
-                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
-                                        <StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
-                                        <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>{totalNodesCount} </StyledSpan2>({activeNodesCount})</StyledH5>
-                                    </div>
-                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                            </div>
+                            <div className='w-100 my-4'>
+                                <StyledDevider />
+                            </div>
+                            <div className='row g-4'>
+                                <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                                    <StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
+                                    <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>{totalNodesCount} </StyledSpan2>({activeNodesCount})</StyledH5>
+                                </div>
+                                <div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-center'>
+                                    <div className='d-flex flex-column'>
                                         <StyledSpan className='mb-2'>Tier - 2 (Pro nodes)</StyledSpan>
                                         <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>0 </StyledSpan2>(0)</StyledH5>
                                     </div>
-                                    <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
+                                </div>
+                                <div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-end'>
+                                    <div className='d-flex flex-column'>
                                         <StyledSpan className='mb-2'>Tier - 3 (Master nodes)</StyledSpan>
                                         <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>0 </StyledSpan2>(0)</StyledH5>
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-4 col-12 d-flex justify-content-center'>
-                                <PieChart data={[activeNodesCount || 2, deactiveNodesCount || 1]} />
-                            </div>
-                        </StyledRow>
-                        <StyledLottie animationData={nodeAnimation} loop={true} />
-                        <StyledImage src={nodeImage1} alt='muon' className='img-fluid' />
-                    </Card>
-                </div>
+                        </div>
+                        <div className='col-lg-3 col-12 d-flex justify-content-center me-lg-3'>
+                            <PieChart data={[activeNodesCount || 2, deactiveNodesCount || 1]} />
+                        </div>
+                    </StyledRow>
+                    <StyledLottie animationData={nodeAnimation} loop={true} />
+                </Card>
             </section>
 
             <section className='mb-4'>
@@ -195,7 +189,9 @@ export default function Nodes() {
                                     <td className='small'>{item.id}</td>
                                     <td className='small pe-md-4'>
                                         {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
-                                            'Active' : 'Deactive'
+                                            <span>Active</span>
+                                            :
+                                            <StyledSpan>Deactive</StyledSpan>
                                         }
                                     </td>
                                     <td className='small pe-md-4'>Tier-1 (Starter)</td>

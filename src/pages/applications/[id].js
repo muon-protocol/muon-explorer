@@ -64,17 +64,15 @@ export default function ApplicationPage() {
         <MainLayout title={app?.name + ' App'}>
 
             <section className='mb-4'>
-                <div className='bg-white rounded-4'>
-                    <Card
-                        color='gradient2'
-                        Header='h5'
-                        title={`${app?.name} App Requests History`}
-                        action='pills'
-                        actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
-                    >
-                        <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
-                    </Card>
-                </div>
+                <Card
+                    color='gradient2'
+                    Header='h5'
+                    title={`${app?.name} App Requests History`}
+                    action='pills'
+                    actionContent={<ChartPills color='gray7' active={length} setActive={setLength} app={app?.id} />}
+                >
+                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
+                </Card>
             </section>
 
             <section className='mb-4'>

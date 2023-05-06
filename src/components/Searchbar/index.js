@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
 export default function Searchbar({ placeholder, value, setValue }) {
     return (
         <StyledDiv className='d-flex align-items-center rounded-pill py-1 px-3'>
-            <Icon icon="material-symbols:search" width={20} />
+            <Icon icon="ri:search-line" width={18} />
             <input
                 type='search'
                 placeholder={placeholder}

@@ -18,11 +18,15 @@ const StyledCard = styled.div`
       height: 100%;
       fill: none;
       stroke: transparent;
-      stroke-width: 7;
+      stroke-width: 5;
       stroke-linecap: round;
     }
 
-    &.custom-card svg circle:last-of-type {
+    &.custom-card svg circle:nth-of-type(2) {
+      filter: blur(3px);
+    }
+
+    &.custom-card svg circle.outer {
       stroke-dasharray: 308px;
       stroke-dashoffset: calc(308px - (308px * var(--percent)) / 100);
       stroke: ${({ theme }) => theme.palette.primary1}; 
@@ -48,7 +52,8 @@ export default function Progress({ value = '50%' }) {
       <div className="percent">
         <svg>
           <circle cx="60" cy="60" r="50"></circle>
-          <circle cx="60" cy="60" r="50" style={{ '--percent': newValue }}></circle>
+          <circle cx="60" cy="60" r="50" className='outer' style={{ '--percent': newValue }}></circle>
+          <circle cx="60" cy="60" r="50" className='outer' style={{ '--percent': newValue }}></circle>
         </svg>
         <div className="number rounded-circle d-flex justify-content-center align-items-center">
           <h5 className='mb-0'>{newValue}<span className='small ms-1'>%</span></h5>

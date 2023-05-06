@@ -36,7 +36,7 @@ export default function LineChart({ data, length }) {
     const hours = () => {
         const timeArray = []
         Array(24).fill('').forEach((_, index) => {
-            const time = new Date(new Date().setHours(new Date().getHours() - index)).getHours()
+            const time = new Date(new Date().setHours(new Date().getHours() - index - 1)).getHours()
             timeArray.unshift(time)
         })
         return timeArray
@@ -85,7 +85,7 @@ export default function LineChart({ data, length }) {
                 },
                 symbol: "none",
                 areaStyle: {
-                    color: theme.palette.primary4,
+                    color: theme.palette.primary1,
                     opacity: .15
                 }
             },

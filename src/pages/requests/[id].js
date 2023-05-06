@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { fromNow, fullFormat } from 'src/utils/times';
 
@@ -10,6 +8,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
 import Table from 'src/components/Table';
+import Copy from 'src/components/Copy';
 
 import { wrapper } from 'src/redux/store';
 import { getSingleRequest } from 'src/redux/RequestsSlice';
@@ -17,14 +16,6 @@ import { useSelector } from 'react-redux';
 
 const StyledSpan = styled.span`
     color: ${({ theme }) => theme.palette.gray5};
-`
-
-const StyledButton = styled.button`
-    background-color: ${({ theme }) => theme.palette.primary2} !important;
-    padding: 0 5px 4px !important;
-    & svg{
-        color: ${({ theme }) => theme.palette.white};
-    }
 `
 
 const StyledAccordion = styled(Accordion)`
@@ -64,20 +55,6 @@ const StyledDiv = styled.div`
 const StyledSpan2 = styled.span`
     white-space: pre-wrap;
 `
-
-const CopyButton = ({ text }) => {
-
-    const handleCopy = () => {
-        navigator.clipboard?.writeText(text)
-        toast.success('Copied to clipboard successfully')
-    }
-
-    return (
-        <StyledButton className='btn rounded-3 border-0' onClick={handleCopy}>
-            <Icon icon="ion:documents-outline" />
-        </StyledButton>
-    )
-}
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
     const res = await store.dispatch(getSingleRequest(query.id))
@@ -119,35 +96,33 @@ export default function ApplicationPage() {
     return (
         <MainLayout title={`Request ${request?.reqId}`}>
 
-            <section className='mb-4'>
-                <div className='bg-white rounded-4 position-relative overflow-hidden'>
-                    <Card color='gradient2'>
-                        <div className='row g-4 justify-content-center pb-3 px-xl-5 px-0'>
-                            <div className='col-lg-9 col-12 d-flex align-items-center'>
-                                <StyledSpan className='small'>Request ID</StyledSpan>
-                                <h6 className='fw-bold small mb-0 mx-2'>{request?.reqId}</h6>
-                                <CopyButton text={request?.reqId} />
-                            </div>
-                            <div className='col-lg-3 col-12 d-flex align-items-center justify-content-lg-end'>
-                                <StyledSpan className='small'>Application/Method:</StyledSpan>
-                                <h6 className='fw-bold small mb-0 mx-2'>
-                                    <Link href={`/applications/${request?.app}`}>
-                                        {request?.app}
-                                    </Link>
-                                    .{request?.method}
-                                </h6>
-                            </div>
-                            <div className='col-lg-6 col-12 d-flex flex-wrap align-items-center'>
-                                <StyledSpan className='small'>Initial Request Time:</StyledSpan>
-                                <h6 className='fw-bold small mb-0 ms-2'>{fromNow(request?.startedAt)} ({start})</h6>
-                            </div>
-                            <div className='col-lg-6 col-12 d-flex flex-wrap align-items-center justify-content-lg-end'>
-                                <StyledSpan className='small'>Confirmed at:</StyledSpan>
-                                <h6 className='fw-bold small mb-0 ms-2'>{fromNow(request?.confirmedAt)} ({confirm})</h6>
-                            </div>
+            <section className='mb-4 position-relative overflow-hidden'>
+                <Card color='gradient2'>
+                    <div className='row g-4 justify-content-center pb-3 px-xl-5 px-0'>
+                        <div className='col-lg-9 col-12 d-flex align-items-center'>
+                            <StyledSpan className='small'>Request ID</StyledSpan>
+                            <h6 className='fw-bold small mb-0 mx-2'>{request?.reqId}</h6>
+                            <Copy text={request?.reqId} />
                         </div>
-                    </Card>
-                </div>
+                        <div className='col-lg-3 col-12 d-flex align-items-center justify-content-lg-end'>
+                            <StyledSpan className='small'>Application/Method:</StyledSpan>
+                            <h6 className='fw-bold small mb-0 mx-2'>
+                                <Link href={`/applications/${request?.app}`}>
+                                    {request?.app}
+                                </Link>
+                                .{request?.method}
+                            </h6>
+                        </div>
+                        <div className='col-lg-6 col-12 d-flex flex-wrap align-items-center'>
+                            <StyledSpan className='small'>Initial Request Time:</StyledSpan>
+                            <h6 className='fw-bold small mb-0 ms-2'>{fromNow(request?.startedAt)} ({start})</h6>
+                        </div>
+                        <div className='col-lg-6 col-12 d-flex flex-wrap align-items-center justify-content-lg-end'>
+                            <StyledSpan className='small'>Confirmed at:</StyledSpan>
+                            <h6 className='fw-bold small mb-0 ms-2'>{fromNow(request?.confirmedAt)} ({confirm})</h6>
+                        </div>
+                    </div>
+                </Card>
             </section>
 
             <section className='mb-4'>

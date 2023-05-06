@@ -11,11 +11,12 @@ import { getSearchedNodes } from 'src/redux/NodesSlice'
 
 const StyledDiv = styled.div`
     background-color: ${({ theme }) => theme.palette.white};
-    width: ${({landing}) => landing ? '100%' : '24rem'};
+    width: ${({ landing }) => landing ? '100%' : '24rem'};
     max-width: 90vw;
     & input::placeholder{
-        font-size: ${({landing}) => landing ? 'normal' : 'small'};
+        font-size: ${({ landing }) => landing ? 'normal' : 'small'};
     }
+    border: ${({ theme, landing }) => landing ? 'none' : `1px solid ${theme.palette.gray7}`};
 `
 
 const StyledButton = styled.button`
@@ -94,7 +95,7 @@ export default function LandingSearchbar({ landing }) {
                 {loading ?
                     <Icon icon="eos-icons:loading" width={landing ? 30 : 20} />
                     :
-                    <Icon icon="material-symbols:search" width={landing ? 30 : 20} />
+                    <Icon icon="ri:search-line" width={landing ? 30 : 17} />
                 }
             </StyledButton>
         </StyledDiv>

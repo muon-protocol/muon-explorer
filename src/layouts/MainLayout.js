@@ -23,7 +23,7 @@ export default function MainLayout({ children, title, landing }) {
 
             <Header landing={landing} />
 
-            <div className='container mt-4 position-relative'>
+            <div className='container mt-5 pt-3 position-relative'>
 
                 <StyledDiv right />
                 <StyledDiv />

@@ -10,11 +10,11 @@ const NavLink = styled(Nav.Link)`
     color: ${({ theme }) => theme.palette.gray5};
     &.active{
         background-color: ${({ theme, color }) => theme.palette[color]} !important;
-        color: ${({ theme }) => theme.palette.black} !important;
+        color: ${({ theme }) => theme.palette.gray1} !important;
         font-weight: bold;
     }
     &:hover{
-        color: ${({ theme }) => theme.palette.black};
+        color: ${({ theme }) => theme.palette.gray1};
     }
 `
 

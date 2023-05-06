@@ -56,18 +56,16 @@ export default function Landing() {
             </section>
 
             <section className='mb-4'>
-                <div className='bg-white rounded-4'>
-                    <Card
-                        color='gradient2'
-                        Header='h5'
-                        title='Muon Requests History'
-                        action='pills'
-                        actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
-                        footerContent={<RequestsChartFooter />}
-                    >
-                        <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
-                    </Card>
-                </div>
+                <Card
+                    color='gradient2'
+                    Header='h5'
+                    title='Muon Requests History'
+                    action='pills'
+                    actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
+                    footerContent={<RequestsChartFooter />}
+                >
+                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
+                </Card>
             </section>
 
             <section className='mb-4'>
@@ -140,7 +138,7 @@ export default function Landing() {
                             actionContent='View All Nodes'
                             link='/nodes'
                         >
-                            <Table head={['Node ID', 'Status', 'Tier', 'Start Time']}>
+                            <Table head={['Node ID', 'Tier', 'Status', 'Start Time']}>
                                 {!activeNodes.length ?
                                     <tr>
                                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>

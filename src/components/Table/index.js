@@ -5,10 +5,16 @@ const StyledTH = styled.th`
     color: ${({ theme }) => theme.palette.gray4};
 `
 
+const StyledTable = styled.table`
+    & tbody tr:hover{
+        background: ${({theme}) => theme.palette.gray8} !important;
+    }
+`
+
 export default function Table({ children, head, noLast }) {
     return (
         <div className='table-responsive'>
-            <table className="table table-borderless">
+            <StyledTable className="table table-borderless table-hover">
                 <thead>
                     <tr>
                         {head?.map((item, index) => (
@@ -25,7 +31,7 @@ export default function Table({ children, head, noLast }) {
                 <tbody>
                     {children}
                 </tbody>
-            </table>
+            </StyledTable>
         </div>
     )
 }

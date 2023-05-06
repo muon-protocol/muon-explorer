@@ -32,7 +32,7 @@ export default function NodesChartFooter() {
                 <StyledItem
                     title='Total Nodes:'
                     value={totalNodesCount}
-                    color='black'
+                    color='gray1'
                 />
                 <StyledItem
                     title='Active Nodes:'
@@ -42,7 +42,7 @@ export default function NodesChartFooter() {
                 <StyledItem
                     title='Deactive Nodes:'
                     value={deactiveNodesCount}
-                    color='black'
+                    color='gray1'
                 />
             </div>
         </div>

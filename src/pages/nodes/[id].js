@@ -4,7 +4,6 @@ import Image from 'next/image';
 
 import Lottie from "lottie-react";
 
-import nodeImage1 from 'public/images/node-shape-1.png'
 import nodeImage2 from 'public/images/node-shape-2.png'
 import nodeAnimation from "public/animations/Nodes.json";
 
@@ -12,6 +11,7 @@ import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
 import Modal from 'src/components/Modal';
 import Progress from 'src/components/Progress';
+import Copy from 'src/components/Copy';
 
 import { wrapper } from 'src/redux/store';
 import { getSingleNode } from 'src/redux/NodesSlice';
@@ -20,45 +20,42 @@ import { Accordion } from 'react-bootstrap';
 import { dateDiff, fullFormat } from 'src/utils/times';
 
 const StyledRow = styled.div`
-    width: 80%;
-    margin-inline: auto;
+    width: 90%;
+    margin-left: auto;
     ${({ theme }) => theme.breakpoints.md`
         width: 100%;
+        margin-left: unset;
     `};
 `
 
 const StyledLottie = styled(Lottie)`
     position: absolute;
-    left: -6rem;
-    top: -5rem;
-    width: 17rem;
+    left: -8.5rem;
+    top: -8.2rem;
+    width: 22rem;
+    opacity: 0.4;
+    z-index: -1;
     mix-blend-mode: luminosity;
     ${({ theme }) => theme.breakpoints.md`
         display: none;
     `};
 `
 
-const StyledImage = styled(Image)`
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: none;
-`
-
 const StyledDevider = styled.div`
     height: 100%;
-    width: 1.7px;
-    background-color: ${({ theme }) => theme.palette.white};
+    width: 0;
+    border: 1px dashed ${({ theme }) => theme.palette.white}; 
 `
 
-const StyledH6 = styled.h6`
-    color: ${({ theme }) => theme.palette.primary5};
+const StyledH5 = styled.h5`
+    color: ${({ theme }) => theme.palette.primary4};
 `
 
 const StyledButton = styled.button`
     color: ${({ theme }) => theme.palette.primary1} !important;
-    background-color: ${({ theme }) => theme.palette.primary3} !important;
+    background-color: ${({ theme }) => theme.palette.primary5} !important;
     font-size: small;
+    padding: 7px 17px;
 `
 
 const StyledH2 = styled.h2`
@@ -102,11 +99,16 @@ const StyledAccordion = styled(Accordion)`
     }
 `
 
-const NodeItem = ({ title, text }) => {
+const NodeItem = ({ title, text, copy }) => {
     return (
         <div className='col-sm-6 col-10 d-flex flex-column'>
             <StyledSpan className='small'>{title}</StyledSpan>
-            <h5 className='fw-bold mb-0 mt-2'>{text}</h5>
+            <div className='d-flex align-items-center mt-2'>
+                <h5 className='mb-0'>{text}</h5>
+                {copy &&
+                    <Copy text={copy} />
+                }
+            </div>
         </div>
     )
 }
@@ -150,54 +152,64 @@ export default function NodePage() {
         setDowntimes(ranges)
     }, [node?.history])
 
-
     return (
         <MainLayout title={`Node ${node?.node.id}`}>
 
-            <section className='mb-4'>
-                <div className='bg-white rounded-4 position-relative overflow-hidden'>
-                    <Card color='gradient2'>
-                        <StyledRow className='row g-4 justify-content-center py-1'>
-                            <div className='col-md-7 col-12'>
-                                <div className='row g-4 justify-content-center'>
-                                    <NodeItem title='Node ID' text={node?.node.id} />
-                                    <NodeItem title='Node Address' text={node?.node.nodeAddress.slice(0, 7) + '...' + node?.node.nodeAddress.slice(-7)} />
-                                    <NodeItem title='IP Address' text={node?.node.ip} />
-                                    <NodeItem title='Peer ID' text={node?.node.peerId.slice(0, 6) + '...' + node?.node.peerId.slice(-6)} />
+            <section className='mb-4 position-relative overflow-hidden'>
+                <Card color='gradient2'>
+                    <StyledRow className='row g-4 justify-content-center py-1'>
+                        <div className='col-xl-6 col-lg-7 col-12 col-12 mb-lg-0 mb-4'>
+                            <div className='row g-4 justify-content-center'>
+                                <NodeItem
+                                    title='Node ID'
+                                    text={node?.node.id}
+                                />
+                                <NodeItem
+                                    title='Node Address'
+                                    text={node?.node.nodeAddress.slice(0, 7) + '...' + node?.node.nodeAddress.slice(-7)}
+                                    copy={node?.node.nodeAddress}
+                                />
+                                <NodeItem
+                                    title='IP Address'
+                                    text={node?.node.ip}
+                                />
+                                <NodeItem
+                                    title='Peer ID'
+                                    text={node?.node.peerId.slice(0, 6) + '...' + node?.node.peerId.slice(-6)}
+                                    copy={node?.node.peerId}
+                                />
+                            </div>
+                        </div>
+                        <div className='col-1 d-flex d-none d-lg-block'>
+                            <StyledDevider className='mx-auto' />
+                        </div>
+                        <div className='col-lg-4 col-12 col-sm-10 col-12'>
+                            <div className='row g-4'>
+                                <div className='col-6 d-flex flex-column justify-content-between align-items-center'>
+                                    <span className='mb-3'>Uptime</span>
+                                    <Progress value={node?.reward.onlinePercent} />
+                                </div>
+                                <div className='col-6 d-flex flex-column justify-content-between align-items-center'>
+                                    <div className='d-flex flex-column align-items-center mb-3'>
+                                        <span>Status</span>
+                                        <StyledH5 className='mb-0 mt-2'>
+                                            {(node?.node?.tests?.networking && node?.node?.tests?.peerInfo && node?.node?.tests?.status) ?
+                                                'Active' : 'Deactive'
+                                            }
+                                        </StyledH5>
+                                    </div>
+                                    <StyledButton
+                                        className='btn rounded-3 border-0 my-3'
+                                        onClick={() => setShow(true)}
+                                    >
+                                        Details
+                                    </StyledButton>
                                 </div>
                             </div>
-                            <div className='col-1 d-flex d-none d-md-block'>
-                                <StyledDevider className='mx-auto' />
-                            </div>
-                            <div className='col-md-4 col-sm-10 col-12'>
-                                <div className='row g-4'>
-                                    <div className='col-6 d-flex flex-column justify-content-between align-items-center'>
-                                        <span className='small mb-3'>Uptime</span>
-                                        <Progress value={node?.reward.onlinePercent} />
-                                    </div>
-                                    <div className='col-6 d-flex flex-column justify-content-between align-items-center'>
-                                        <div className='d-flex flex-column align-items-center mb-3'>
-                                            <span className='small'>Status</span>
-                                            <StyledH6 className='fw-bold mb-0 mt-1'>
-                                                {(node?.node?.tests?.networking && node?.node?.tests?.peerInfo && node?.node?.tests?.status) ?
-                                                    'Active' : 'Deactive'
-                                                }
-                                            </StyledH6>
-                                        </div>
-                                        <StyledButton
-                                            className='btn rounded-3 fw-bold py-1 my-3'
-                                            onClick={() => setShow(true)}
-                                        >
-                                            Details
-                                        </StyledButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </StyledRow>
-                    </Card>
-                    <StyledLottie animationData={nodeAnimation} loop={true} />
-                    <StyledImage src={nodeImage1} alt='muon' className='img-fluid' />
-                </div>
+                        </div>
+                    </StyledRow>
+                </Card>
+                <StyledLottie animationData={nodeAnimation} loop={true} />
             </section>
 
             <section className='mb-4'>
