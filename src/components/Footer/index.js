@@ -44,7 +44,7 @@ export default function Footer() {
                         <Image src={logo2} alt='muon' />
                         <StyledHeading className='ms-2'>
                             <span className='me-1'>by</span>
-                            <Link className='fw-bold text-decoration-underline' href='/'>Muon.Net</Link>
+                            <Link className='fw-bold text-decoration-underline' href='https://muon.net' target='_blank'>Muon.Net</Link>
                         </StyledHeading>
                     </FooterLogo>
                 </div>

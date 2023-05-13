@@ -180,7 +180,7 @@ export default function NodePage() {
                                 />
                             </div>
                         </div>
-                        <div className='col-1 d-flex d-none d-lg-block'>
+                        <div className='col-1 d-none d-lg-block'>
                             <StyledDevider className='mx-auto' />
                         </div>
                         <div className='col-lg-4 col-12 col-sm-10 col-12'>

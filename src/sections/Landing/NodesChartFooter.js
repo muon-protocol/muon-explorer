@@ -15,7 +15,7 @@ const NodesChartFooterItem = ({ className, title, value, color }) => {
 
 const StyledItem = styled(NodesChartFooterItem)`
     & div.d-flex{
-        background-color: ${({theme}) => theme.palette.primary3};
+        background-color: ${({theme}) => theme.palette.primary8};
     }
     & h6{
         color: ${({ theme, color }) => theme.palette[color]};

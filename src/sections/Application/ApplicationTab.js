@@ -11,13 +11,18 @@ import Codes from './Codes';
 import { useSelector } from 'react-redux';
 
 const StyledNav = styled(Nav)`
-    background-color: ${({ theme }) => theme.palette.gray8};
+    background-color: ${({ theme }) => theme.palette.gray7};
 `
 
 const StyledNavItem = styled(Nav.Link)`
     font-size: small;
-    padding: 2px 0;
-    color: ${({ theme }) => theme.palette.gray5};
+    padding: 5px 0;
+    color: ${({ theme }) => theme.palette.gray3};
+    border-radius: 0 !important;
+
+    &.code{
+        padding-inline: 2rem !important;
+    }
 
     &.active {
       color: ${({ theme }) => theme.palette.primary1} !important;
@@ -27,7 +32,8 @@ const StyledNavItem = styled(Nav.Link)`
 `
 
 const StyledButton = styled.button`
-    background-color: ${({ theme }) => theme.palette.gray9} !important;
+    background-color: ${({ theme }) => theme.palette.gray5} !important;
+    color: ${({ theme }) => theme.palette.white} !important;
 `
 
 export default function ApplicationTab() {
@@ -68,12 +74,12 @@ export default function ApplicationTab() {
     }
 
     return (
-        <Card shrink>
+        <Card shrink color='bg4'>
             <div className='d-flex flex-column p-3'>
-                <div className='d-flex flex-wrap justify-content-between mb-3'>
+                <div className='d-flex flex-wrap justify-content-between align-items-center mb-3'>
                     <StyledNav
                         variant="pills"
-                        className='rounded-3 pills p-1 mb-4 mb-sm-0'
+                        className='rounded-pill pills mb-4 mb-sm-0 overflow-hidden'
                         defaultActiveKey='read'
                         activeKey={activePill}
                         onSelect={handleActivatePill}
@@ -82,11 +88,11 @@ export default function ApplicationTab() {
                             <StyledNavItem className='px-3' eventKey='read'>Read Method</StyledNavItem>
                         </Nav.Item>
                         <Nav.Item>
-                            <StyledNavItem className='px-4' eventKey='code'>Code</StyledNavItem>
+                            <StyledNavItem className='code' eventKey='code'>Code</StyledNavItem>
                         </Nav.Item>
                     </StyledNav>
                     <StyledButton
-                        className='btn smaller rounded-pill px-4 py-1 border-0'
+                        className='btn smaller rounded-pill px-4 py-2 border-0'
                         onClick={handleOpenAll}
                     >
                         {expand ? 'Close All' : 'Expand All'}

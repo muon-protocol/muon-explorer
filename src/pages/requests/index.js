@@ -61,7 +61,7 @@ export default function Requests() {
                     Header='h5'
                     title='Muon Requests History'
                     action='pills'
-                    actionContent={<ChartPills color='gray7' active={length} setActive={setLength} />}
+                    actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
                 >
                     <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
                 </Card>

@@ -12,7 +12,8 @@ const StyledHeading = styled.h6`
 `
 
 const StyledDiv = styled.div`
-    left: -50px;
+    left: -2rem;
+    top: -6rem;
 `
 
 const AppDetailsCol = ({ title, data, underline, start, end }) => {

@@ -7,7 +7,7 @@ const StyledDiv = styled.div`
     height: 12rem;
 `
 
-export default function LineChart({ data, length }) {
+export default function LineChart({ data, length, small }) {
 
     const theme = useTheme()
 
@@ -20,7 +20,7 @@ export default function LineChart({ data, length }) {
     const days = (e) => Array(e)
         .fill('')
         .map((_, index) => {
-            if (index % 24 === 0) {
+            if (small ? index % 72 === 0 : index % 24 === 0) {
                 const date = new Date(new Date().setDate(new Date().getDate() - newIndex.current))
                 const day = date.getDate()
                 const month = MONTH_NAMES[date.getMonth()].slice(0, 3)
@@ -43,7 +43,7 @@ export default function LineChart({ data, length }) {
     }
 
     const options = useMemo(() => ({
-        grid: { top: 10, right: -10, bottom: 60, left: 30, height: '150px' },
+        grid: { top: 10, right: small ? 10 : -10, bottom: 60, left: 30, height: small ? '100px' : '150px' },
         xAxis: {
             type: 'category',
             data: length === 1 ? hours() : days(data.length),
@@ -57,7 +57,7 @@ export default function LineChart({ data, length }) {
             axisLabel: {
                 align: 'center',
                 interval: length === 1 ? 1 : '',
-                color: theme.palette.gray6,
+                color: theme.palette.gray3,
                 fontFamily: 'Lato',
                 fontSize: 10
             },
@@ -65,7 +65,7 @@ export default function LineChart({ data, length }) {
         yAxis: {
             type: 'value',
             axisLabel: {
-                color: theme.palette.gray6
+                color: theme.palette.gray3
             },
             splitLine: {
                 show: false

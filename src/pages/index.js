@@ -61,7 +61,7 @@ export default function Landing() {
                     Header='h5'
                     title='Muon Requests History'
                     action='pills'
-                    actionContent={<ChartPills color='secondary1' active={length} setActive={setLength} />}
+                    actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
                     footerContent={<RequestsChartFooter />}
                 >
                     <LineChart data={historyLoading ? [] : requestsHistory} length={length} />

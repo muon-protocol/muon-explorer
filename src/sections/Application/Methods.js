@@ -12,7 +12,7 @@ const StyledAccordion = styled(Accordion)`
     & .accordion-button {
       border-radius: 1rem !important;
       color: ${({ theme }) => theme.palette.gray2};
-      background-color: ${({ theme }) => theme.palette.gray8};
+      background-color: transparent;
       box-shadow: none;
 
       &:after {
@@ -25,11 +25,8 @@ const StyledAccordion = styled(Accordion)`
 `
 
 const StyledItem = styled(Accordion.Item)`
-    background-color: ${({ theme }) => theme.palette.gray9};
-`
-
-const StyledBody = styled(Accordion.Body)`
-    background-color: ${({ theme }) => theme.palette.gray9};
+    background-color: transparent;
+    border: 1px dashed ${({ theme }) => theme.palette.gray1} !important;
 `
 
 const StyledLabel = styled.div`
@@ -134,7 +131,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                 app?.methods.map((item, index) => (
                     <StyledItem className='mb-2 border-0 rounded-4' eventKey={index + 1} key={index}>
                         <Accordion.Header>{item.name}</Accordion.Header>
-                        <StyledBody>
+                        <Accordion.Body>
                             {item.args.map((item2, index2) => (
                                 <div key={index2} className='d-flex flex-column mb-1'>
                                     <div className='position-relative mb-3 mt-5 mt-md-0'>
@@ -165,7 +162,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                     'Query'
                                 }
                             </StyledButton>
-                        </StyledBody>
+                        </Accordion.Body>
                     </StyledItem>
                 ))
                 :

@@ -22,14 +22,14 @@ export default function Pills({ items, active, setActive, color }) {
     return (
         <StyledNav
             variant="pills"
-            className='rounded-4'
+            className='rounded-3'
             activeKey={active}
             onSelect={setActive}
         >
             {items?.map((item, index) => (
                 <Nav.Item key={index}>
                     <NavLink
-                        className='py-1 px-3 smaller rounded-4'
+                        className='py-1 px-3 smaller rounded-3'
                         eventKey={item.value}
                         color={color}
                     >

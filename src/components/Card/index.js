@@ -5,9 +5,10 @@ import styled from 'styled-components'
 
 const StyledCard = styled.div`
     background: ${({ theme, color }) => theme.palette[color]};
-    color: ${({theme}) => theme.palette.gray1} !important;
+    color: ${({ theme }) => theme.palette.gray1} !important;
+    border: ${({ theme, border }) => border ? `1px solid ${theme.palette.gray7}` : 'none'} !important;
     & .card-body{
-        color: ${({theme}) => theme.palette.gray1} !important;
+        color: ${({ theme }) => theme.palette.gray1} !important;
     }
 `
 
@@ -25,10 +26,10 @@ export default function Card(props) {
     const {
         children, color = 'bg3', link = '/',
         Header = 'h6', title, action, actionContent,
-        footerContent, shrink } = props
+        footerContent, shrink, border } = props
 
     return (
-        <StyledCard className={`card border-0 rounded-4 ${shrink ? 'p-0' : 'p-3'} position-relative overflow-hidden h-100`} color={color}>
+        <StyledCard className={`card rounded-4 ${shrink ? 'p-0' : 'p-3'} position-relative overflow-hidden h-100`} color={color} border={border}>
 
             {title &&
                 <div className='card-header border-0 bg-transparent d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center'>
@@ -43,7 +44,7 @@ export default function Card(props) {
                 </div>
             }
 
-            <div className={`card-body pb-0 ${shrink ? 'p-0' : ''}`}>
+            <div className={`card-body bg-transparent pb-0 ${shrink ? 'p-0' : ''}`}>
                 {children}
             </div>
 
