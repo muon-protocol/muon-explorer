@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 import Nav from 'react-bootstrap/Nav';
@@ -47,6 +47,31 @@ export default function ApplicationTab() {
 
     const [expand, setExpand] = useState(false)
 
+    useEffect(() => {
+        if (activePill === 'code') {
+            setOpenCodes(app?.codes.map((_, index) => index + 1) || [])
+        }
+    }, [app.codes, activePill])
+
+    useEffect(() => {
+        if (activePill === 'read') {
+            if(openMethods.length){
+                setExpand(true)
+            }
+            else{
+                setExpand(false)
+            }
+        }
+        else {
+            if(openCodes.length){
+                setExpand(true)
+            }
+            else{
+                setExpand(false)
+            }
+        }
+    }, [activePill, openMethods, openCodes])
+
     const handleOpenAll = () => {
         if (!expand) {
             if (activePill === 'read') {
@@ -57,20 +82,16 @@ export default function ApplicationTab() {
                 const all = app?.codes.map((_, index) => index + 1)
                 setOpenCodes(all)
             }
-            setExpand(true)
         }
         else {
             setOpenMethods([])
             setOpenCodes([])
-            setExpand(false)
         }
     }
 
     const handleActivatePill = (e) => {
         setActivePill(e)
         setOpenMethods([])
-        setOpenCodes([])
-        setExpand(false)
     }
 
     return (

@@ -7,7 +7,7 @@ const NodesChartFooterItem = ({ className, title, value, color }) => {
         <div className={'col-xl-4 col-md-3 col-sm-4 col-8 ' + className}>
             <div className='rounded-3 d-flex flex-column py-2 px-3'>
                 <span className='small'>{title}</span>
-                <h6 className='fw-bold mb-0 mt-2 align-self-end' color={color}>{value?.toLocaleString()}</h6>
+                <h6 className='fw-bold mb-0 mt-2 align-self-end' color={color}>{value?.toLocaleString('en')}</h6>
             </div>
         </div>
     )

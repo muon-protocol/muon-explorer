@@ -23,7 +23,7 @@ const RequestsChartFooterItem = ({ image, title, value, last }) => {
             </div>
             <div className='d-flex flex-column'>
                 <span className='small'>{title}</span>
-                <StyledSpan className='fw-bold'>{value?.toLocaleString()}</StyledSpan>
+                <StyledSpan className='fw-bold'>{value?.toLocaleString('en')}</StyledSpan>
             </div>
         </div>
     )

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Accordion from 'react-bootstrap/Accordion';
 import styled from 'styled-components'
 import { useSelector } from 'react-redux';
+
+import Prism from "prismjs"
+import "prismjs/components/prism-javascript";
 
 const StyledAccordion = styled(Accordion)`
     & .accordion-button {
@@ -25,15 +28,21 @@ const StyledItem = styled(Accordion.Item)`
 
 const StyledBody = styled(Accordion.Body)`
     background-color: ${({ theme }) => theme.palette.gray8};
-`
-
-const StyledP = styled.p`
-    white-space: pre-wrap;
+    pre{
+        background-color: ${({ theme }) => theme.palette.gray8};
+    }
 `
 
 export default function Codes({ openCodes, setOpenCodes }) {
 
     const { app } = useSelector(store => store.applications)
+
+    useEffect(() => {
+        const highlight = async () => {
+            await Prism.highlightAll();
+        };
+        highlight();
+    }, [])
 
     const handleCode = (e) => {
         const found = openCodes.find(i => i === e)
@@ -56,7 +65,9 @@ export default function Codes({ openCodes, setOpenCodes }) {
                     <StyledItem className='mb-2 border-0 rounded-4' eventKey={index + 1} key={index}>
                         <Accordion.Header>{item.name}</Accordion.Header>
                         <StyledBody>
-                            <StyledP className='mb-0 small'>{item.code}</StyledP>
+                            <pre className='my-0 p-0 language-javascript'>
+                                <code>{item.code}</code>
+                            </pre>
                         </StyledBody>
                     </StyledItem>
                 ))

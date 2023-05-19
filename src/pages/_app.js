@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.css';
+import "prismjs/themes/prism.min.css";
 
 import { SSRProvider } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
