@@ -34,7 +34,8 @@ const StyledLabel = styled.div`
     top: 0;
     right: 0;
     border-radius: 0 50rem 50rem 0;
-    width: 7rem;
+    text-transform: capitalize;
+    width: 8.8rem;
     color: ${({ theme }) => theme.palette.gray2};
     background-color: ${({ theme }) => theme.palette.gray7};
     ${({ theme }) => theme.breakpoints.sm`
@@ -46,10 +47,13 @@ const StyledLabel = styled.div`
 `
 
 const StyledInput = styled.input`
-    background-color: ${({ theme }) => theme.palette.gray8};
+    background-color: ${({ theme }) => theme.palette.white};
+    height: 42px;
 `
 
 const StyledButton = styled.button`
+    height: 42px;
+    width: 8.8rem;
     font-size: small;
     letter-spacing: 0.6px;
     color: ${({ theme }) => theme.palette.white} !important;
@@ -131,7 +135,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                 app?.methods.map((item, index) => (
                     <StyledItem className='mb-2 border-0 rounded-4' eventKey={index + 1} key={index}>
                         <Accordion.Header>{item.name}</Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className='d-flex flex-column'>
                             {item.args.map((item2, index2) => (
                                 <div key={index2} className='d-flex flex-column mb-1'>
                                     <div className='position-relative mb-3 mt-5 mt-md-0'>
@@ -142,7 +146,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                             value={paramValues.find(i => i.method === item.name)?.arg[item2.name]}
                                             onChange={(e) => handleOnChange(e.target.value, item.name, item2.name)}
                                         />
-                                        <StyledLabel className='small h-100 px-3 d-flex align-items-center justify-content-center'>
+                                        <StyledLabel className='small h-100 d-flex align-items-center justify-content-center'>
                                             <span>{item2.name}</span>
                                         </StyledLabel>
                                     </div>
@@ -152,7 +156,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                 <p>{results.find(i => i.method === item.name)?.res}</p>
                             }
                             <StyledButton
-                                className='btn px-5 py-1 rounded-pill align-self-start fw-bold'
+                                className='btn rounded-pill align-self-end fw-bold'
                                 onClick={() => handleQuery(item.name)}
                                 disabled={loading}
                             >

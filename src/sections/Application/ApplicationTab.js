@@ -17,8 +17,9 @@ const StyledNav = styled(Nav)`
 const StyledNavItem = styled(Nav.Link)`
     font-size: small;
     padding: 5px 0;
-    color: ${({ theme }) => theme.palette.gray3};
+    color: ${({ theme }) => theme.palette.gray5};
     border-radius: 0 !important;
+    background-color: ${({ theme }) => theme.palette.gray8} !important;
 
     &.code{
         padding-inline: 2rem !important;
@@ -32,8 +33,8 @@ const StyledNavItem = styled(Nav.Link)`
 `
 
 const StyledButton = styled.button`
-    background-color: ${({ theme }) => theme.palette.gray5} !important;
-    color: ${({ theme }) => theme.palette.white} !important;
+    background-color: ${({ theme }) => theme.palette.gray9} !important;
+    color: ${({ theme }) => theme.palette.gray3} !important;
 `
 
 export default function ApplicationTab() {
@@ -55,18 +56,18 @@ export default function ApplicationTab() {
 
     useEffect(() => {
         if (activePill === 'read') {
-            if(openMethods.length){
+            if (openMethods.length) {
                 setExpand(true)
             }
-            else{
+            else {
                 setExpand(false)
             }
         }
         else {
-            if(openCodes.length){
+            if (openCodes.length) {
                 setExpand(true)
             }
-            else{
+            else {
                 setExpand(false)
             }
         }

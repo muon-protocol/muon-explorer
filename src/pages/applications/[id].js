@@ -194,7 +194,7 @@ export default function ApplicationPage() {
 
             <section className='mb-4'>
                 <Card
-                    color='primary7'
+                    color='gray10'
                     shrink
                 >
                     <StyledTabs

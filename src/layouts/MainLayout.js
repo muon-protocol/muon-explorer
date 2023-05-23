@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
     width: 20%;
     height: 10rem;
     position: absolute;
-    top: ${({ right }) => right ? '30vh' : '25vh'};
+    top: ${({ right }) => right ? '20vh' : '14vh'};
     ${({ right }) => right ? 'right: 10%;' : 'left: 10%;'}
     filter: blur(140px);
     background: ${({ theme, right }) => theme.palette[right ? 'secondary1' : 'primary1']};

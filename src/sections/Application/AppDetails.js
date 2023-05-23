@@ -55,7 +55,7 @@ export default function AppDetails() {
             />
             <AppDetailsCol
                 title='#Nodes on app'
-                data={app?.nodes}
+                data={app?.data.contexts[0]?.tss.threshold.max}
             />
             <AppDetailsCol
                 title='#Confirmed Requests'

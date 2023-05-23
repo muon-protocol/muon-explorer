@@ -10,7 +10,7 @@ const StyledAccordion = styled(Accordion)`
     & .accordion-button {
       border-radius: 1rem !important;
       color: ${({ theme }) => theme.palette.gray2};
-      background-color: ${({ theme }) => theme.palette.gray9};
+      background-color: transparent;
       box-shadow: none;
 
       &:after {
@@ -23,13 +23,14 @@ const StyledAccordion = styled(Accordion)`
 `
 
 const StyledItem = styled(Accordion.Item)`
-    background-color: ${({ theme }) => theme.palette.gray9};
+    background-color: transparent;
+    border: 1px dashed ${({ theme }) => theme.palette.gray1} !important;
 `
 
 const StyledBody = styled(Accordion.Body)`
-    background-color: ${({ theme }) => theme.palette.gray8};
+    background-color: transparent;
     pre{
-        background-color: ${({ theme }) => theme.palette.gray8};
+        background-color: transparent;
     }
 `
 

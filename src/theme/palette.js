@@ -27,6 +27,7 @@ export const palette = {
         gray7: '#e0e0ea',
         gray8: '#e9eff6',
         gray9: '#f2f2f4',
+        gray10: 'rgba(206, 206, 206, 0.3)',
 
         bg1: '#eff0f5',
         bg2: '#f9f9fa',
