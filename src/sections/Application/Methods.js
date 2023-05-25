@@ -3,6 +3,9 @@ import { toast } from 'react-toastify';
 import { Icon } from '@iconify/react';
 
 import Accordion from 'react-bootstrap/Accordion';
+import Fade from 'react-bootstrap/Fade';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import styled from 'styled-components'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,6 +66,43 @@ const StyledButton = styled.button`
     }
 `
 
+const StyledButton2 = styled.button`
+    height: 42px;
+    letter-spacing: 0.6px;
+    font-size: small;
+    color: ${({ theme, open }) => theme.palette[open ? 'white' : 'gray1']} !important;
+    background-color: ${({ theme, open, danger }) => theme.palette[danger ? 'red' : open ? 'primary2' : 'white']} !important;
+    ${({ focus, theme }) => focus && `
+        &:focus{
+            background-color: ${theme.palette.primary2} !important;
+            color: ${theme.palette.white} !important;
+        }
+    `}
+    & svg{
+        transition: .3s ease;
+        ${({ active }) => active && `
+            transform: rotate(180deg)
+        `};
+    }
+    & path{
+        fill:${({ theme }) => theme.palette.gray1};
+    }
+`
+
+const StyledTooltip = styled(Tooltip)`
+    opacity: 1 !important;
+    & .tooltip-inner{
+        background-color: ${({ theme }) => theme.palette.white} !important;
+        color: ${({ theme }) => theme.palette.gray1} !important;
+        min-width: 20rem;
+        text-align: start;
+        padding: 8px 16px;
+    }
+    & .tooltip-arrow{
+        display: none;
+    }
+`
+
 export default function Methods({ openMethods, setOpenMethods }) {
 
     const { app, loading } = useSelector(store => store.applications)
@@ -71,6 +111,9 @@ export default function Methods({ openMethods, setOpenMethods }) {
 
     const [paramValues, setParamValues] = useState([])
     const [results, setResults] = useState([])
+    const [activeExamples, setActiveExamples] = useState([])
+    const [openExamples, setOpenExamples] = useState([])
+    const [openTooltip, setOpenTooltip] = useState(false)
 
     useEffect(() => {
         if (app?.methods?.length) {
@@ -86,7 +129,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const handleMethod = (e) => {
+    const handleopenMethods = (e) => {
         const found = openMethods.find(i => i === e)
         if (found) {
             const filtered = openMethods.filter(i => i !== e)
@@ -97,13 +140,13 @@ export default function Methods({ openMethods, setOpenMethods }) {
         }
     }
 
-    const handleOnChange = (e, method, name) => {
+    const handleOnChangeMethodValue = (method, name, e) => {
         const newValues = [...paramValues]
         newValues.find(i => i.method === method).arg[name] = e
         setParamValues(newValues)
     }
 
-    const handleQuery = async (method) => {
+    const handleQueryMethod = async (method) => {
         try {
             let params = ''
             const methodArgs = paramValues.find(i => i.method === method).arg
@@ -126,10 +169,49 @@ export default function Methods({ openMethods, setOpenMethods }) {
         }
     }
 
+    const handleActiveExample = (e) => {
+        const found = activeExamples.find(i => i === e)
+        if (found) {
+            const filtered = activeExamples.filter(i => i !== e)
+            setActiveExamples(filtered)
+            for (const name in paramValues.find(i => i.method === e).arg) {
+                handleOnChangeMethodValue(e, name, '')
+            }
+            handleOpenExample(null, e)
+        }
+        else {
+            setActiveExamples([...activeExamples, e])
+        }
+    }
+
+    const handleOpenExample = (e, method) => {
+        const found = openExamples.find(i => i.method === method)
+        if (found) {
+            const filtered = openExamples.filter(i => i.method !== method)
+            setOpenExamples(filtered)
+            if (e) {
+                Object.entries(e.args).forEach(i => {
+                    handleOnChangeMethodValue(method, i[0], '')
+                })
+            }
+        }
+        else if (e) {
+            setOpenExamples([...openExamples, { method, example: e.title }])
+            Object.entries(e.args).forEach(i => {
+                handleOnChangeMethodValue(method, i[0], i[1])
+            })
+        }
+    }
+
+    const handleClear = (e) => {
+        handleActiveExample(e)
+        setOpenTooltip(false)
+    }
+
     return (
         <StyledAccordion
             activeKey={openMethods}
-            onSelect={handleMethod}
+            onSelect={handleopenMethods}
         >
             {app?.methods.length ?
                 app?.methods.map((item, index) => (
@@ -144,7 +226,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                             placeholder={item2.type === 'address' ? '0x00000000000000000000000000000000' : ''}
                                             type={item2.type === 'int' ? 'number' : 'text'}
                                             value={paramValues.find(i => i.method === item.name)?.arg[item2.name]}
-                                            onChange={(e) => handleOnChange(e.target.value, item.name, item2.name)}
+                                            onChange={(e) => handleOnChangeMethodValue(item.name, item2.name, e.target.value)}
                                         />
                                         <StyledLabel className='small h-100 d-flex align-items-center justify-content-center'>
                                             <span>{item2.name}</span>
@@ -155,17 +237,93 @@ export default function Methods({ openMethods, setOpenMethods }) {
                             {results.find(i => i.method === item.name)?.res &&
                                 <p>{results.find(i => i.method === item.name)?.res}</p>
                             }
-                            <StyledButton
-                                className='btn rounded-pill align-self-end fw-bold'
-                                onClick={() => handleQuery(item.name)}
-                                disabled={loading}
-                            >
-                                {loading ?
-                                    <Icon icon="eos-icons:loading" width="21" />
-                                    :
-                                    'Query'
-                                }
-                            </StyledButton>
+                            <div className='d-flex justify-content-between'>
+                                <div className='d-flex'>
+                                    {item.examples ?
+                                        <>
+                                            <StyledButton2
+                                                className='btn rounded-3 border-0 pe-1'
+                                                onClick={() => handleActiveExample(item.name)}
+                                                active={Boolean(activeExamples.find(i => i === item.name))}
+                                            >
+                                                Set example
+                                                <Icon icon="prime:chevron-right" width={26} />
+                                            </StyledButton2>
+                                            <Fade in={Boolean(activeExamples.find(i => i === item.name))} unmountOnExit>
+                                                <div className='d-flex'>
+                                                    {item.examples.map((item3, index3) => (
+                                                        <Fade
+                                                            in={
+                                                                Boolean(openExamples.find(i => i.method === item.name)) ?
+                                                                    !Boolean(openExamples.find(i => i.example === item3.name)) ?
+                                                                        true : false
+                                                                    : true
+                                                            }
+                                                            key={index3}
+                                                            unmountOnExit
+                                                        >
+                                                            <div className='d-flex'>
+                                                                <StyledButton2
+                                                                    className='btn rounded-3 border-0 ms-3'
+                                                                    onClick={() => handleOpenExample(item3, item.name)}
+                                                                    open={Boolean(openExamples.find(i => i.example === item3.title))}
+                                                                >
+                                                                    {item3.title}
+                                                                </StyledButton2>
+                                                                <Fade in={Boolean(openExamples.find(i => i.example === item3.title))} unmountOnExit>
+                                                                    <div className='d-flex'>
+                                                                        <OverlayTrigger
+                                                                            placement='top'
+                                                                            trigger='click'
+                                                                            show={openTooltip}
+                                                                            onToggle={setOpenTooltip}
+                                                                            overlay={
+                                                                                <StyledTooltip>
+                                                                                    {item3.desc}
+                                                                                </StyledTooltip>
+                                                                            }
+                                                                        >
+                                                                            <StyledButton2
+                                                                                className='btn rounded-3 border-0 ms-3'
+                                                                                open={openTooltip}
+                                                                                key={index3}
+                                                                            >
+                                                                                Details
+                                                                            </StyledButton2>
+                                                                        </OverlayTrigger>
+                                                                        <StyledButton2
+                                                                            className='btn rounded-3 border-0 ms-3'
+                                                                            onClick={() => handleClear(item.name)}
+                                                                            open={true}
+                                                                            danger
+                                                                            key={index3}
+                                                                        >
+                                                                            Clear
+                                                                        </StyledButton2>
+                                                                    </div>
+                                                                </Fade>
+                                                            </div>
+                                                        </Fade>
+                                                    ))}
+                                                </div>
+                                            </Fade>
+                                        </>
+                                        :
+                                        null
+                                    }
+                                </div>
+                                <StyledButton
+                                    className='btn rounded-pill fw-bold'
+                                    onClick={() => handleQueryMethod(item.name)}
+                                    disabled={loading}
+                                >
+                                    {loading ?
+                                        <Icon icon="eos-icons:loading" width="21" />
+                                        :
+                                        'Query'
+                                    }
+                                </StyledButton>
+                            </div>
                         </Accordion.Body>
                     </StyledItem>
                 ))

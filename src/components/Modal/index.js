@@ -16,12 +16,12 @@ const StyledModal = styled(BSModal)`
     }
 `
 
-export default function Modal({ show, onHide, title, children }) {
+export default function Modal({ show, onHide, title, children, size = 'md' }) {
     return (
         <StyledModal
             show={show}
             onHide={onHide}
-            size="md"
+            size={size}
             centered
         >
             <BSModal.Header closeButton className='px-4 pb-1 border-0'>

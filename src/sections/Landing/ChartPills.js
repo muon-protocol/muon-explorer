@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 
 import Pills from 'src/components/Pills'
 
 import { useDispatch } from 'react-redux'
 import { getRequestHistory } from 'src/redux/RequestsSlice'
 
-export default function ChartPills({ color, active, setActive, app }) {
+const ChartPills = ({ color, active, setActive, app }) => {
 
     const dispatch = useDispatch()
 
@@ -23,6 +24,8 @@ export default function ChartPills({ color, active, setActive, app }) {
         />
     )
 }
+
+export default dynamic(() => Promise.resolve(ChartPills), { ssr: false })
 
 const items = [
     { name: '1d', value: 1 },

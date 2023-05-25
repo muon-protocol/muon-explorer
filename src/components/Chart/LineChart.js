@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react'
+import dynamic from 'next/dynamic';
 import ReactECharts from 'echarts-for-react';
 import { MONTH_NAMES } from 'src/constants/applications';
 import styled, { useTheme } from 'styled-components';
@@ -7,7 +8,7 @@ const StyledDiv = styled.div`
     height: 12rem;
 `
 
-export default function LineChart({ data, length, small }) {
+const LineChart = ({ data, length, small }) => {
 
     const theme = useTheme()
 
@@ -116,3 +117,5 @@ export default function LineChart({ data, length, small }) {
         </StyledDiv>
     )
 }
+
+export default dynamic(() => Promise.resolve(LineChart), { ssr: false });

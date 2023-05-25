@@ -56,7 +56,7 @@ export default function Progress({ value = '50%' }) {
           <circle cx="60" cy="60" r="50" className='outer' style={{ '--percent': newValue }}></circle>
         </svg>
         <div className="number rounded-circle d-flex justify-content-center align-items-center">
-          <h5 className='mb-0'>{newValue}<span className='small ms-1'>%</span></h5>
+          <h6 className='mb-0'>{newValue}<span className='small ms-1'>%</span></h6>
         </div>
       </div>
     </StyledCard>

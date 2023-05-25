@@ -1,12 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-// import { Lato } from 'next/font/google'
-
-// const latoFont = Lato({
-//     weight: ['400'],
-//     subsets: ['latin']
-// })
-
 export const ThemedGlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box !important;
@@ -22,13 +15,18 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
     body {
         background-color: ${({ theme }) => theme.palette.gray8} !important;
-        ${'' /* font-family: ${latoFont.style.fontFamily}; */}
         font-family: 'Lato';
         overflow-x: hidden;
+        color: ${({ theme }) => theme.palette.gray1};
+        width: 100vw;
     }
 
     .smaller {
         font-size: 12px;
+    }
+
+    .medium{
+        font-size: 18px;
     }
 
     ::placeholder {

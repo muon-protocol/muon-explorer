@@ -67,7 +67,7 @@ const StyledP = styled.p`
 `
 
 const StyledSpan = styled.span`
-    color: ${({ theme }) => theme.palette.gray5};
+    color: ${({ theme }) => theme.palette.gray3};
 `
 
 const StyledAccordion = styled(Accordion)`
@@ -104,7 +104,7 @@ const NodeItem = ({ title, text, copy }) => {
         <div className='col-sm-6 col-10 d-flex flex-column'>
             <StyledSpan className='small'>{title}</StyledSpan>
             <div className='d-flex align-items-center mt-2'>
-                <h5 className='mb-0'>{text}</h5>
+                <h5 className='mb-0 fw-bold'>{text}</h5>
                 {copy &&
                     <Copy text={copy} />
                 }
