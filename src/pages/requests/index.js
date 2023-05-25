@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { dateTimeFormat } from 'src/utils/times';
+import dynamic from 'next/dynamic';
 
 import { LIMIT } from 'src/constants/applications';
 
@@ -10,7 +11,6 @@ import useInterval from 'src/hooks/useInterval';
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
 import ChartPills from 'src/sections/Landing/ChartPills';
-import LineChart from 'src/components/Chart/LineChart';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
@@ -18,9 +18,11 @@ import Searchbar from 'src/components/Searchbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequests } from 'src/redux/RequestsSlice';
 
+const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
+
 export default function Requests() {
 
-    const { requests, requestsLoading, totalReqs, requestsHistory, historyLoading } = useSelector(store => store.requests)
+    const { requests, requestsLoading, totalReqs, requestsHistory } = useSelector(store => store.requests)
 
     const dispatch = useDispatch()
 
@@ -63,7 +65,7 @@ export default function Requests() {
                     action='pills'
                     actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
                 >
-                    <LineChart data={historyLoading ? [] : requestsHistory} length={length} />
+                    <LineChart data={requestsHistory} length={length} />
                 </Card>
             </section>
 

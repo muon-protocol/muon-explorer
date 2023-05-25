@@ -100,7 +100,7 @@ export default function ApplicationPage() {
                 <Card color='gradient2'>
                     <div className='row g-4 justify-content-center pb-3 px-xl-5 px-0'>
                         <div className='col-lg-9 col-12 d-flex align-items-center'>
-                            <StyledSpan className='small'>Request ID</StyledSpan>
+                            <StyledSpan className='small'>Request ID:</StyledSpan>
                             <h6 className='fw-bold small mb-0 mx-2'>{request?.reqId}</h6>
                             <Copy text={request?.reqId} />
                         </div>

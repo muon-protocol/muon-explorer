@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Icon } from '@iconify/react';
+import dynamic from 'next/dynamic';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -9,7 +10,6 @@ import MainLayout from 'src/layouts/MainLayout'
 import ApplicationTab from 'src/sections/Application/ApplicationTab';
 import RequestsTab from 'src/sections/Application/RequestsTab';
 import Card from 'src/components/Card';
-import LineChart from 'src/components/Chart/LineChart';
 import Copy from 'src/components/Copy';
 import Modal from 'src/components/Modal';
 import ChartPills from 'src/sections/Landing/ChartPills'
@@ -18,6 +18,8 @@ import { wrapper } from 'src/redux/store';
 import { useSelector } from 'react-redux';
 import { getSingleApplication } from 'src/redux/ApplicationsSlice';
 import { getRequestHistory } from 'src/redux/RequestsSlice';
+
+const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
 
 const StyledSpan = styled.span`
     color: ${({ theme }) => theme.palette.gray3};
@@ -80,7 +82,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ q
 
 export default function ApplicationPage({ staticRequestHistory }) {
 
-    const { requestsHistory, historyLoading } = useSelector(store => store.requests)
+    const { requestsHistory } = useSelector(store => store.requests)
     const { app } = useSelector(store => store.applications)
 
     const [activeTab, setActiveTab] = useState('application')
@@ -241,7 +243,7 @@ export default function ApplicationPage({ staticRequestHistory }) {
                     <ChartPills color='secondary2' active={length} setActive={setLength} />
                 </div>
                 <div className='px-3 mb-3'>
-                    <LineChart data={historyLoading ? [] : requestsHistory} length={14} />
+                    <LineChart data={requestsHistory} length={length} />
                 </div>
             </Modal>
 

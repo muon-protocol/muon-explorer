@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
-import dynamic from 'next/dynamic';
+import React, { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react';
 import { MONTH_NAMES } from 'src/constants/applications';
 import styled, { useTheme } from 'styled-components';
@@ -8,15 +7,9 @@ const StyledDiv = styled.div`
     height: 12rem;
 `
 
-const LineChart = ({ data, length, small }) => {
+export default function LineChart({ data, length, small }) {
 
     const theme = useTheme()
-
-    const newIndex = useRef(0)
-
-    useEffect(() => {
-        newIndex.current = 0
-    }, [length])
 
     const handleLabels = () => {
         if (length === 1) {
@@ -28,21 +21,19 @@ const LineChart = ({ data, length, small }) => {
             return timeArray
         }
         else {
-            return Array(length)
-                .fill('')
-                .map((_, index) => {
-                    if (small ? index % 3 === 0 : true) {
-                        const date = new Date(new Date().setDate(new Date().getDate() - newIndex.current))
-                        const day = date.getDate()
-                        const month = MONTH_NAMES[date.getMonth()].slice(0, 3)
-                        newIndex.current += 1
-                        return `${day + ' ' + month}`
-                    }
-                    else {
-                        return ''
-                    }
-                })
-                .reverse()
+            const dayArray = []
+            Array(length).fill('').forEach((_, index) => {
+                const date = new Date(new Date().setDate(new Date().getDate() - index))
+                const day = date.getDate()
+                const month = MONTH_NAMES[date.getMonth()].slice(0, 3)
+                if (small ? index % 3 === 0 : true) {
+                    dayArray.unshift(`${day + ' ' + month}`)
+                }
+                else {
+                    return
+                }
+            })
+            return dayArray
         }
     }
 
@@ -117,5 +108,3 @@ const LineChart = ({ data, length, small }) => {
         </StyledDiv>
     )
 }
-
-export default dynamic(() => Promise.resolve(LineChart), { ssr: false });

@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { dateTimeFormat, timeFormat } from 'src/utils/times'
+import dynamic from 'next/dynamic'
 
 import useInterval from 'src/hooks/useInterval'
 
 import MainLayout from 'src/layouts/MainLayout'
-import LineChart from 'src/components/Chart/LineChart'
-import PieChart from 'src/components/Chart/PieChart'
 import LandingSearchbar from 'src/sections/Landing/LandingSearchbar'
 import Card from 'src/components/Card'
 import Table from 'src/components/Table'
@@ -19,6 +18,9 @@ import { wrapper } from 'src/redux/store'
 import { getApplications } from 'src/redux/ApplicationsSlice'
 import { getRequests } from 'src/redux/RequestsSlice'
 import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice'
+
+const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
+const PieChart = dynamic(() => import('src/components/Chart/PieChart'), { loading: () => <p>loading ...</p>, ssr: false })
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
     const req1 = store.dispatch(getApplications({}))

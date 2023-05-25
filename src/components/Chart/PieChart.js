@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
-import dynamic from 'next/dynamic';
 import { useTheme } from 'styled-components';
 import { PieChart as CustomPieChart, Pie, Cell } from 'recharts';
 
-const PieChart = ({ data, large }) => {
+export default function PieChart({ data, large }) {
 
     const theme = useTheme()
 
@@ -61,5 +60,3 @@ const PieChart = ({ data, large }) => {
         </CustomPieChart>
     )
 }
-
-export default dynamic(() => Promise.resolve(PieChart), { ssr: false });

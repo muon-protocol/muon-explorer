@@ -25,7 +25,7 @@ const ChartPills = ({ color, active, setActive, app }) => {
     )
 }
 
-export default dynamic(() => Promise.resolve(ChartPills), { ssr: false })
+export default ChartPills
 
 const items = [
     { name: '1d', value: 1 },

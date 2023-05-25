@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { dateTimeFormat } from 'src/utils/times';
 import styled from 'styled-components';
+import dynamic from 'next/dynamic';
 
 import Lottie from "lottie-react";
 
@@ -16,11 +17,12 @@ import Card from 'src/components/Card';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
-import PieChart from 'src/components/Chart/PieChart';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice';
 import { wrapper } from 'src/redux/store';
+
+const PieChart = dynamic(() => import('src/components/Chart/PieChart'), { loading: () => <p>loading ...</p>, ssr: false })
 
 const StyledLottie = styled(Lottie)`
     position: absolute;
