@@ -37,10 +37,12 @@ const StyledLabel = styled.div`
     top: 0;
     right: 0;
     border-radius: 0 50rem 50rem 0;
-    text-transform: capitalize;
     width: 8.8rem;
     color: ${({ theme }) => theme.palette.gray2};
     background-color: ${({ theme }) => theme.palette.gray7};
+    & span:first-of-type {
+        text-transform: capitalize;
+    }
     ${({ theme }) => theme.breakpoints.sm`
         top: -50px;
         right: unset;
@@ -229,7 +231,8 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                             onChange={(e) => handleOnChangeMethodValue(item.name, item2.name, e.target.value)}
                                         />
                                         <StyledLabel className='small h-100 d-flex align-items-center justify-content-center'>
-                                            <span>{item2.name}</span>
+                                            <span className='me-1'>{item2.name}</span>
+                                            <span>({item2.type})</span>
                                         </StyledLabel>
                                     </div>
                                 </div>

@@ -30,7 +30,7 @@ export default function LineChart({ data, length, small }) {
                     dayArray.unshift(`${day + ' ' + month}`)
                 }
                 else {
-                    return
+                    dayArray.unshift('') 
                 }
             })
             return dayArray

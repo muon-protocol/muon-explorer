@@ -240,7 +240,7 @@ export default function ApplicationPage({ staticRequestHistory }) {
                 title={`${app?.name} App Requests History`}
             >
                 <div className='d-flex justify-content-end w-100 mb-2 px-4'>
-                    <ChartPills color='secondary2' active={length} setActive={setLength} />
+                    <ChartPills color='secondary2' active={length} setActive={setLength} app={app?.id} />
                 </div>
                 <div className='px-3 mb-3'>
                     <LineChart data={requestsHistory} length={length} />
