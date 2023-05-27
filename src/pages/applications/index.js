@@ -33,7 +33,7 @@ export default function Applications() {
         inputValue,
         delay: 1500,
         searchFunc: () => {
-            if(page === 0){
+            if (page === 0) {
                 dispatch(getApplications({ page: page + 1, search: inputValue }))
             }
             else {
@@ -70,7 +70,7 @@ export default function Applications() {
                 >
                     <Table
                         head={['App Name', 'Most Used Method', '#Methods',
-                            'Nodes on app', 'Confirmed Requests', 'Start Time']}
+                            'Nodes on app', 'Confirmed Requests']}
                     >
                         {!applications.length ?
                             <tr>
@@ -86,9 +86,8 @@ export default function Applications() {
                                     </td>
                                     <td className='small'>{item.mostUsedMethod}</td>
                                     <td className='small'>{item.methods.length || 0}</td>
-                                    <td className='small'>{item.nodes}</td>
-                                    <td className='small'>{item.confirmed_requests}</td>
-                                    <td className='small text-end'>{dateFormat(item.startTime)}</td>
+                                    <td className='small'>{item.data?.context.tss.threshold.max}</td>
+                                    <td className='small text-end'>{item.confirmed_requests}</td>
                                 </tr>
                             ))
                         }

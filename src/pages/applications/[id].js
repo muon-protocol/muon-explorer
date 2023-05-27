@@ -125,24 +125,24 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                         <StyledSpan className='small'>Public key (Owner / X / yParity)</StyledSpan>
                                         <div className='d-flex align-items-center mt-2'>
                                             <h6 className='medium mb-0'>
-                                                {app?.data.contexts[0] ?
-                                                    app?.data.contexts[0]?.seed.slice(0, 4) +
-                                                    '...' + app?.data.contexts[0]?.seed.slice(-4) +
+                                                {app?.data.context ?
+                                                    app?.data.context?.seed.slice(0, 4) +
+                                                    '...' + app?.data.context?.seed.slice(-4) +
                                                     ' / ' +
-                                                    app?.data.contexts[0]?.tss.publicKey.x.slice(0, 4) +
+                                                    app?.data.context?.tss.publicKey.x.slice(0, 4) +
                                                     '...' +
-                                                    app?.data.contexts[0]?.tss.publicKey.x.slice(-4) +
+                                                    app?.data.context?.tss.publicKey.x.slice(-4) +
                                                     ' / ' +
-                                                    app?.data.contexts[0]?.tss.publicKey.yParity
+                                                    app?.data.context?.tss.publicKey.yParity
                                                     :
                                                     'No data'
                                                 }
                                             </h6>
-                                            {app?.data.contexts[0] &&
+                                            {app?.data.context &&
                                                 <Copy text={
-                                                    app?.data.contexts[0]?.seed + ' / ' +
-                                                    app?.data.contexts[0]?.tss.publicKey.x + ' / ' +
-                                                    app?.data.contexts[0]?.tss.publicKey.yParity
+                                                    app?.data.context?.seed + ' / ' +
+                                                    app?.data.context?.tss.publicKey.x + ' / ' +
+                                                    app?.data.context?.tss.publicKey.yParity
                                                 } />
                                             }
                                         </div>
@@ -153,15 +153,15 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                         <StyledSpan className='small'>Seed</StyledSpan>
                                         <div className='d-flex align-items-center mt-2'>
                                             <h6 className='medium mb-0'>
-                                                {app?.data.contexts[0] ?
-                                                    app?.data.contexts[0]?.tss.publicKey.address.slice(0, 5) +
-                                                    '...' + app?.data.contexts[0]?.tss.publicKey.address.slice(-5)
+                                                {app?.data.context ?
+                                                    app?.data.context?.tss.publicKey.address.slice(0, 5) +
+                                                    '...' + app?.data.context?.tss.publicKey.address.slice(-5)
                                                     :
                                                     'No data'
                                                 }
                                             </h6>
-                                            {app?.data.contexts[0] &&
-                                                <Copy text={app?.data.contexts[0]?.tss.publicKey.address} />
+                                            {app?.data.context &&
+                                                <Copy text={app?.data.context?.tss.publicKey.address} />
                                             }
                                         </div>
                                     </div>
@@ -170,9 +170,9 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                     <div className='d-flex flex-column'>
                                         <StyledSpan className='small'>Threshold</StyledSpan>
                                         <h6 className='medium mb-0 mt-2'>
-                                            {app?.data.contexts[0] ?
-                                                app?.data.contexts[0]?.tss.threshold.t +
-                                                ' / ' + app?.data.contexts[0]?.tss.threshold.max
+                                            {app?.data.context ?
+                                                app?.data.context?.tss.threshold.t +
+                                                ' / ' + app?.data.context?.tss.threshold.max
                                                 :
                                                 'No data'
                                             }

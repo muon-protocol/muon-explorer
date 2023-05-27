@@ -29,7 +29,7 @@ export default function Search() {
                             <h6 className='fw-bold'>Applications Result :</h6>
                             <Table
                                 head={['App Name', 'Most Used Method', '#Methods',
-                                    'Nodes on app', 'Confirmed Requests', 'Start Time']}
+                                    'Nodes on app', 'Confirmed Requests']}
                             >
                                 {searchedApps.map((item, index) => (
                                     <tr key={index}>
@@ -40,9 +40,8 @@ export default function Search() {
                                         </td>
                                         <td className='small'>{item.mostUsedMethod}</td>
                                         <td className='small'>{item.methods.length || 0}</td>
-                                        <td className='small'>{item.searchedNodes}</td>
-                                        <td className='small'>{item.confirmed_requests}</td>
-                                        <td className='small text-end'>{dateFormat(item.startTime)}</td>
+                                        <td className='small'>{item.data?.context.tss.threshold.max}</td>
+                                        <td className='small text-end'>{item.confirmed_requests}</td>
                                     </tr>
                                 ))
                                 }

@@ -100,11 +100,7 @@ const ApplicationsSlice = createSlice({
             })
             .addCase(getSingleApplication.fulfilled, (state, action) => {
                 state.loading = false
-                const fetchedApp = action.payload.application
-                const data = fetchedApp.data
-                const contexts = data.contexts
-                const sorted = contexts.sort((a, b) => b.deployedTime - a.deployedTime)
-                state.app = { ...action.payload.application, data: { ...data, contexts: sorted } }
+                state.app = action.payload.application
             })
             .addCase(getSingleApplication.rejected, state => {
                 state.loading = false

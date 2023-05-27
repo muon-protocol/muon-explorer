@@ -159,7 +159,7 @@ export default function NodePage() {
                 <Card color='gradient2'>
                     <StyledRow className='row g-4 justify-content-center py-1'>
                         <div className='col-xl-6 col-lg-7 col-12 col-12 mb-lg-0 mb-4'>
-                            <div className='row g-4 justify-content-center'>
+                            <div className='row g-4 justify-content-between'>
                                 <NodeItem
                                     title='Node ID'
                                     text={node?.node.id}
@@ -169,10 +169,10 @@ export default function NodePage() {
                                     text={node?.node.nodeAddress.slice(0, 7) + '...' + node?.node.nodeAddress.slice(-7)}
                                     copy={node?.node.nodeAddress}
                                 />
-                                <NodeItem
+                                {/* <NodeItem
                                     title='IP Address'
                                     text={node?.node.ip}
-                                />
+                                /> */}
                                 <NodeItem
                                     title='Peer ID'
                                     text={node?.node.peerId.slice(0, 6) + '...' + node?.node.peerId.slice(-6)}
