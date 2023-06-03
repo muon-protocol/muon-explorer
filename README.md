@@ -1,72 +1,54 @@
-## Application start introduction :
 
+# Muon Explorer
 
-1. Prepare the environment :
+[Muon Explorer](https://explorer.muon.net) provides a user-friendly interface for users to view requests, applications and nodes of the Muon oracle network.
 
+## Installation
 
-First check if node js is installed :
-```bash
-node -v
-```
-if not, install it first.
+Before proceeding with the installation of the Muon Explorer Backend, please ensure that you have the following prerequisites installed:
+- npm
+- Node.js
+- pm2
 
-<!-- ------------------ -->
-
-Windows : 
-
-Download and install The LTS version of nodejs
-
-<!-- ------------------ -->
-
-Linux :  
-
-```bash
-sudo apt install nodejs
-sudo apt install npm
-```
-
-Check if it is installed correctly.
-```bash
-node -v
-npm -v
-```
-Output :
-V10.19.0
-
-Rest of the work with node version manager :
+You can install and use [nvm](https://github.com/nvm-sh/nvm) to install above prerequisites using the following commands:
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-source ~/.bashrc
-nvm list-remote
-nvm install v18.0.0 # Install LTS version
-node -v
-npm i -g npm@latest
-npm -v
-npm i -g pm2@latest
-pm2 -v
+nvm install --lts
+nvm use --lts
+npm install npm@latest -g
+npm  install pm2@latest -g
 ```
 
-<!-- ------------------ -->
-
-2. Start the application :
-
-Front End (Next js) :
-At the root directory of the app (where you can see the package.json file), run these commands :
-
+After having the prerequisites installed, the Muon Explorer can be cloned and built using the following commands:
 ```bash
+git clone https://github.com/KMMRCap/Muon-Explorer.git
+cd Muon-Explorer
 npm i
 npm run build
-pm2 start npm --name front_muon -- run start -- -p 3004
-pm2 ls # check application status
 ```
 
-Back End (Express js) :
-At the root directory of the app (where you can see the package.json file), run these commands :
-
+After building the the Muon Explorer can be started using the following command:
 ```bash
-npm i
-pm2 start npm --name front_muon -- run start -- -p 8004
-pm2 ls # check application status
+pm2 start npm --name front_muon -- run start -- -p 3004
 ```
 
-<!-- ---------------------- -->
+#### Notes
+- Muon Explorer queries the API provided by the [Muon Explorer Backend](https://github.com/KMMRCap/Muon-Explorer-Backend) to retrive requests' and applications' information so the backend should be run as a prerequisite to have the frontend working.
+- The nginx of the explorer server is required to be configured to provide the following endpoints by adding a server block with following reverse proxy configurations:
+```
+location / {
+        proxy_pass http://127.0.0.1:3004;
+}
+location /api/v1/applications {
+        proxy_pass http://127.0.0.1:8004/applications;
+}
+location /api/v1/requests {
+        proxy_pass http://127.0.0.1:8004/requests;
+}
+location /api/v1/nodes {
+        proxy_pass http://<monitor-service-ip>/nodes;
+}
+location /query/v1/ {
+        proxy_pass http://127.0.0.1:8000/v1/;
+}
+```
