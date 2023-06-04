@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { axiosInstanceSSR, axiosInstanceCSR } from 'src/utils/axios'
 import axios from 'axios'
-import axiosInstance from 'src/utils/axios'
 
 export const getApplications = createAsyncThunk(
     'getApplications',
-    async ({ page = 1, limit = 10, search = '' }) => {
+    async ({ page = 1, limit = 10, search = '', ssr = false }) => {
         try {
             const value = search ? `&search=${search}` : ''
-            const { data } = await axiosInstance.get(`/applications?page=${page}&limit=${limit}${value}`)
+            // Both SSR and CSR
+            const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
+            const { data } = await instance.get(`/applications?page=${page}&limit=${limit}${value}`)
             return data
         }
         catch (err) {
@@ -20,7 +22,8 @@ export const getSearchedApplications = createAsyncThunk(
     'getSearchedApplications',
     async (value) => {
         try {
-            const { data } = await axiosInstance.get(`/applications?page=1&limit=10&search=${value}`)
+            // CSR Only
+            const { data } = await axiosInstanceCSR.get(`/applications?page=1&limit=10&search=${value}`)
             return data
         }
         catch (err) {
@@ -33,7 +36,8 @@ export const getSingleApplication = createAsyncThunk(
     'getSingleApplication',
     async (id) => {
         try {
-            const { data } = await axiosInstance.get(`/applications/${id}`)
+            // SSR Only
+            const { data } = await axiosInstanceSSR.get(`/applications/${id}`)
             return data
         }
         catch (err) {
@@ -46,6 +50,7 @@ export const methodQuery = createAsyncThunk(
     'methodQuery',
     async ({ app = '', method = '', params = '' }) => {
         try {
+            // CSR Only
             const { data } = await axios.get(`/query/v1/?app=${app}&method=${method}${params}`)
             return data
         }

@@ -23,9 +23,9 @@ const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { load
 const PieChart = dynamic(() => import('src/components/Chart/PieChart'), { loading: () => <p>loading ...</p>, ssr: false })
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
-    const req1 = store.dispatch(getApplications({}))
-    const req2 = store.dispatch(getRequests({}))
-    const req3 = store.dispatch(getAllNodes({}))
+    const req1 = store.dispatch(getApplications({ ssr: true }))
+    const req2 = store.dispatch(getRequests({ ssr: true }))
+    const req3 = store.dispatch(getAllNodes({ ssr: true }))
     const req4 = store.dispatch(getActiveNodes({}))
     const req5 = store.dispatch(getDeactiveNodes({}))
     await Promise.all([req1, req2, req3, req4, req5])

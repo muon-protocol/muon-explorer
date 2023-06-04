@@ -2,12 +2,26 @@ import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: process.env.BASE_URL || '' });
+const axiosInstanceSSR = axios.create({
+    baseURL: process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8004/api/v1' : process.env.TEST_BASE_URL
+})
 
-axiosInstance.interceptors.response.use(
+axiosInstanceSSR.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject((error) || 'Something went wrong')
+    (error) => Promise.reject((error) || 'Something went wrong in the SSR instance')
 );
-// .response && error.response.data
 
-export default axiosInstance;
+// ----------------------------------------------------------------------
+
+const axiosInstanceCSR = axios.create({
+    baseURL: process.env.NODE_ENV === 'production' ? '/api/v1' : process.env.TEST_BASE_URL
+})
+
+axiosInstanceCSR.interceptors.response.use(
+    (response) => response,
+    (error) => Promise.reject((error) || 'Something went wrong in the CSR instance')
+);
+
+// ----------------------------------------------------------------------
+
+export { axiosInstanceSSR, axiosInstanceCSR };

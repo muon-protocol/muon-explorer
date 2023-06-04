@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axiosInstance from 'src/utils/axios'
+import { axiosInstanceSSR, axiosInstanceCSR } from 'src/utils/axios'
 
 export const getAllNodes = createAsyncThunk(
     'getAllNodes',
-    async ({ page = 1, q = '' }) => {
+    async ({ page = 1, q = '', ssr = false }) => {
         try {
             const value = q ? `&q=${q}` : ''
-            const { data } = await axiosInstance.get(`/nodes?page=${page}&filter=all${value}`)
+            // Both SSR and CSR
+            const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
+            const { data } = await instance.get(`/nodes?page=${page}&filter=all${value}`)
             return data
         }
         catch (err) {
@@ -19,7 +21,8 @@ export const getActiveNodes = createAsyncThunk(
     'getActiveNodes',
     async () => {
         try {
-            const { data } = await axiosInstance.get(`/nodes?page=1&filter=online`)
+            // SSR Only
+            const { data } = await axiosInstanceSSR.get(`/nodes?page=1&filter=online`)
             return data
         }
         catch (err) {
@@ -32,7 +35,8 @@ export const getDeactiveNodes = createAsyncThunk(
     'getDeactiveNodes',
     async () => {
         try {
-            const { data } = await axiosInstance.get(`/nodes?page=1&filter=offline`)
+            // SSR Only
+            const { data } = await axiosInstanceSSR.get(`/nodes?page=1&filter=offline`)
             return data
         }
         catch (err) {
@@ -45,7 +49,8 @@ export const getSearchedNodes = createAsyncThunk(
     'getSearchedNodes',
     async (value) => {
         try {
-            const { data } = await axiosInstance.get(`/nodes?page=1&filter=all&q=${value}`)
+            // CSR Only
+            const { data } = await axiosInstanceCSR.get(`/nodes?page=1&filter=all&q=${value}`)
             return data
         }
         catch (err) {
@@ -58,7 +63,8 @@ export const getSingleNode = createAsyncThunk(
     'getSingleNode',
     async (id) => {
         try {
-            const { data } = await axiosInstance.get(`/nodes/${id}/status`)
+            // SSR Only
+            const { data } = await axiosInstanceSSR.get(`/nodes/${id}/status`)
             return data
         }
         catch (err) {

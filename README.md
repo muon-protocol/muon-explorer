@@ -6,8 +6,8 @@
 ## Installation
 
 Before proceeding with the installation of the Muon Explorer Backend, please ensure that you have the following prerequisites installed:
-- npm
 - Node.js
+- npm
 - pm2
 
 You can install and use [nvm](https://github.com/nvm-sh/nvm) to install above prerequisites using the following commands:

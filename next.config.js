@@ -3,8 +3,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    BASE_URL: process.env.NODE_ENV === 'production' ? '/api/v1' : 'https://explorer.muon.net/api/v1',
-    // BASE_URL: 'http://localhost:8004',
+    TEST_BASE_URL: 'https://explorer.muon.net/api/v1',
+    
     NEXT_SHARP_PATH: "/tmp/node_modules/sharp"
   },
   compiler: {
