@@ -11,6 +11,9 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { methodQuery } from 'src/redux/ApplicationsSlice';
 
+import Prism from "prismjs"
+import "prismjs/components/prism-json";
+
 const StyledAccordion = styled(Accordion)`
     & .accordion-button {
       border-radius: 1rem !important;
@@ -105,6 +108,18 @@ const StyledTooltip = styled(Tooltip)`
     }
 `
 
+const StyledBody = styled(Accordion.Body)`
+    background-color: transparent;
+    margin-top: -1rem !important;
+    pre{
+        background-color: transparent;
+
+        code{
+            font-size: small;
+        }
+    }
+`
+
 export default function Methods({ openMethods, setOpenMethods }) {
 
     const { app, loading } = useSelector(store => store.applications)
@@ -130,6 +145,13 @@ export default function Methods({ openMethods, setOpenMethods }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        const highlight = async () => {
+            await Prism.highlightAll();
+        };
+        highlight();
+    }, [results])
 
     const handleopenMethods = (e) => {
         const found = openMethods.find(i => i === e)
@@ -158,7 +180,8 @@ export default function Methods({ openMethods, setOpenMethods }) {
             const values = { app: app.id, method, params }
             const res = await dispatch(methodQuery(values))
             if (res.payload?.success) {
-                setResults([...results, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
+                const filtered = results.filter(i => i.method !== method)
+                setResults([...filtered, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
                 toast.success('Query Successful')
             }
             else {
@@ -171,18 +194,18 @@ export default function Methods({ openMethods, setOpenMethods }) {
         }
     }
 
-    const handleActiveExample = (e) => {
-        const found = activeExamples.find(i => i === e)
+    const handleActiveExample = (method) => {
+        const found = activeExamples.find(i => i === method)
         if (found) {
-            const filtered = activeExamples.filter(i => i !== e)
+            const filtered = activeExamples.filter(i => i !== method)
             setActiveExamples(filtered)
-            for (const name in paramValues.find(i => i.method === e).arg) {
-                handleOnChangeMethodValue(e, name, '')
+            for (const name in paramValues.find(i => i.method === method).arg) {
+                handleOnChangeMethodValue(method, name, '')
             }
-            handleOpenExample(null, e)
+            handleOpenExample(null, method)
         }
         else {
-            setActiveExamples([...activeExamples, e])
+            setActiveExamples([...activeExamples, method])
         }
     }
 
@@ -205,9 +228,14 @@ export default function Methods({ openMethods, setOpenMethods }) {
         }
     }
 
-    const handleClear = (e) => {
-        handleActiveExample(e)
+    const handleClear = (method) => {
+        handleActiveExample(method)
         setOpenTooltip(false)
+        const found = results.find(i => i.method === method)
+        if (found) {
+            const filtered = results.filter(i => i.method !== method)
+            setResults(filtered)
+        }
     }
 
     return (
@@ -238,7 +266,13 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                 </div>
                             ))}
                             {results.find(i => i.method === item.name)?.res &&
-                                <p>{results.find(i => i.method === item.name)?.res}</p>
+                                <StyledBody className='m-0 p-0 language-json'>
+                                    <pre className='m-0 p-0'>
+                                        <code>
+                                            {results.find(i => i.method === item.name)?.res}
+                                        </code>
+                                    </pre>
+                                </StyledBody>
                             }
                             <div className='d-flex justify-content-between'>
                                 <div className='d-flex'>
