@@ -9,7 +9,7 @@ export const getApplications = createAsyncThunk(
             const value = search ? `&search=${search}` : ''
             // Both SSR and CSR
             const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/applications?page=${page}&limit=${limit}${value}`)
+            const { data } = await instance.get(`/api/v1/applications?page=${page}&limit=${limit}${value}`)
             return data
         }
         catch (err) {
@@ -23,7 +23,7 @@ export const getSearchedApplications = createAsyncThunk(
     async (value) => {
         try {
             // CSR Only
-            const { data } = await axiosInstanceCSR.get(`/applications?page=1&limit=10&search=${value}`)
+            const { data } = await axiosInstanceCSR.get(`/api/v1/applications?page=1&limit=10&search=${value}`)
             return data
         }
         catch (err) {
@@ -37,7 +37,7 @@ export const getSingleApplication = createAsyncThunk(
     async (id) => {
         try {
             // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/applications/${id}`)
+            const { data } = await axiosInstanceSSR.get(`/api/v1/applications/${id}`)
             return data
         }
         catch (err) {
@@ -51,7 +51,8 @@ export const methodQuery = createAsyncThunk(
     async ({ app = '', method = '', params = '' }) => {
         try {
             // CSR Only
-            const { data } = await axios.get(`/query/v1/?app=${app}&method=${method}${params}`)
+            const base_url = process.env.NODE_ENV === 'development' ? process.env.DEV_BASE_URL : ''
+            const { data } = await axiosInstanceCSR.get(`${base_url}/query/v1/?app=${app}&method=${method}${params}`)
             return data
         }
         catch (err) {

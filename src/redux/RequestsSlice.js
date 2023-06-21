@@ -9,7 +9,7 @@ export const getRequests = createAsyncThunk(
             const value2 = app ? `&app=${app}` : ''
             // Both SSR and CSR
             const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/requests?page=${page}&limit=${limit}${value}${value2}`)
+            const { data } = await instance.get(`/api/v1/requests?page=${page}&limit=${limit}${value}${value2}`)
             return data
         }
         catch (err) {
@@ -23,7 +23,7 @@ export const getSearchedRequests = createAsyncThunk(
     async (value) => {
         try {
             // CSR Only
-            const { data } = await axiosInstanceCSR.get(`/requests?page=1&limit=10&search=${value}`)
+            const { data } = await axiosInstanceCSR.get(`/api/v1/requests?page=1&limit=10&search=${value}`)
             return data
         }
         catch (err) {
@@ -39,7 +39,7 @@ export const getRequestHistory = createAsyncThunk(
             const value = app ? `&app=${app}` : ''
             // Both SSR and CSR
             const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/requests/history?range=${range}${value}`)
+            const { data } = await instance.get(`/api/v1/requests/history?range=${range}${value}`)
             return data
         }
         catch (err) {
@@ -53,7 +53,7 @@ export const getSingleRequest = createAsyncThunk(
     async (id) => {
         try {
             // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/requests/${id}`)
+            const { data } = await axiosInstanceSSR.get(`/api/v1/requests/${id}`)
             return data
         }
         catch (err) {

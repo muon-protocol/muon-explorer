@@ -3,7 +3,7 @@ import axios from 'axios';
 // ----------------------------------------------------------------------
 
 const axiosInstanceSSR = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8004/api/v1' : process.env.TEST_BASE_URL
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.SSR_BASE_URL : process.env.DEV_BASE_URL
 })
 
 axiosInstanceSSR.interceptors.response.use(
@@ -14,7 +14,7 @@ axiosInstanceSSR.interceptors.response.use(
 // ----------------------------------------------------------------------
 
 const axiosInstanceCSR = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? '/api/v1' : process.env.TEST_BASE_URL
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.CSR_BASE_URL : process.env.DEV_BASE_URL
 })
 
 axiosInstanceCSR.interceptors.response.use(

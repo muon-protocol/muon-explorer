@@ -8,7 +8,7 @@ export const getAllNodes = createAsyncThunk(
             const value = q ? `&q=${q}` : ''
             // Both SSR and CSR
             const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/nodes?page=${page}&filter=all${value}`)
+            const { data } = await instance.get(`/api/v1/nodes?page=${page}&filter=all${value}`)
             return data
         }
         catch (err) {
@@ -22,7 +22,7 @@ export const getActiveNodes = createAsyncThunk(
     async () => {
         try {
             // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/nodes?page=1&filter=online`)
+            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes?page=1&filter=online`)
             return data
         }
         catch (err) {
@@ -36,7 +36,7 @@ export const getDeactiveNodes = createAsyncThunk(
     async () => {
         try {
             // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/nodes?page=1&filter=offline`)
+            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes?page=1&filter=offline`)
             return data
         }
         catch (err) {
@@ -50,7 +50,7 @@ export const getSearchedNodes = createAsyncThunk(
     async (value) => {
         try {
             // CSR Only
-            const { data } = await axiosInstanceCSR.get(`/nodes?page=1&filter=all&q=${value}`)
+            const { data } = await axiosInstanceCSR.get(`/api/v1/nodes?page=1&filter=all&q=${value}`)
             return data
         }
         catch (err) {
@@ -64,7 +64,7 @@ export const getSingleNode = createAsyncThunk(
     async (id) => {
         try {
             // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/nodes/${id}/status`)
+            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes/${id}/status`)
             return data
         }
         catch (err) {
