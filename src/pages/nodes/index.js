@@ -75,13 +75,15 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async () =
     const req1 = store.dispatch(getAllNodes({ ssr: true }))
     const req2 = store.dispatch(getActiveNodes({}))
     const req3 = store.dispatch(getDeactiveNodes({}))
-    await Promise.all([req1, req2, req3])
+    const allRes = await Promise.all([req1, req2, req3])
     return {
-        props: {}
+        props: {
+            total: allRes[0].payload?.total_count
+        }
     }
 })
 
-export default function Nodes() {
+export default function Nodes({ total }) {
 
     const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount } = useSelector(store => store.nodes)
 
@@ -118,12 +120,12 @@ export default function Nodes() {
                             <div className='row g-4 justify-content-lg-start justify-content-between'>
                                 <div className='col-md-4 col-12 d-flex align-items-end'>
                                     <StyledSpan className='me-xl-3 me-lg-2 me-3'>Total Nodes</StyledSpan>
-                                    <h4 className='fw-bold mb-0'>{totalNodesCount}</h4>
+                                    <h4 className='fw-bold mb-0'>{total}</h4>
                                 </div>
                                 <div className='col-md-7 col-12 d-flex align-items-end justify-content-lg-start justify-content-md-end ms-lg-4 ps-xl-4'>
                                     <StyledSpan className='me-xl-3 me-lg-2 me-3'>Active Nodes</StyledSpan>
                                     <StyledH4 className='fw-bold mb-0'>
-                                        {activeNodesCount} ({(activeNodesCount && totalNodesCount) ? ((activeNodesCount / totalNodesCount) * 100).toFixed(2) : 0}%)
+                                        {activeNodesCount} ({(activeNodesCount && total) ? ((activeNodesCount / total) * 100).toFixed(2) : 0}%)
                                     </StyledH4>
                                 </div>
                             </div>
@@ -133,7 +135,7 @@ export default function Nodes() {
                             <div className='row g-4'>
                                 <div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
                                     <StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
-                                    <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>{totalNodesCount} </StyledSpan2>({activeNodesCount})</StyledH5>
+                                    <StyledH5 className='fw-bold'><StyledSpan2 className='me-2'>{total} </StyledSpan2>({activeNodesCount})</StyledH5>
                                 </div>
                                 <div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-center'>
                                     <div className='d-flex flex-column'>
