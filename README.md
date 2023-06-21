@@ -33,7 +33,7 @@ pm2 start npm --name front_muon -- run start -- -p 3004
 ```
 
 #### Notes
-- Muon Explorer queries the API provided by the [Muon Explorer Backend](https://github.com/KMMRCap/Muon-Explorer-Backend) to retrive requests' and applications' information so the backend should be run as a prerequisite to have the frontend working.
+- Muon Explorer queries the API provided by the [Muon Explorer Backend](https://github.com/muon-protocol/Muon-Explorer-Backend) to retrive requests' and applications' information so the backend should be run as a prerequisite to have the frontend working.
 - The nginx of the explorer server is required to be configured to provide the following endpoints by adding a server block with following reverse proxy configurations:
 ```
 location / {
