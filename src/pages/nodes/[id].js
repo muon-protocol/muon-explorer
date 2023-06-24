@@ -172,6 +172,7 @@ export default function NodePage() {
                                 <NodeItem
                                     title='Staker Address'
                                     text={node?.node.stakerAddress.slice(0,7) + '...' + node?.node.stakerAddress.slice(-7)}
+                                    copy={node?.node.stakerAddress}
                                 />
                                 <NodeItem
                                     title='Peer ID'
