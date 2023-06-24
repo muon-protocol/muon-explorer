@@ -169,10 +169,10 @@ export default function NodePage() {
                                     text={node?.node.nodeAddress.slice(0, 7) + '...' + node?.node.nodeAddress.slice(-7)}
                                     copy={node?.node.nodeAddress}
                                 />
-                                {/* <NodeItem
-                                    title='IP Address'
-                                    text={node?.node.ip}
-                                /> */}
+                                <NodeItem
+                                    title='Staker Address'
+                                    text={node?.node.stakerAddress.slice(0,7) + '...' + node?.node.stakerAddress.slice(-7)}
+                                />
                                 <NodeItem
                                     title='Peer ID'
                                     text={node?.node.peerId.slice(0, 6) + '...' + node?.node.peerId.slice(-6)}
