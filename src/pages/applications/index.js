@@ -11,6 +11,7 @@ import Card from 'src/components/Card';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
+import Loader from 'src/components/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications } from 'src/redux/ApplicationsSlice';
@@ -72,24 +73,31 @@ export default function Applications() {
                         head={['App Name', 'Most Used Method', '#Methods',
                             'Nodes on app', 'Confirmed Requests']}
                     >
-                        {!applications.length ?
+                        {loading ?
                             <tr>
-                                <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
+                                <td colSpan={7}>
+                                    <Loader />
+                                </td>
                             </tr>
                             :
-                            applications.map((item, index) => (
-                                <tr key={index}>
-                                    <td className='small'>
-                                        <Link href={`/applications/${item.id}`}>
-                                            {item.name}
-                                        </Link>
-                                    </td>
-                                    <td className='small'>{item.mostUsedMethod}</td>
-                                    <td className='small'>{item.methods.length || 0}</td>
-                                    <td className='small'>{item.data?.context?.tss.threshold.max}</td>
-                                    <td className='small text-end'>{item.confirmed_requests}</td>
+                            !applications.length ?
+                                <tr>
+                                    <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                 </tr>
-                            ))
+                                :
+                                applications.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className='small'>
+                                            <Link href={`/applications/${item.id}`}>
+                                                {item.name}
+                                            </Link>
+                                        </td>
+                                        <td className='small'>{item.mostUsedMethod}</td>
+                                        <td className='small'>{item.methods.length || 0}</td>
+                                        <td className='small'>{item.data?.context?.tss.threshold.max}</td>
+                                        <td className='small text-end'>{item.confirmed_requests}</td>
+                                    </tr>
+                                ))
                         }
                     </Table>
                 </Card>

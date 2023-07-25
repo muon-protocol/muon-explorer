@@ -17,6 +17,7 @@ import Card from 'src/components/Card';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
 import Searchbar from 'src/components/Searchbar';
+import Loader from 'src/components/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice';
@@ -183,30 +184,37 @@ export default function Nodes({ total }) {
                     }
                 >
                     <Table head={['Node ID', 'Status', 'Tier', 'Start Time', '']}>
-                        {!nodes.length ?
+                        {loading ?
                             <tr>
-                                <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
+                                <td colSpan={7}>
+                                    <Loader />
+                                </td>
                             </tr>
                             :
-                            nodes.map((item, index) => (
-                                <tr key={index}>
-                                    <td className='small'>{item.id}</td>
-                                    <td className='small pe-md-4'>
-                                        {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
-                                            <span>Active</span>
-                                            :
-                                            <StyledSpan>Deactive</StyledSpan>
-                                        }
-                                    </td>
-                                    <td className='small pe-md-4'>Tier-1 (Starter)</td>
-                                    <td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
-                                    <td className='small text-end'>
-                                        <StyledLink href={`/nodes/${item.id}`} className='text-decoration-underline'>
-                                            View details
-                                        </StyledLink>
-                                    </td>
+                            !nodes.length ?
+                                <tr>
+                                    <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
                                 </tr>
-                            ))}
+                                :
+                                nodes.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className='small'>{item.id}</td>
+                                        <td className='small pe-md-4'>
+                                            {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
+                                                <span>Active</span>
+                                                :
+                                                <StyledSpan>Deactive</StyledSpan>
+                                            }
+                                        </td>
+                                        <td className='small pe-md-4'>Tier-1 (Starter)</td>
+                                        <td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
+                                        <td className='small text-end'>
+                                            <StyledLink href={`/nodes/${item.id}`} className='text-decoration-underline'>
+                                                View details
+                                            </StyledLink>
+                                        </td>
+                                    </tr>
+                                ))}
                     </Table>
                 </Card>
             </section>
