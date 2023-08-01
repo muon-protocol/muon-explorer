@@ -126,23 +126,23 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                         <div className='d-flex align-items-center mt-2'>
                                             <h6 className='medium mb-0'>
                                                 {app?.data.context ?
-                                                    app?.data.context?.seed.slice(0, 4) +
-                                                    '...' + app?.data.context?.seed.slice(-4) +
+                                                    (app?.data.context.seed?.slice(0, 4) ?? '') +
+                                                    '...' + (app?.data.context.seed?.slice(-4) ?? '') +
                                                     ' / ' +
-                                                    app?.data.context?.tss.publicKey.x.slice(0, 4) +
+                                                    (app?.data.context.tss?.publicKey?.x?.slice(0, 4) ?? '') +
                                                     '...' +
-                                                    app?.data.context?.tss.publicKey.x.slice(-4) +
+                                                    (app?.data.context.tss?.publicKey?.x?.slice(-4) ?? '') +
                                                     ' / ' +
-                                                    app?.data.context?.tss.publicKey.yParity
+                                                    (app?.data.context.tss?.publicKey?.yParity ?? '')
                                                     :
                                                     'No data'
                                                 }
                                             </h6>
                                             {app?.data.context &&
                                                 <Copy text={
-                                                    app?.data.context?.seed + ' / ' +
-                                                    app?.data.context?.tss.publicKey.x + ' / ' +
-                                                    app?.data.context?.tss.publicKey.yParity
+                                                    (app?.data.context.seed ?? '') + ' / ' +
+                                                    (app?.data.context.tss?.publicKey?.x ?? '') + ' / ' +
+                                                    (app?.data.context.tss?.publicKey?.yParity ?? '')
                                                 } />
                                             }
                                         </div>
@@ -154,14 +154,14 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                         <div className='d-flex align-items-center mt-2'>
                                             <h6 className='medium mb-0'>
                                                 {app?.data.context ?
-                                                    app?.data.context?.tss.publicKey.address.slice(0, 5) +
-                                                    '...' + app?.data.context?.tss.publicKey.address.slice(-5)
+                                                    (app?.data.context.tss?.publicKey?.address?.slice(0, 5) ?? '') +
+                                                    '...' + (app?.data.context.tss?.publicKey?.address?.slice(-5) ?? '')
                                                     :
                                                     'No data'
                                                 }
                                             </h6>
                                             {app?.data.context &&
-                                                <Copy text={app?.data.context?.tss.publicKey.address} />
+                                                <Copy text={app?.data.context.tss?.publicKey?.address ?? ''} />
                                             }
                                         </div>
                                     </div>
@@ -171,8 +171,8 @@ export default function ApplicationPage({ staticRequestHistory }) {
                                         <StyledSpan className='small'>Threshold</StyledSpan>
                                         <h6 className='medium mb-0 mt-2'>
                                             {app?.data.context ?
-                                                app?.data.context?.tss.threshold.t +
-                                                ' / ' + app?.data.context?.tss.threshold.max
+                                                (app?.data.context.tss?.threshold?.t ?? '') +
+                                                ' / ' + (app?.data.context.tss?.threshold?.max ?? '')
                                                 :
                                                 'No data'
                                             }
