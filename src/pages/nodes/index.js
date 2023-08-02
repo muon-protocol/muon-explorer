@@ -73,7 +73,7 @@ const StyledH5 = styled.h5`
 `
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
-    const req1 = store.dispatch(getAllNodes({ ssr: true }))
+    const req1 = store.dispatch(getAllNodes({}))
     const req2 = store.dispatch(getActiveNodes({}))
     const req3 = store.dispatch(getDeactiveNodes({}))
     const allRes = await Promise.all([req1, req2, req3])

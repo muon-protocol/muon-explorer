@@ -72,7 +72,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ q
             notFound: true
         }
     }
-    const res1 = await store.dispatch(getRequestHistory({ range: 14, app: query.id, ssr: true }))
+    const res1 = await store.dispatch(getRequestHistory({ range: 14, app: query.id }))
     return {
         props: {
             staticRequestHistory: res1.payload?.history || []

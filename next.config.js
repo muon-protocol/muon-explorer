@@ -3,9 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    DEV_BASE_URL: 'https://explorer.muon.net',
-    CSR_BASE_URL: '',
-    SSR_BASE_URL: 'http://localhost:8004',
+    BASE_URL: 'https://explorer.muon.net',
     NEXT_SHARP_PATH: "/tmp/node_modules/sharp"
   },
   compiler: {

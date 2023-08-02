@@ -1,14 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { axiosInstanceSSR, axiosInstanceCSR } from 'src/utils/axios'
+import axiosInstance from 'src/utils/axios'
 
 export const getAllNodes = createAsyncThunk(
     'getAllNodes',
-    async ({ page = 1, q = '', ssr = false }) => {
+    async ({ page = 1, q = '' }) => {
         try {
             const value = q ? `&q=${q}` : ''
-            // Both SSR and CSR
-            const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/api/v1/nodes?page=${page}&filter=all${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/nodes?page=${page}&filter=all${value}`)
             return data
         }
         catch (err) {
@@ -21,8 +19,7 @@ export const getActiveNodes = createAsyncThunk(
     'getActiveNodes',
     async () => {
         try {
-            // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes?page=1&filter=online`)
+            const { data } = await axiosInstance.get(`/api/v1/nodes?page=1&filter=online`)
             return data
         }
         catch (err) {
@@ -35,8 +32,7 @@ export const getDeactiveNodes = createAsyncThunk(
     'getDeactiveNodes',
     async () => {
         try {
-            // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes?page=1&filter=offline`)
+            const { data } = await axiosInstance.get(`/api/v1/nodes?page=1&filter=offline`)
             return data
         }
         catch (err) {
@@ -49,8 +45,7 @@ export const getSearchedNodes = createAsyncThunk(
     'getSearchedNodes',
     async (value) => {
         try {
-            // CSR Only
-            const { data } = await axiosInstanceCSR.get(`/api/v1/nodes?page=1&filter=all&q=${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/nodes?page=1&filter=all&q=${value}`)
             return data
         }
         catch (err) {
@@ -63,8 +58,7 @@ export const getSingleNode = createAsyncThunk(
     'getSingleNode',
     async (id) => {
         try {
-            // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/api/v1/nodes/${id}/status`)
+            const { data } = await axiosInstance.get(`/api/v1/nodes/${id}/status`)
             return data
         }
         catch (err) {

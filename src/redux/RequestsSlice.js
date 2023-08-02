@@ -1,15 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { axiosInstanceSSR, axiosInstanceCSR } from 'src/utils/axios'
+import axiosInstance from 'src/utils/axios'
 
 export const getRequests = createAsyncThunk(
     'getRequests',
-    async ({ page = 1, limit = 10, search = '', app = '', ssr = false }) => {
+    async ({ page = 1, limit = 10, search = '', app = '' }) => {
         try {
             const value = search ? `&search=${search}` : ''
             const value2 = app ? `&app=${app}` : ''
-            // Both SSR and CSR
-            const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/api/v1/requests?page=${page}&limit=${limit}${value}${value2}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests?page=${page}&limit=${limit}${value}${value2}`)
             return data
         }
         catch (err) {
@@ -22,8 +20,7 @@ export const getSearchedRequests = createAsyncThunk(
     'getSearchedRequests',
     async (value) => {
         try {
-            // CSR Only
-            const { data } = await axiosInstanceCSR.get(`/api/v1/requests?page=1&limit=10&search=${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests?page=1&limit=10&search=${value}`)
             return data
         }
         catch (err) {
@@ -34,12 +31,10 @@ export const getSearchedRequests = createAsyncThunk(
 
 export const getRequestHistory = createAsyncThunk(
     'getRequestHistory',
-    async ({ range = 21, app = '', ssr = false }) => {
+    async ({ range = 21, app = '' }) => {
         try {
             const value = app ? `&app=${app}` : ''
-            // Both SSR and CSR
-            const instance = ssr ? axiosInstanceSSR : axiosInstanceCSR
-            const { data } = await instance.get(`/api/v1/requests/history?range=${range}${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests/history?range=${range}${value}`)
             return data
         }
         catch (err) {
@@ -52,8 +47,7 @@ export const getSingleRequest = createAsyncThunk(
     'getSingleRequest',
     async (id) => {
         try {
-            // SSR Only
-            const { data } = await axiosInstanceSSR.get(`/api/v1/requests/${id}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests/${id}`)
             return data
         }
         catch (err) {
