@@ -15,7 +15,7 @@ export default function LineChart({ data, length, small }) {
         if (length === 1) {
             const timeArray = []
             Array(24).fill('').forEach((_, index) => {
-                const time = new Date(new Date().setHours(new Date().getHours() - index - 1)).getHours()
+                const time = new Date(new Date().setHours(new Date().getHours() - index)).getHours()
                 timeArray.unshift(time)
             })
             return timeArray
@@ -34,20 +34,6 @@ export default function LineChart({ data, length, small }) {
                 }
             })
             return dayArray
-        }
-    }
-
-    const handleData = () => {
-        if (length === 1) {
-            return data
-        }
-        else {
-            let array = []
-            for (let i = 0; i < length; i++) {
-                const sum = data.slice(i * 24, (i * 24) + 24).reduce((a, b) => a + b, 0)
-                array.push(sum)
-            }
-            return array
         }
     }
 
@@ -84,7 +70,7 @@ export default function LineChart({ data, length, small }) {
         },
         series: [
             {
-                data: handleData(),
+                data,
                 type: 'line',
                 smooth: true,
                 silent: true,
