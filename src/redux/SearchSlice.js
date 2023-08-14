@@ -8,13 +8,13 @@ export const getSearchedData = createAsyncThunk(
             const res1 = axiosInstance.get(`/api/v1/requests?page=1&limit=10&search=${value}&noSpender=true`)
             const res2 = axiosInstance.get(`/api/v1/requests/spender?page=1&limit=10&search=${value}`)
             const res3 = axiosInstance.get(`/api/v1/applications?page=1&limit=10&search=${value}`)
-            // const res4 = axiosInstance.get(`/api/v1/nodes?page=1&filter=all&q=${value}`)
-            const allRes = await Promise.all([res1, res2, res3]) // , res4
+            const res4 = axiosInstance.get(`/api/v1/nodes?page=1&filter=all&q=${value}`)
+            const allRes = await Promise.all([res1, res2, res3, res4])
             return {
                 reqs: allRes[0].data?.requests,
                 spenderReqs: allRes[1].data?.requests,
                 apps: allRes[2].data?.applications,
-                nodes: allRes[3]?.data?.nodes || [],
+                nodes: allRes[3]?.data?.nodes,
             }
         }
         catch (err) {
