@@ -11,6 +11,8 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { methodQuery } from 'src/redux/ApplicationsSlice';
 
+import { handleRequest } from 'src/utils/requestMuonWallet'
+
 import Prism from "prismjs"
 import "prismjs/components/prism-json";
 
@@ -132,6 +134,8 @@ export default function Methods({ openMethods, setOpenMethods }) {
     const [openExamples, setOpenExamples] = useState([])
     const [openTooltip, setOpenTooltip] = useState(false)
 
+    const [requestLoading, setRequestLoading] = useState(false)
+
     useEffect(() => {
         if (app?.methods?.length) {
             let data = []
@@ -171,26 +175,41 @@ export default function Methods({ openMethods, setOpenMethods }) {
     }
 
     const handleQueryMethod = async (method) => {
-        try {
-            let params = ''
-            const methodArgs = paramValues.find(i => i.method === method).arg
-            Object.entries(methodArgs).forEach(item => {
-                params = params.concat(`&params[${item[0]}]=${item[1]}`)
-            })
-            const values = { app: app.id, method, params }
-            const res = await dispatch(methodQuery(values))
-            if (res.payload?.success) {
-                const filtered = results.filter(i => i.method !== method)
-                setResults([...filtered, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
-                toast.success('Query Successful')
+        const methodArgs = paramValues.find(i => i.method === method).arg
+        if(!Object.values(methodArgs).every(i => i)){
+            toast.warn('Fill the inputs first')
+            return
+        }
+        const filtered = results.filter(i => i.method !== method)
+        if (app.name === 'Twaper') {
+            try {
+                setRequestLoading(true)
+                await handleRequest(app.name, method, methodArgs, filtered, setResults)
+                setRequestLoading(false)
             }
-            else {
-                toast.warn(res.payload?.error?.message || 'Query Failed')
+            catch (err) {
+                setRequestLoading(false)
             }
         }
-        catch (err) {
-            console.log(err);
-            toast.error('Something went wrong')
+        else {
+            try {
+                let params = ''
+                Object.entries(methodArgs).forEach(item => {
+                    params = params.concat(`&params[${item[0]}]=${item[1]}`)
+                })
+                const res = await dispatch(methodQuery({ app: app.id, method, params }))
+                if (res.payload?.success) {
+                    setResults([...filtered, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
+                    toast.success('Query Successful')
+                }
+                else {
+                    toast.warn(res.payload?.error?.message || 'Query Failed')
+                }
+            }
+            catch (err) {
+                console.error(err);
+                toast.error('Something went wrong')
+            }
         }
     }
 
@@ -274,8 +293,8 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                     </pre>
                                 </StyledBody>
                             }
-                            <div className='d-flex justify-content-between'>
-                                <div className='d-flex'>
+                            <div className='d-flex flex-column flex-md-row justify-content-between'>
+                                <div className='d-flex flex-column flex-md-row mb-3 mb-md-0'>
                                     {item.examples ?
                                         <>
                                             <StyledButton2
@@ -287,7 +306,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                                 <Icon icon="prime:chevron-right" width={26} />
                                             </StyledButton2>
                                             <Fade in={Boolean(activeExamples.find(i => i === item.name))} unmountOnExit>
-                                                <div className='d-flex'>
+                                                <div className='d-flex flex-column flex-md-row mt-3 mt-md-0'>
                                                     {item.examples.map((item3, index3) => (
                                                         <Fade
                                                             in={
@@ -299,16 +318,16 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                                             key={index3}
                                                             unmountOnExit
                                                         >
-                                                            <div className='d-flex'>
+                                                            <div className='d-flex flex-column flex-md-row mb-3 mb-md-0'>
                                                                 <StyledButton2
-                                                                    className='btn rounded-3 border-0 ms-3'
+                                                                    className='btn rounded-3 border-0 ms-md-3'
                                                                     onClick={() => handleOpenExample(item3, item.name)}
                                                                     open={Boolean(openExamples.find(i => i.example === item3.title))}
                                                                 >
                                                                     {item3.title}
                                                                 </StyledButton2>
                                                                 <Fade in={Boolean(openExamples.find(i => i.example === item3.title))} unmountOnExit>
-                                                                    <div className='d-flex'>
+                                                                    <div className='d-flex mt-3 mt-md-0'>
                                                                         <OverlayTrigger
                                                                             placement='top'
                                                                             trigger='click'
@@ -321,7 +340,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                                                             }
                                                                         >
                                                                             <StyledButton2
-                                                                                className='btn rounded-3 border-0 ms-3'
+                                                                                className='btn rounded-3 border-0 ms-md-3'
                                                                                 open={openTooltip}
                                                                                 key={index3}
                                                                             >
@@ -354,7 +373,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
                                     onClick={() => handleQueryMethod(item.name)}
                                     disabled={loading}
                                 >
-                                    {loading ?
+                                    {loading || requestLoading ?
                                         <Icon icon="eos-icons:loading" width="21" />
                                         :
                                         'Query'

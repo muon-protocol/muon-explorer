@@ -35,7 +35,6 @@ export default class MyDocument extends Document {
           <meta name="author" content="Imazh Branding Studio" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta name="theme-color" content="#00000" />
-          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
