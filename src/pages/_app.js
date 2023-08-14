@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import "prismjs/themes/prism.min.css";
 import 'muon-wallet/src/css/index.min.css'
 
-import { SSRProvider } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 
 import { wrapper } from 'src/redux/store';
@@ -19,19 +18,17 @@ export default function App({ Component, ...other }) {
   const { store, props } = wrapper.useWrappedStore(other)
 
   return (
-    <SSRProvider>
-      <ReduxProvider store={store}>
-        <ThemeProvider>
-          <ThemedGlobalStyle />
-          <ErrorBoundry>
-            <Component {...props.pageProps} />
-          </ErrorBoundry>
-          <ToastContainer
-            position={'top-left'}
-            pauseOnFocusLoss={false}
-          />
-        </ThemeProvider>
-      </ReduxProvider>
-    </SSRProvider>
+    <ReduxProvider store={store}>
+      <ThemeProvider>
+        <ThemedGlobalStyle />
+        <ErrorBoundry>
+          <Component {...props.pageProps} />
+        </ErrorBoundry>
+        <ToastContainer
+          position={'top-left'}
+          pauseOnFocusLoss={false}
+        />
+      </ThemeProvider>
+    </ReduxProvider>
   )
 }

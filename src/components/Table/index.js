@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 const StyledTH = styled.th`
     color: ${({ theme }) => theme.palette.gray4};
+    background-color: transparent !important;
 `
 
 const StyledTable = styled.table`
     & tbody tr:hover{
-        background: ${({theme}) => theme.palette.gray8} !important;
+        background: ${({ theme }) => theme.palette.gray8} !important;
+    }
+    & td{
+        background-color: transparent !important;
     }
 `
 
