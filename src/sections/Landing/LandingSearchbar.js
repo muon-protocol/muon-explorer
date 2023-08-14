@@ -5,18 +5,19 @@ import styled from 'styled-components'
 import { toast } from 'react-toastify'
 
 import { useDispatch } from 'react-redux'
-import { getSearchedApplications } from 'src/redux/ApplicationsSlice'
-import { getSearchedRequests } from 'src/redux/RequestsSlice'
-import { getSearchedNodes } from 'src/redux/NodesSlice'
+import { getSearchedData } from 'src/redux/SearchSlice'
 
 const StyledDiv = styled.div`
     background-color: ${({ theme }) => theme.palette.white};
-    width: ${({ landing }) => landing ? '100%' : '24rem'};
-    max-width: 90vw;
-    & input::placeholder{
-        font-size: ${({ landing }) => landing ? 'normal' : 'small'};
-    }
+    width: ${({ landing }) => landing ? '100%' : '26rem'};
+    max-width: ${({ landing }) => landing ? '100%' : '90vw'};;
     border: ${({ theme, landing }) => landing ? 'none' : `1px solid ${theme.palette.gray7}`};
+    & input{
+        font-size: 13px;
+        &::placeholder{
+            font-size: ${({ landing }) => landing ? 'normal' : 'small'};
+        }
+    }
 `
 
 const StyledButton = styled.button`
@@ -42,17 +43,13 @@ export default function LandingSearchbar({ landing }) {
         try {
             setLoading(true)
 
-            const req1 = dispatch(getSearchedApplications(value))
-            const req2 = dispatch(getSearchedRequests(value))
-            const req3 = dispatch(getSearchedNodes(value))
+            const { payload } = await dispatch(getSearchedData(value))
+            const foundReqs = payload?.req
+            const foundSpenders = payload?.spenderReqs
+            const foundApps = payload?.apps
+            const foundNodes = payload?.nodes
 
-            const allRes = await Promise.all([req1, req2, req3])
-            const results = allRes.map(i => i.payload)
-            const foundApps = results[0]?.applications
-            const foundReqs = results[1]?.requests
-            const foundNodes = results[2]?.nodes
-
-            if (foundApps?.length === 1 && !foundReqs?.length && !foundNodes?.length) {
+            if (foundApps?.length === 1 && !foundReqs?.length && !foundNodes?.length && !foundSpenders?.length) {
                 const appId = foundApps[0].id
                 push(`/applications/${appId}`)
             }
@@ -82,7 +79,7 @@ export default function LandingSearchbar({ landing }) {
             <input
                 className={`form-control my-${landing ? '3' : '0 py-0 pb-1'} mx-${landing ? '4' : '0'} bg-transparent border-0`}
                 type='text'
-                placeholder='App Name / Req ID / Gateway Address / Node ID'
+                placeholder='App Name / Req ID / Gateway Addr / Spender Addr / Node ID'
                 value={value}
                 onChange={e => setValue(e.target.value)}
                 onKeyDown={handleOnKeyDown}

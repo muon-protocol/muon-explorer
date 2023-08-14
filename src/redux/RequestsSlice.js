@@ -16,11 +16,11 @@ export const getRequests = createAsyncThunk(
     }
 )
 
-export const getSearchedRequests = createAsyncThunk(
-    'getSearchedRequests',
-    async (value) => {
+export const getSpenderRequests = createAsyncThunk(
+    'getSpenderRequests',
+    async ({ spender = '', page = 1, limit = 10, search = '' }) => {
         try {
-            const { data } = await axiosInstance.get(`/api/v1/requests?page=1&limit=10&search=${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests/spender/${spender}?page=${page}&limit=${limit}&search=${search}`)
             return data
         }
         catch (err) {
@@ -65,7 +65,7 @@ const RequestsSlice = createSlice({
         requestsLoading: false,
         requests: [],
         totalReqs: 0,
-        searchedReqs: [],
+        spenderRequests: [],
 
         request: null
     },
@@ -86,14 +86,14 @@ const RequestsSlice = createSlice({
         // ---------------------------------------------------------------------
 
         builder
-            .addCase(getSearchedRequests.pending, state => {
+            .addCase(getSpenderRequests.pending, state => {
                 state.requestsLoading = true
             })
-            .addCase(getSearchedRequests.fulfilled, (state, action) => {
+            .addCase(getSpenderRequests.fulfilled, (state, action) => {
                 state.requestsLoading = false
-                state.searchedReqs = action.payload.requests
+                state.spenderRequests = action.payload.requests
             })
-            .addCase(getSearchedRequests.rejected, state => {
+            .addCase(getSpenderRequests.rejected, state => {
                 state.requestsLoading = false
             })
 

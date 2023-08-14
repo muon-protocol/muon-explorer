@@ -1,111 +1,67 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { dateTimeFormat } from 'src/utils/times';
-import dynamic from 'next/dynamic';
 
 import { LIMIT } from 'src/constants/applications';
 
-import useSearch from 'src/hooks/useSearch';
-import useInterval from 'src/hooks/useInterval';
-
 import MainLayout from 'src/layouts/MainLayout'
 import Card from 'src/components/Card';
-import ChartPills from 'src/sections/Landing/ChartPills';
 import Table from 'src/components/Table';
 import Pagination from 'src/components/Pagination';
-import Searchbar from 'src/components/Searchbar';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getRequests } from 'src/redux/RequestsSlice';
+import { getSpenderRequests } from 'src/redux/RequestsSlice';
 
-const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
+export default function SpenderRequests() {
 
-export default function Requests() {
-
-    const { requests, requestsLoading, totalReqs, requestsHistory } = useSelector(store => store.requests)
+    const { spenderRequests, requestsLoading, totalReqs } = useSelector(store => store.requests)
 
     const dispatch = useDispatch()
 
-    const [length, setLength] = useState(1)
-
     const [page, setPage] = useState(0)
-    const [inputValue, setInputValue] = useState('')
+
+    const { query } = useRouter()
 
     useEffect(() => {
-        dispatch(getRequests({ page: page + 1, search: inputValue }))
+        if (query.id) {
+            dispatch(getSpenderRequests({ page: page + 1, spender: query.id }))
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, page])
-
-    useInterval({
-        deps: [inputValue, page],
-        delay: 5000,
-        func: () => dispatch(getRequests({ page: page + 1, search: inputValue }))
-    })
-
-    useSearch({
-        inputValue,
-        delay: 1500,
-        searchFunc: () => {
-            if (page === 0) {
-                dispatch(getRequests({ page: page + 1, search: inputValue }))
-            }
-            else {
-                setPage(0)
-            }
-        },
-    })
+    }, [dispatch, page, query])
 
     return (
-        <MainLayout title='Requests'>
+        <MainLayout title='Spender Requests'>
 
             <section className='mb-4'>
                 <Card
-                    Header='h5'
-                    title='Muon Requests History'
-                    action='pills'
-                    actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
-                >
-                    <LineChart data={requestsHistory} length={length} />
-                </Card>
-            </section>
-
-            <section className='mb-4'>
-                <Card
-                    title='Muon Requests'
+                    title='Spender Requests'
                     action='search'
-                    actionContent={
-                        <Searchbar
-                            value={inputValue}
-                            setValue={setInputValue}
-                            placeholder='Req ID / Gateway Addr / Spender Addr'
-                        />
-                    }
                     footerContent={
                         <Pagination
                             page={page}
                             setPage={setPage}
                             loading={requestsLoading}
                             LIMIT={LIMIT}
-                            dataLength={requests.length}
-                            inputValue={inputValue}
+                            dataLength={spenderRequests.length}
                             total={totalReqs}
                         />
                     }
                 >
                     <Table head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
-                        {!requests.length ?
+                        {!spenderRequests.length ?
                             <tr>
-                                <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
+                                <td className='small text-center fw-bold pt-4' colSpan={7}>No request found for this spender</td>
                             </tr>
                             :
-                            requests.map((item, index) => (
+                            spenderRequests.map((item, index) => (
                                 <tr key={index}>
                                     <td className='small'>
                                         <Link href={`/requests/${item.reqId}`}>
                                             {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
                                         </Link>
                                     </td>
-                                    <td className='small' style={{ minWidth: '10rem' }}>
+                                    <td className='small'>
                                         {item.data?.fee?.spender?.address ?
                                             <Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
                                                 {item.data?.fee?.spender?.address.slice(0, 10) + '...' + item.data?.fee?.spender?.address.slice(-10)}

@@ -4,11 +4,13 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import ApplicationsSlice from './ApplicationsSlice'
 import RequestsSlice from './RequestsSlice'
 import NodesSlice from './NodesSlice'
+import SearchSlice from './SearchSlice'
 
 const allReducers = combineReducers({
     applications: ApplicationsSlice,
     requests: RequestsSlice,
-    nodes: NodesSlice
+    nodes: NodesSlice,
+    search: SearchSlice,
 })
 
 const masterReducer = (state, action) => {

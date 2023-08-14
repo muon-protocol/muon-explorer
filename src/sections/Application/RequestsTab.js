@@ -41,7 +41,7 @@ export default function RequestsTab() {
         delay: 1500,
         searchFunc: () => {
             if (page === 0) {
-                dispatch(getRequests({ page: page + 1, search: inputValue, app: app.id  }))
+                dispatch(getRequests({ page: page + 1, search: inputValue, app: app.id }))
             }
             else {
                 setPage(0)
@@ -57,7 +57,7 @@ export default function RequestsTab() {
                 <Searchbar
                     value={inputValue}
                     setValue={setInputValue}
-                    placeholder='Req ID / Gateway Address'
+                    placeholder='Req ID / Gateway Addr / Spender Addr'
                 />
             }
             footerContent={
@@ -72,7 +72,7 @@ export default function RequestsTab() {
                 />
             }
         >
-            <Table head={['Req ID', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
+            <Table head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
                 {!requests.length ?
                     <tr>
                         <td className='small text-center fw-bold pt-4' colSpan={7}>Nothing found</td>
@@ -84,6 +84,15 @@ export default function RequestsTab() {
                                 <Link href={`/requests/${item.reqId}`}>
                                     {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
                                 </Link>
+                            </td>
+                            <td className='small' style={{ minWidth: '10rem' }}>
+                                {item.data?.fee?.spender?.address ?
+                                    <Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
+                                        {item.data?.fee?.spender?.address.slice(0, 10) + '...' + item.data?.fee?.spender?.address.slice(-10)}
+                                    </Link>
+                                    :
+                                    ''
+                                }
                             </td>
                             <td className='small'>
                                 <Link href={`/applications/${item.app}`}>

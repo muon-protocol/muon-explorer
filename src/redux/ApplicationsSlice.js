@@ -15,19 +15,6 @@ export const getApplications = createAsyncThunk(
     }
 )
 
-export const getSearchedApplications = createAsyncThunk(
-    'getSearchedApplications',
-    async (value) => {
-        try {
-            const { data } = await axiosInstance.get(`/api/v1/applications?page=1&limit=10&search=${value}`)
-            return data
-        }
-        catch (err) {
-            throw err
-        }
-    }
-)
-
 export const getSingleApplication = createAsyncThunk(
     'getSingleApplication',
     async (id) => {
@@ -60,7 +47,6 @@ const ApplicationsSlice = createSlice({
         loading: false,
         applications: [],
         totalApps: 0,
-        searchedApps: [],
         app: null
     },
     extraReducers: builder => {
@@ -74,20 +60,6 @@ const ApplicationsSlice = createSlice({
                 state.totalApps = action.payload.total
             })
             .addCase(getApplications.rejected, state => {
-                state.loading = false
-            })
-
-        // ---------------------------------------------------------------------
-
-        builder
-            .addCase(getSearchedApplications.pending, state => {
-                state.loading = true
-            })
-            .addCase(getSearchedApplications.fulfilled, (state, action) => {
-                state.loading = false
-                state.searchedApps = action.payload.applications
-            })
-            .addCase(getSearchedApplications.rejected, state => {
                 state.loading = false
             })
 
