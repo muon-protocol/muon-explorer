@@ -14,7 +14,7 @@ export const getSearchedData = createAsyncThunk(
                 reqs: allRes[0].data?.requests,
                 spenderReqs: allRes[1].data?.requests,
                 apps: allRes[2].data?.applications,
-                nodes: allRes[3]?.data?.nodes,
+                nodes: allRes[3]?.data?.result,
             }
         }
         catch (err) {

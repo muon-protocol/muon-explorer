@@ -13,6 +13,9 @@ const StyledTable = styled.table`
     & td{
         background-color: transparent !important;
     }
+    & a:hover{
+        color: ${({ theme }) => theme.palette.primary1};
+    }
 `
 
 export default function Table({ children, head, noLast }) {
