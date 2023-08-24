@@ -6,7 +6,7 @@ dayjs.extend(relativeTime)
 // => 12:39:49
 export const timeFormat = (value) => {
     const newValue = value ? value * 1000 : null
-    const date = new Date(newValue).toLocaleTimeString('en-US', { hour12: false })
+    const date = new Date(newValue).toLocaleTimeString('en-GB', { hour12: false })
 
     return date
 }
@@ -14,7 +14,7 @@ export const timeFormat = (value) => {
 // => 22Nov, 03:29:32
 export const dateTimeFormat = (value) => {
     const newValue = value ? value * 1000 : null
-    const month = new Date(newValue).toLocaleDateString('en-US', { month: 'short' })
+    const month = new Date(newValue).toLocaleDateString('en-GB', { month: 'short' })
     const day = new Date(newValue).getDate()
     const time = timeFormat(value)
 
@@ -24,7 +24,7 @@ export const dateTimeFormat = (value) => {
 // => 22Nov 2022
 export const dateFormat = (value) => {
     const newValue = value ? value * 1000 : null
-    const month = new Date(newValue).toLocaleDateString('en-US', { month: 'short' })
+    const month = new Date(newValue).toLocaleDateString('en-GB', { month: 'short' })
     const day = new Date(newValue).getDate()
     const year = new Date(newValue).getFullYear()
 
@@ -34,7 +34,7 @@ export const dateFormat = (value) => {
 // => Nov 2022
 export const shortDateFormat = (value) => {
     const newValue = value ? value * 1000 : null
-    const month = new Date(newValue).toLocaleDateString('en-US', { month: 'short' })
+    const month = new Date(newValue).toLocaleDateString('en-GB', { month: 'short' })
     const year = new Date(newValue).getFullYear()
 
     return `${month} ${year}`
@@ -44,7 +44,7 @@ export const shortDateFormat = (value) => {
 export const fullFormat = (value) => {
     const newValue = value ? value * 1000 : null
     const year = new Date(newValue).getFullYear()
-    const month = new Date(newValue).toLocaleDateString('en-US', { month: 'short' })
+    const month = new Date(newValue).toLocaleDateString('en-GB', { month: 'short' })
     const day = new Date(newValue).getDate()
     const time = timeFormat(value)
 
