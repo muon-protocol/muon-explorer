@@ -16,7 +16,7 @@
     "dayjs": "^1.11.7",
     "echarts-for-react": "^3.0.2",
     "lottie-react": "^2.4.0",
-    "muon-wallet": "^1.21.0",
+    "muon-wallet": "^1.25.0",
     "next": "^13.4.15",
     "next-redux-wrapper": "^8.1.0",
     "prismjs": "^1.29.0",

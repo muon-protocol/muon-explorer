@@ -1,4 +1,4 @@
-import { request } from 'muon-wallet'
+import { Muon } from 'muon-wallet'
 import { toast } from 'react-toastify';
 
 const handleConnect = async () => {
@@ -88,7 +88,8 @@ export const handleRequest = async (appName, method, params, filtered, setResult
                 resolve()
             }, 1000);
         })
-        const res = await request(appName, method, params)
+        const muon = new Muon()
+        const res = await muon.request(appName, method, params)
         if (res?.success) {
             setResults([...filtered, { method, res: JSON.stringify(res.result, null, '\t') }])
             toast.success('Query Successful')
