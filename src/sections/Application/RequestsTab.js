@@ -57,7 +57,7 @@ export default function RequestsTab() {
                 <Searchbar
                     value={inputValue}
                     setValue={setInputValue}
-                    placeholder='Req ID / Gateway Addr / Spender Addr'
+                    placeholder='Req ID / Spender Addr'
                 />
             }
             footerContent={
