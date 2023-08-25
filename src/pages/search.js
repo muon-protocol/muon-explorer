@@ -115,7 +115,7 @@ export default function Search() {
                                                     <td className='small pe-md-4'>{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}</td>
                                                     <td className='small pe-md-4'>
                                                         {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
-                                                            'Active' : 'Deactive'
+                                                            'Active' : 'Inactive'
                                                         }
                                                     </td>
                                                     <td className='small'>{dateTimeFormat(item.startTime)}</td>

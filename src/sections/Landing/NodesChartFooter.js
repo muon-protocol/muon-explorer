@@ -40,7 +40,7 @@ export default function NodesChartFooter() {
                     color='primary1'
                 />
                 <StyledItem
-                    title='Deactive Nodes:'
+                    title='Inactive Nodes:'
                     value={deactiveNodesCount}
                     color='gray1'
                 />

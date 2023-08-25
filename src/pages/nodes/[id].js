@@ -195,7 +195,7 @@ export default function NodePage() {
                                         <span>Status</span>
                                         <StyledH5 className='mb-0 mt-2'>
                                             {(node?.node?.tests?.networking && node?.node?.tests?.peerInfo && node?.node?.tests?.status) ?
-                                                'Active' : 'Deactive'
+                                                'Active' : 'Inactive'
                                             }
                                         </StyledH5>
                                     </div>

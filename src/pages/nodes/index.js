@@ -203,7 +203,7 @@ export default function Nodes({ total }) {
                                             {(item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status) ?
                                                 <span>Active</span>
                                                 :
-                                                <StyledSpan>Deactive</StyledSpan>
+                                                <StyledSpan>Inactive</StyledSpan>
                                             }
                                         </td>
                                         <td className='small pe-md-4'>Tier-1 (Starter)</td>
