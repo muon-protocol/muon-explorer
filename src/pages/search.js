@@ -12,7 +12,7 @@ import { dateTimeFormat } from 'src/utils/times';
 
 export default function Search() {
 
-    const { searchedApps, searchedReqs, searchedSpenderReqs, searchedNodes, loading } = useSelector(store => store.search)
+    const { searchedApps, searchedReqs, searchedNodes, loading } = useSelector(store => store.search)
 
     return (
         <MainLayout title='Search' landing>
@@ -28,7 +28,7 @@ export default function Search() {
                             <Loader />
                         </div>
                         :
-                        !searchedApps.length && !searchedSpenderReqs.length && !searchedReqs.length && !searchedNodes.length ?
+                        !searchedApps.length && !searchedReqs.length && !searchedNodes.length ?
                             <div className='mb-4 text-center'>
                                 <h6 className='fw-bold'>No result found</h6>
                             </div>
@@ -52,47 +52,6 @@ export default function Search() {
                                                     <td className='small'>{item.methods.length || 0}</td>
                                                     <td className='small'>{item.data?.context.tss?.threshold?.max ?? ''}</td>
                                                     <td className='small text-end'>{item.confirmed_requests}</td>
-                                                </tr>
-                                            ))
-                                            }
-                                        </Table>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {searchedSpenderReqs.length ?
-                                    <div className='mb-4'>
-                                        <h6 className='fw-bold'>Spender Requests Result :</h6>
-                                        <Table head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
-                                            {searchedSpenderReqs.map((item, index) => (
-                                                <tr key={index}>
-                                                    <td className='small'>
-                                                        <Link href={`/requests/${item.reqId}`}>
-                                                            {item.reqId.slice(0, 10) + '...' + item.reqId.slice(-10)}
-                                                        </Link>
-                                                    </td>
-                                                    <td className='small' style={{ minWidth: '10rem' }}>
-                                                        {item.data?.fee?.spender?.address ?
-                                                            <Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
-                                                                {item.data?.fee?.spender?.address.slice(0, 10) + '...' + item.data?.fee?.spender?.address.slice(-10)}
-                                                            </Link>
-                                                            :
-                                                            ''
-                                                        }
-                                                    </td>
-                                                    <td className='small'>
-                                                        <Link href={`/applications/${item.app}`}>
-                                                            {item.app}
-                                                        </Link>
-                                                    </td>
-                                                    <td className='small'>{item.method}</td>
-                                                    <td className='small'>
-                                                        <Link href={`/nodes/${item.gwAddress}`}>
-                                                            {item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}
-                                                        </Link>
-                                                    </td>
-                                                    <td className='small'>{dateTimeFormat(item.startedAt)}</td>
-                                                    <td className='small text-end'>{dateTimeFormat(item.confirmedAt)}</td>
                                                 </tr>
                                             ))
                                             }

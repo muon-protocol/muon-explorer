@@ -18,10 +18,9 @@ export const getRequests = createAsyncThunk(
 
 export const getSpenderRequests = createAsyncThunk(
     'getSpenderRequests',
-    async ({ page = 1, limit = 10, spender = '', search = '' }) => {
+    async ({ page = 1, limit = 10, search = '' }) => {
         try {
-            const value = search ? `&search=${search}` : ''
-            const { data } = await axiosInstance.get(`/api/v1/requests/spender?page=${page}&limit=${limit}&exact=${spender}${value}`)
+            const { data } = await axiosInstance.get(`/api/v1/requests?page=${page}&limit=${limit}&search=${search}`)
             return data
         }
         catch (err) {

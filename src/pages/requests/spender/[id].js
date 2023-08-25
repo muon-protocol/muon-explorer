@@ -25,7 +25,7 @@ export default function SpenderRequests() {
 
     useEffect(() => {
         if (query.id) {
-            dispatch(getSpenderRequests({ page: page + 1, spender: query.id }))
+            dispatch(getSpenderRequests({ page: page + 1, search: query.id }))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, query])
