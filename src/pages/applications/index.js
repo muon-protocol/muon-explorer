@@ -94,7 +94,7 @@ export default function Applications() {
                                         </td>
                                         <td className='small'>{item.mostUsedMethod}</td>
                                         <td className='small'>{item.methods.length || 0}</td>
-                                        <td className='small'>{item.data?.context.tss?.threshold?.max ?? ''}</td>
+                                        <td className='small'>{item.data?.context?.tss?.threshold?.max ?? ''}</td>
                                         <td className='small text-end'>{item.confirmed_requests}</td>
                                     </tr>
                                 ))
