@@ -10,21 +10,19 @@ const spin = keyframes`
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
   }
-`;
+`
 
 const StyledDiv = styled.div`
-    border: 3px solid ${({theme}) => theme.palette.gray11};
-    border-top: 3px solid ${({theme}) => theme.palette.primary1};
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    margin: auto;
-    animation: ${spin} 2s linear infinite;
-    -webkit-animation: ${spin} 2s linear infinite; /* Safari */
+	border: 3px solid ${({ theme }) => theme.palette.gray11};
+	border-top: 3px solid ${({ theme }) => theme.palette.primary1};
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	margin: auto;
+	animation: ${spin} 2s linear infinite;
+	-webkit-animation: ${spin} 2s linear infinite; /* Safari */
 `
 
 export default function Loader() {
-    return (
-        <StyledDiv />
-    )
+	return <StyledDiv />
 }

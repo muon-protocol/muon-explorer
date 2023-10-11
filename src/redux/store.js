@@ -7,28 +7,28 @@ import NodesSlice from './NodesSlice'
 import SearchSlice from './SearchSlice'
 
 const allReducers = combineReducers({
-    applications: ApplicationsSlice,
-    requests: RequestsSlice,
-    nodes: NodesSlice,
-    search: SearchSlice,
+	applications: ApplicationsSlice,
+	requests: RequestsSlice,
+	nodes: NodesSlice,
+	search: SearchSlice,
 })
 
 const masterReducer = (state, action) => {
-    if (action.type === HYDRATE) {
-        const nextState = {
-            ...state,
-            ...action.payload
-        }
-        return nextState
-    }
-    else {
-        return allReducers(state, action)
-    }
+	if (action.type === HYDRATE) {
+		const nextState = {
+			...state,
+			...action.payload,
+		}
+		return nextState
+	} else {
+		return allReducers(state, action)
+	}
 }
 
-const makeStore = () => configureStore({
-    reducer: masterReducer,
-    devTools: process.env.NODE_ENV === 'development'
-})
+const makeStore = () =>
+	configureStore({
+		reducer: masterReducer,
+		devTools: process.env.NODE_ENV === 'development',
+	})
 
 export const wrapper = createWrapper(makeStore)
