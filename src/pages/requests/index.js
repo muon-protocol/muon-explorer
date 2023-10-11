@@ -58,7 +58,7 @@ export default function Requests() {
 			<section className='mb-4'>
 				<Card
 					Header='h5'
-					title='Muon Requests History'
+					title={process.env.NETWORK + ' Requests History'}
 					action='pills'
 					actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
 				>
@@ -68,7 +68,7 @@ export default function Requests() {
 
 			<section className='mb-4'>
 				<Card
-					title='Muon Requests'
+					title={process.env.NETWORK + ' Requests'}
 					action='search'
 					actionContent={
 						<Searchbar value={inputValue} setValue={setInputValue} placeholder='Req ID / Spender Addr' />

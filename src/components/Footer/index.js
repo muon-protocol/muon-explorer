@@ -1,10 +1,9 @@
 import React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 
-import logo2 from 'public/images/logo-2.png'
+import { themeImageHandler } from 'src/utils/helpers'
 
 const FooterLogo = styled.div`
 	position: absolute;
@@ -41,12 +40,9 @@ export default function Footer() {
 			<div className='d-flex flex-column-reverse flex-md-row pt-3 pb-5 pb-md-3'>
 				<div className='flex-grow-1'>
 					<FooterLogo className='d-flex'>
-						<Image src={logo2} alt='muon' />
 						<StyledHeading className='ms-2'>
-							<span className='me-1'>by</span>
-							<Link className='fw-bold text-decoration-underline' href='https://muon.net' target='_blank'>
-								Muon.Net
-							</Link>
+							<span className='me-2'>Powered by</span>
+							<Image src={themeImageHandler()} alt='muon' />
 						</StyledHeading>
 					</FooterLogo>
 				</div>

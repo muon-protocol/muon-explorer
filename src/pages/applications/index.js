@@ -45,7 +45,7 @@ export default function Applications() {
 		<MainLayout title='Applications'>
 			<section className='mb-4'>
 				<Card
-					title='Applications on Muon'
+					title={'Applications on ' + process.env.NETWORK}
 					action='search'
 					actionContent={<Searchbar value={inputValue} setValue={setInputValue} placeholder='App Name' />}
 					footerContent={

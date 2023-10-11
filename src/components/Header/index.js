@@ -6,16 +6,20 @@ import styled from 'styled-components'
 
 import { Nav, Navbar } from 'react-bootstrap'
 
-import logo from 'public/images/logo.png'
-
 import LandingSearchbar from 'src/sections/Landing/LandingSearchbar'
+
+import { themeImageHandler } from 'src/utils/helpers'
 
 const StyledLink = styled(Link)`
 	color: ${({ theme }) => theme.palette.gray2} !important;
 `
 
 const StyledHeading = styled.h6`
-	color: ${({ theme }) => theme.palette.primary1};
+	background: ${({ theme }) => theme.palette.gradient1};
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 14px;
 `
 
 const StyledToggle = styled(Navbar.Toggle)`
@@ -43,10 +47,10 @@ export default function Header({ landing }) {
 			<Navbar expand='lg' className='py-2'>
 				<div className='d-flex flex-grow-1'>
 					<Link className='navbar-brand d-flex' href='/'>
-						<Image src={logo} alt='muon' />
+						<Image src={themeImageHandler(true)} alt='muon' width={35} />
 						<div className='ms-2'>
-							<StyledHeading className='fw-bold smaller mb-1'>Muon</StyledHeading>
-							<StyledHeading className='fw-bold smaller'>Explorer</StyledHeading>
+							<StyledHeading className='fw-bold mb-1'>{process.env.NETWORK}</StyledHeading>
+							<StyledHeading className='fw-bold'>Explorer</StyledHeading>
 						</div>
 					</Link>
 				</div>

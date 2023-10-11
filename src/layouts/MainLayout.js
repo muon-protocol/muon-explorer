@@ -19,7 +19,7 @@ const StyledDiv = styled.div`
 export default function MainLayout({ children, title, landing }) {
 	return (
 		<main className='d-flex flex-column'>
-			<Head title={title ? `Muon Explorer | ${title}` : 'Muon Explorer'} />
+			<Head title={title} />
 
 			<Header landing={landing} />
 

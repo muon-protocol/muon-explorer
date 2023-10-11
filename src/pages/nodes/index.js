@@ -169,7 +169,7 @@ export default function Nodes({ total }) {
 
 			<section className='mb-4'>
 				<Card
-					title='Muon Nodes'
+					title={process.env.NETWORK + ' Nodes'}
 					action='search'
 					actionContent={<Searchbar value={inputValue} setValue={setInputValue} placeholder='Node ID' />}
 					footerContent={

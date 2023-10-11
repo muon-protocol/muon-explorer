@@ -2,6 +2,9 @@ import React from 'react'
 import Head from 'next/head'
 
 const HeadTag = ({ title }) => {
+	const explorer = process.env.NETWORK + ' Explorer'
+	const prefixedTitle = !title ? explorer : title + ' | ' + explorer
+
 	return (
 		<Head>
 			<meta
@@ -10,7 +13,7 @@ const HeadTag = ({ title }) => {
 			/>
 			<meta name='description' content='' />
 			<meta name='keywords' content='' />
-			<title>{title}</title>
+			<title>{prefixedTitle}</title>
 		</Head>
 	)
 }

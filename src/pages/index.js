@@ -62,7 +62,7 @@ export default function Landing() {
 				<Card
 					color='gradient2'
 					Header='h5'
-					title='Muon Requests History'
+					title={process.env.NETWORK + ' Requests History'}
 					action='pills'
 					actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
 					footerContent={<RequestsChartFooter />}
@@ -155,7 +155,11 @@ export default function Landing() {
 					</div>
 					<div className='col-xl-6 col-lg-10 col-12'>
 						<div className='bg-white rounded-4 h-100'>
-							<Card color='gradient2' title='Muon Nodes Status' footerContent={<NodesChartFooter />}>
+							<Card
+								color='gradient2'
+								title={process.env.NETWORK + ' Nodes Status'}
+								footerContent={<NodesChartFooter />}
+							>
 								<div className='d-flex justify-content-center mb-3'>
 									<PieChart data={[activeNodesCount || 1, deactiveNodesCount || 0]} large />
 								</div>
