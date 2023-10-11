@@ -5,7 +5,7 @@ const nextConfig = {
 	env: {
 		BASE_URL: 'https://explorer.muon.net',
 		NEXT_SHARP_PATH: '/tmp/node_modules/sharp',
-		NETWORK: process.env.NETWORK,
+		NETWORK: process.env.NETWORK || 'Alice',
 	},
 	compiler: {
 		styledComponents: {

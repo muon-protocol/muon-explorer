@@ -6,16 +6,13 @@ import { shadows } from './shadows'
 import { palette } from './palette'
 
 export default function ThemeProvider({ children }) {
-	let themeMode = 'light'
-	const isLight = themeMode === 'light'
-
 	const theme = useMemo(
 		() => ({
-			palette: isLight ? palette.light : palette.dark,
-			shadows: isLight ? shadows.light : shadows.dark,
+			palette: palette[process.env.NETWORK],
+			shadows: shadows[process.env.NETWORK],
 			breakpoints: mediaWidthTemplates,
 		}),
-		[isLight]
+		[]
 	)
 
 	return <StyledComponentsThemeProvider theme={theme}>{children}</StyledComponentsThemeProvider>
