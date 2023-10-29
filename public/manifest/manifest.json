@@ -1,7 +1,7 @@
 {
-  "name": "Muon Explorer",
-  "short_name": "muon",
-  "description": "muon explorer bt muon.net",
+  "name": "Alice Explorer",
+  "short_name": "Alice Ecplorer",
+  "description": "alice explorer by muon.net",
   "icons": [
     {
       "src": "/manifest/android-chrome-192x192.png",

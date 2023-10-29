@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { methodQuery } from 'src/redux/ApplicationsSlice'
 
-import { handleRequest } from 'src/utils/requestMuonWallet'
+// import { handleRequest } from 'src/utils/requestMuonWallet'
 
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
@@ -184,15 +184,15 @@ export default function Methods({ openMethods, setOpenMethods }) {
 			return
 		}
 		const filtered = results.filter((i) => i.method !== method)
-		if (app.name === 'Twaper') {
-			try {
-				setRequestLoading(true)
-				await handleRequest(app.name, method, methodArgs, filtered, setResults)
-				setRequestLoading(false)
-			} catch (err) {
-				setRequestLoading(false)
-			}
-		} else {
+		// if (app.name === 'Twaper') {
+		// 	try {
+		// 		setRequestLoading(true)
+		// 		await handleRequest(app.name, method, methodArgs, filtered, setResults)
+		// 		setRequestLoading(false)
+		// 	} catch (err) {
+		// 		setRequestLoading(false)
+		// 	}
+		// } else {
 			try {
 				let params = ''
 				Object.entries(methodArgs).forEach((item) => {
@@ -209,7 +209,7 @@ export default function Methods({ openMethods, setOpenMethods }) {
 				console.error(err)
 				toast.error('Something went wrong')
 			}
-		}
+		// }
 	}
 
 	const handleActiveExample = (method) => {
