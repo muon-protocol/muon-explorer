@@ -13,14 +13,13 @@ export default function PieChart({ data, large }) {
 		})
 
 		const dataArray = data.reduce(
-			(a, v) => [
+			(a, v, i) => [
 				...a,
 				{
 					name: `${Number(((v / total) * 100).toFixed(1))}%`,
 					value: v,
-					labelColor: Number(((v / total) * 100).toFixed(1)) > 50 ? theme.palette.primary1 : theme.palette.gray5,
-					cellColor:
-						Number(((v / total) * 100).toFixed(1)) > 50 ? 'rgba(81, 88, 246, 0.5)' : 'rgba(114, 81, 246, 0.25)',
+					labelColor: i === 0 ? theme.palette.primaryL2 : theme.palette.gray8,
+					cellColor: i === 0 ? '#918EF5' : 'rgba(145, 142, 245, 0.5)',
 				},
 			],
 			[]

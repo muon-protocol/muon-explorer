@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { methodQuery } from 'src/redux/ApplicationsSlice'
 
-import { handleRequest } from 'src/utils/requestMuonWallet'
+// import { handleRequest } from 'src/utils/requestMuonWallet'
 
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
@@ -19,12 +19,12 @@ import 'prismjs/components/prism-json'
 const StyledAccordion = styled(Accordion)`
 	& .accordion-button {
 		border-radius: 1rem !important;
-		color: ${({ theme }) => theme.palette.gray2};
+		color: ${({ theme }) => theme.palette.text};
 		background-color: transparent;
 		box-shadow: none;
 
 		&:after {
-			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2368687f'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23747B87'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
 		}
 		&:focus {
 			box-shadow: none;
@@ -34,7 +34,7 @@ const StyledAccordion = styled(Accordion)`
 
 const StyledItem = styled(Accordion.Item)`
 	background-color: transparent;
-	border: 1px dashed ${({ theme }) => theme.palette.gray1} !important;
+	border: 1px dashed ${({ theme }) => theme.palette.grayL1} !important;
 `
 
 const StyledLabel = styled.div`
@@ -43,8 +43,8 @@ const StyledLabel = styled.div`
 	right: 0;
 	border-radius: 0 50rem 50rem 0;
 	width: 8.8rem;
-	color: ${({ theme }) => theme.palette.gray2};
-	background-color: ${({ theme }) => theme.palette.gray7};
+	color: ${({ theme }) => theme.palette.text};
+	background-color: ${({ theme }) => theme.palette.gray2};
 	& span:first-of-type {
 		text-transform: capitalize;
 	}
@@ -57,8 +57,12 @@ const StyledLabel = styled.div`
 `
 
 const StyledInput = styled.input`
-	background-color: ${({ theme }) => theme.palette.white};
 	height: 42px;
+	background-color: ${({ theme }) => theme.palette.input} !important;
+	color: ${({ theme }) => theme.palette.label} !important;
+	&::placeholder {
+		color: ${({ theme }) => theme.palette.label} !important;
+	}
 `
 
 const StyledButton = styled.button`
@@ -66,8 +70,8 @@ const StyledButton = styled.button`
 	width: 8.8rem;
 	font-size: small;
 	letter-spacing: 0.6px;
-	color: ${({ theme }) => theme.palette.white} !important;
-	background-color: ${({ theme }) => theme.palette.primary1} !important;
+	color: ${({ theme }) => theme.palette.text} !important;
+	background-color: ${({ theme }) => theme.palette.primaryL1} !important;
 	& path {
 		fill: ${({ theme }) => theme.palette.white};
 	}
@@ -77,9 +81,9 @@ const StyledButton2 = styled.button`
 	height: 42px;
 	letter-spacing: 0.6px;
 	font-size: small;
-	color: ${({ theme, open }) => theme.palette[open ? 'white' : 'gray1']} !important;
+	color: ${({ theme, open }) => theme.palette[open ? 'white' : 'primaryMain']} !important;
 	background-color: ${({ theme, open, danger }) =>
-		theme.palette[danger ? 'red' : open ? 'primary2' : 'white']} !important;
+		theme.palette[danger ? 'red' : open ? 'primaryL1' : 'primaryL3']} !important;
 	${({ focus, theme }) =>
 		focus &&
 		`
@@ -90,22 +94,18 @@ const StyledButton2 = styled.button`
     `}
 	& svg {
 		transition: 0.3s ease;
-		${({ active }) =>
-			active &&
-			`
-            transform: rotate(180deg)
-        `};
+		${({ active }) => active && `transform: rotate(180deg)`};
 	}
 	& path {
-		fill: ${({ theme }) => theme.palette.gray1};
+		fill: ${({ theme }) => theme.palette.primaryMain};
 	}
 `
 
 const StyledTooltip = styled(Tooltip)`
 	opacity: 1 !important;
 	& .tooltip-inner {
-		background-color: ${({ theme }) => theme.palette.white} !important;
-		color: ${({ theme }) => theme.palette.gray1} !important;
+		background-color: ${({ theme }) => theme.palette.bg} !important;
+		color: ${({ theme }) => theme.palette.text} !important;
 		min-width: 20rem;
 		text-align: start;
 		padding: 8px 16px;
@@ -184,32 +184,35 @@ export default function Methods({ openMethods, setOpenMethods }) {
 			return
 		}
 		const filtered = results.filter((i) => i.method !== method)
-		if (app.name === 'Twaper') {
-			try {
-				setRequestLoading(true)
-				await handleRequest(app.name, method, methodArgs, filtered, setResults)
-				setRequestLoading(false)
-			} catch (err) {
-				setRequestLoading(false)
+		// if (app.name === 'Twaper') {
+		// 	try {
+		// 		setRequestLoading(true)
+		// 		await handleRequest(app.name, method, methodArgs, filtered, setResults)
+		// 		setRequestLoading(false)
+		// 	} catch (err) {
+		// 		setRequestLoading(false)
+		// 	}
+		// } else {
+		try {
+			let params = ''
+			Object.entries(methodArgs).forEach((item) => {
+				params = params.concat(`&params[${item[0]}]=${item[1]}`)
+			})
+			const res = await dispatch(methodQuery({ app: app.id, method, params }))
+			if (res.payload?.success) {
+				setResults([
+					...filtered,
+					{ method, res: JSON.stringify(res.payload.result, null, '\t') },
+				])
+				toast.success('Query Successful')
+			} else {
+				toast.warn(res.payload?.error?.message || 'Query Failed')
 			}
-		} else {
-			try {
-				let params = ''
-				Object.entries(methodArgs).forEach((item) => {
-					params = params.concat(`&params[${item[0]}]=${item[1]}`)
-				})
-				const res = await dispatch(methodQuery({ app: app.id, method, params }))
-				if (res.payload?.success) {
-					setResults([...filtered, { method, res: JSON.stringify(res.payload.result, null, '\t') }])
-					toast.success('Query Successful')
-				} else {
-					toast.warn(res.payload?.error?.message || 'Query Failed')
-				}
-			} catch (err) {
-				console.error(err)
-				toast.error('Something went wrong')
-			}
+		} catch (err) {
+			console.error(err)
+			toast.error('Something went wrong')
 		}
+		// }
 	}
 
 	const handleActiveExample = (method) => {
@@ -266,10 +269,18 @@ export default function Methods({ openMethods, setOpenMethods }) {
 									<div className='position-relative mb-3 mt-5 mt-md-0'>
 										<StyledInput
 											className='form-control border-0 pe-md-5 rounded-pill'
-											placeholder={item2.type === 'address' ? '0x00000000000000000000000000000000' : ''}
+											placeholder={
+												item2.type === 'address'
+													? '0x00000000000000000000000000000000'
+													: ''
+											}
 											type={item2.type === 'int' ? 'number' : 'text'}
-											value={paramValues.find((i) => i.method === item.name)?.arg[item2.name]}
-											onChange={(e) => handleOnChangeMethodValue(item.name, item2.name, e.target.value)}
+											value={
+												paramValues.find((i) => i.method === item.name)?.arg[item2.name]
+											}
+											onChange={(e) =>
+												handleOnChangeMethodValue(item.name, item2.name, e.target.value)
+											}
 										/>
 										<StyledLabel className='small h-100 d-flex align-items-center justify-content-center'>
 											<span className='me-1'>{item2.name}</span>
@@ -297,13 +308,22 @@ export default function Methods({ openMethods, setOpenMethods }) {
 												Set example
 												<Icon icon='prime:chevron-right' width={26} />
 											</StyledButton2>
-											<Fade in={Boolean(activeExamples.find((i) => i === item.name))} unmountOnExit>
+											<Fade
+												in={Boolean(activeExamples.find((i) => i === item.name))}
+												unmountOnExit
+											>
 												<div className='d-flex flex-column flex-md-row mt-3 mt-md-0'>
 													{item.examples.map((item3, index3) => (
 														<Fade
 															in={
-																Boolean(openExamples.find((i) => i.method === item.name))
-																	? !Boolean(openExamples.find((i) => i.example === item3.name))
+																Boolean(
+																	openExamples.find((i) => i.method === item.name)
+																)
+																	? !Boolean(
+																			openExamples.find(
+																				(i) => i.example === item3.name
+																			)
+																	  )
 																		? true
 																		: false
 																	: true
@@ -314,13 +334,23 @@ export default function Methods({ openMethods, setOpenMethods }) {
 															<div className='d-flex flex-column flex-md-row mb-3 mb-md-0'>
 																<StyledButton2
 																	className='btn rounded-3 border-0 ms-md-3'
-																	onClick={() => handleOpenExample(item3, item.name)}
-																	open={Boolean(openExamples.find((i) => i.example === item3.title))}
+																	onClick={() =>
+																		handleOpenExample(item3, item.name)
+																	}
+																	open={Boolean(
+																		openExamples.find(
+																			(i) => i.example === item3.title
+																		)
+																	)}
 																>
 																	{item3.title}
 																</StyledButton2>
 																<Fade
-																	in={Boolean(openExamples.find((i) => i.example === item3.title))}
+																	in={Boolean(
+																		openExamples.find(
+																			(i) => i.example === item3.title
+																		)
+																	)}
 																	unmountOnExit
 																>
 																	<div className='d-flex mt-3 mt-md-0'>
@@ -329,7 +359,11 @@ export default function Methods({ openMethods, setOpenMethods }) {
 																			trigger='click'
 																			show={openTooltip}
 																			onToggle={setOpenTooltip}
-																			overlay={<StyledTooltip>{item3.desc}</StyledTooltip>}
+																			overlay={
+																				<StyledTooltip>
+																					{item3.desc}
+																				</StyledTooltip>
+																			}
 																		>
 																			<StyledButton2
 																				className='btn rounded-3 border-0 ms-md-3'
@@ -363,7 +397,11 @@ export default function Methods({ openMethods, setOpenMethods }) {
 									onClick={() => handleQueryMethod(item.name)}
 									disabled={loading}
 								>
-									{loading || requestLoading ? <Icon icon='eos-icons:loading' width='21' /> : 'Query'}
+									{loading || requestLoading ? (
+										<Icon icon='eos-icons:loading' width={21} />
+									) : (
+										'Query'
+									)}
 								</StyledButton>
 							</div>
 						</Accordion.Body>

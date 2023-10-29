@@ -11,7 +11,7 @@ import LandingSearchbar from 'src/sections/Landing/LandingSearchbar'
 import { themeImageHandler } from 'src/utils/helpers'
 
 const StyledLink = styled(Link)`
-	color: ${({ theme }) => theme.palette.gray2} !important;
+	color: ${({ theme }) => theme.palette.text} !important;
 `
 
 const StyledHeading = styled.h6`
@@ -20,10 +20,11 @@ const StyledHeading = styled.h6`
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font-size: 14px;
+	font-family: 'Montserrat';
 `
 
 const StyledToggle = styled(Navbar.Toggle)`
-	background-color: ${({ theme }) => theme.palette.primary3};
+	background-color: ${({ theme }) => theme.palette.primaryL3};
 `
 
 const HeaderNav = ({ title, path, last }) => {
@@ -32,7 +33,9 @@ const HeaderNav = ({ title, path, last }) => {
 	return (
 		<Nav.Item>
 			<StyledLink
-				className={`nav-link fw-bold ${last ? '' : 'me-2'} ${pathname === `/${path}` ? 'active' : ''}`}
+				className={`nav-link fw-bold ${last ? '' : 'me-2'} ${
+					pathname === `/${path}` ? 'active' : ''
+				}`}
 				href={`/${path}`}
 			>
 				{title}
@@ -47,9 +50,9 @@ export default function Header({ landing }) {
 			<Navbar expand='lg' className='py-2'>
 				<div className='d-flex flex-grow-1'>
 					<Link className='navbar-brand d-flex' href='/'>
-						<Image src={themeImageHandler(true)} alt='muon' width={35} />
+						<Image src={themeImageHandler(true)} alt='muon' />
 						<div className='ms-2'>
-							<StyledHeading className='fw-bold mb-1'>{process.env.NETWORK}</StyledHeading>
+							<StyledHeading className='fw-bold mb-0'>{process.env.NETWORK}</StyledHeading>
 							<StyledHeading className='fw-bold'>Explorer</StyledHeading>
 						</div>
 					</Link>

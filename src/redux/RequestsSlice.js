@@ -1,22 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axiosInstance from 'src/utils/axios'
 
-export const getRequests = createAsyncThunk('getRequests', async ({ page = 1, limit = 10, search = '', app = '' }) => {
-	try {
-		const value = search ? `&search=${search}` : ''
-		const value2 = app ? `&app=${app}` : ''
-		const { data } = await axiosInstance.get(`/api/v1/requests?page=${page}&limit=${limit}${value}${value2}`)
-		return data
-	} catch (err) {
-		throw err
-	}
-})
-
-export const getSpenderRequests = createAsyncThunk(
-	'getSpenderRequests',
-	async ({ page = 1, limit = 10, search = '' }) => {
+export const getRequests = createAsyncThunk(
+	'getRequests',
+	async ({ page = 1, limit = 10, search = '', app = '' }) => {
 		try {
-			const { data } = await axiosInstance.get(`/api/v1/requests?page=${page}&limit=${limit}&search=${search}`)
+			const value = search ? `&search=${search}` : ''
+			const value2 = app ? `&app=${app}` : ''
+			const { data } = await axiosInstance.get(
+				`/api/v1/requests?page=${page}&limit=${limit}${value}${value2}`
+			)
 			return data
 		} catch (err) {
 			throw err
@@ -24,15 +17,32 @@ export const getSpenderRequests = createAsyncThunk(
 	}
 )
 
-export const getRequestHistory = createAsyncThunk('getRequestHistory', async ({ range = 21, app = '' }) => {
-	try {
-		const value = app ? `&app=${app}` : ''
-		const { data } = await axiosInstance.get(`/api/v1/requests/history?range=${range}${value}`)
-		return data
-	} catch (err) {
-		throw err
+export const getSpenderRequests = createAsyncThunk(
+	'getSpenderRequests',
+	async ({ page = 1, limit = 10, search = '' }) => {
+		try {
+			const { data } = await axiosInstance.get(
+				`/api/v1/requests?page=${page}&limit=${limit}&search=${search}`
+			)
+			return data
+		} catch (err) {
+			throw err
+		}
 	}
-})
+)
+
+export const getRequestHistory = createAsyncThunk(
+	'getRequestHistory',
+	async ({ range = 21, app = '' }) => {
+		try {
+			const value = app ? `&app=${app}` : ''
+			const { data } = await axiosInstance.get(`/api/v1/requests/history?range=${range}${value}`)
+			return data
+		} catch (err) {
+			throw err
+		}
+	}
+)
 
 export const getSingleRequest = createAsyncThunk('getSingleRequest', async (id) => {
 	try {

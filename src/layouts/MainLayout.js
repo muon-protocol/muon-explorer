@@ -9,11 +9,17 @@ const StyledDiv = styled.div`
 	width: 20%;
 	height: 10rem;
 	position: absolute;
-	top: ${({ right }) => (right ? '20vh' : '14vh')};
+	top: ${({ right, landing }) => (landing ? (right ? '30vh' : '24vh') : right ? '20vh' : '14vh')};
 	${({ right }) => (right ? 'right: 10%;' : 'left: 10%;')}
 	filter: blur(140px);
-	background: ${({ theme, right }) => theme.palette[right ? 'secondary1' : 'primary1']};
+	background: ${({ theme, right }) => theme.palette[right ? 'secondary' : 'primaryL1']};
 	z-index: -1;
+`
+
+const StyledDiv2 = styled(StyledDiv)`
+	top: 100vh !important;
+	left: 50vw !important;
+	background: ${({ theme }) => theme.palette.primary25} !important;
 `
 
 export default function MainLayout({ children, title, landing }) {
@@ -23,10 +29,10 @@ export default function MainLayout({ children, title, landing }) {
 
 			<Header landing={landing} />
 
-			<div className='container mt-5 pt-3 position-relative'>
-				<StyledDiv right />
-				<StyledDiv />
-
+			<div className='container mt-5 pt-3 position-relative h-100'>
+				<StyledDiv landing={landing} right />
+				<StyledDiv landing={landing} />
+				{landing && <StyledDiv2 />}
 				{children}
 			</div>
 

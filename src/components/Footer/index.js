@@ -13,13 +13,13 @@ const FooterLogo = styled.div`
 
 const StyledAnchor = styled.a`
 	& path {
-		fill: ${({ theme }) => theme.palette.gray6};
+		fill: ${({ theme }) => theme.palette.gray8};
 	}
 `
 
 const StyledHeading = styled.h6`
 	& span {
-		color: ${({ theme }) => theme.palette.gray3};
+		color: ${({ theme }) => theme.palette.primaryL3};
 	}
 	& a {
 		color: ${({ theme }) => theme.palette.gray1};
@@ -41,7 +41,7 @@ export default function Footer() {
 				<div className='flex-grow-1'>
 					<FooterLogo className='d-flex'>
 						<StyledHeading className='ms-2'>
-							<span className='me-2'>Powered by</span>
+							<span className='me-2 small'>Powered by</span>
 							<Image src={themeImageHandler()} alt='muon' />
 						</StyledHeading>
 					</FooterLogo>

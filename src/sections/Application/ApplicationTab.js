@@ -13,24 +13,25 @@ import { useSelector } from 'react-redux'
 const StyledNavItem = styled(Nav.Link)`
 	font-size: small;
 	padding: 5px 0;
-	color: ${({ theme }) => theme.palette.gray5};
+	color: ${({ theme }) => theme.palette.label};
 	border-radius: 0 !important;
-	background-color: ${({ theme }) => theme.palette.gray11} !important;
-
+	background-color: ${({ theme }) => theme.palette.grayD2} !important;
 	&.code {
-		padding-inline: 2rem !important;
+		padding-inline: 2.5rem !important;
 	}
-
 	&.active {
-		color: ${({ theme }) => theme.palette.primary1} !important;
-		background-color: ${({ theme }) => theme.palette.white} !important;
+		color: ${({ theme }) => theme.palette.primaryMain} !important;
+		background-color: ${({ theme }) => theme.palette.primaryL3} !important;
 		font-weight: bold;
+	}
+	&:hover {
+		color: ${({ theme }) => theme.palette.primaryMain};
 	}
 `
 
 const StyledButton = styled.button`
-	background-color: ${({ theme }) => theme.palette.gray9} !important;
-	color: ${({ theme }) => theme.palette.gray3} !important;
+	background-color: ${({ theme }) => theme.palette.primaryL3} !important;
+	color: ${({ theme }) => theme.palette.primaryMain} !important;
 `
 
 export default function ApplicationTab() {
@@ -86,7 +87,7 @@ export default function ApplicationTab() {
 	}
 
 	return (
-		<Card shrink color='bg4'>
+		<Card shrink color='cardBg'>
 			<div className='d-flex flex-column p-3'>
 				<div className='d-flex flex-wrap justify-content-between align-items-center mb-3'>
 					<Nav
@@ -107,7 +108,10 @@ export default function ApplicationTab() {
 							</StyledNavItem>
 						</Nav.Item>
 					</Nav>
-					<StyledButton className='btn smaller rounded-pill px-4 py-2 border-0' onClick={handleOpenAll}>
+					<StyledButton
+						className='btn smaller rounded-pill px-4 py-2 border-0'
+						onClick={handleOpenAll}
+					>
 						{expand ? 'Close All' : 'Expand All'}
 					</StyledButton>
 				</div>

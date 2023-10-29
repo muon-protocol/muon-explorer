@@ -5,14 +5,16 @@ import styled from 'styled-components'
 import shape1 from 'public/images/shape1.png'
 import shape2 from 'public/images/shape2.png'
 import shape3 from 'public/images/shape3.png'
+
 import { useSelector } from 'react-redux'
 
 const StyledFooterCard = styled.div`
 	border-top: 2px solid ${({ theme }) => theme.palette.gray7};
+	color: ${({ theme }) => theme.palette.label};
 `
 
 const StyledSpan = styled.span`
-	color: ${({ theme }) => theme.palette.primary1};
+	color: ${({ theme }) => theme.palette.primaryL3};
 `
 
 const RequestsChartFooterItem = ({ image, title, value, last }) => {

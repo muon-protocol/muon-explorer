@@ -19,7 +19,9 @@ import { getApplications } from 'src/redux/ApplicationsSlice'
 import { getRequests } from 'src/redux/RequestsSlice'
 import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice'
 
-const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
+const LineChart = dynamic(() => import('src/components/Chart/LineChart'), {
+	loading: () => <p>loading ...</p>,
+})
 const PieChart = dynamic(() => import('src/components/Chart/PieChart'), {
 	loading: () => <p>loading ...</p>,
 	ssr: false,
@@ -60,11 +62,11 @@ export default function Landing() {
 
 			<section className='mb-4'>
 				<Card
-					color='gradient2'
+					color='primaryL1_25'
 					Header='h5'
 					title={process.env.NETWORK + ' Requests History'}
 					action='pills'
-					actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
+					actionContent={<ChartPills active={length} setActive={setLength} />}
 					footerContent={<RequestsChartFooter />}
 				>
 					<LineChart data={historyLoading ? [] : requestsHistory} length={length} />
@@ -74,8 +76,15 @@ export default function Landing() {
 			<section className='mb-4'>
 				<div className='row g-4 justify-content-center'>
 					<div className='col-xl-6 col-lg-10 col-12'>
-						<Card title='Most Used Applications' action='more' actionContent='View All Apps' link='/applications'>
-							<Table head={['App Name', 'Most Used Methods', '#Methods', 'Confirmed Requests']}>
+						<Card
+							title='Most Used Applications'
+							action='more'
+							actionContent='View All Apps'
+							link='/applications'
+						>
+							<Table
+								head={['App Name', 'Most Used Methods', '#Methods', 'Confirmed Requests']}
+							>
 								{!applications.length ? (
 									<tr>
 										<td className='small text-center fw-bold pt-4' colSpan={7}>
@@ -90,7 +99,9 @@ export default function Landing() {
 											</td>
 											<td className='small pe-md-4'>{item.mostUsedMethod}</td>
 											<td className='small'>{item.methods.length || 0}</td>
-											<td className='small text-end'>{item.confirmed_requests}</td>
+											<td className='small text-end active'>
+												{item.confirmed_requests}
+											</td>
 										</tr>
 									))
 								)}
@@ -98,7 +109,12 @@ export default function Landing() {
 						</Card>
 					</div>
 					<div className='col-xl-6 col-lg-10 col-12'>
-						<Card title='Latest Requests' action='more' actionContent='View All Requests' link='/requests'>
+						<Card
+							title='Latest Requests'
+							action='more'
+							actionContent='View All Requests'
+							link='/requests'
+						>
 							<Table head={['Req ID', 'Target Application', 'Method', 'Confirm Time']}>
 								{!requests.length ? (
 									<tr>
@@ -126,7 +142,12 @@ export default function Landing() {
 						</Card>
 					</div>
 					<div className='col-xl-6 col-lg-10 col-12'>
-						<Card title='Most Active Nodes' action='more' actionContent='View All Nodes' link='/nodes'>
+						<Card
+							title='Most Active Nodes'
+							action='more'
+							actionContent='View All Nodes'
+							link='/nodes'
+						>
 							<Table head={['Node ID', 'Tier', 'Status', 'Start Time']}>
 								{!activeNodes.length ? (
 									<tr>
@@ -141,12 +162,19 @@ export default function Landing() {
 												<Link href={`/nodes/${item.id}`}>{item.id}</Link>
 											</td>
 											<td className='small'>Tier-1 (Starter)</td>
-											<td className='small'>
-												{item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status
+											<td
+												className={`small
+													${item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status ? 'active' : 'inactive'}`}
+											>
+												{item?.tests?.networking &&
+												item?.tests?.peerInfo &&
+												item?.tests?.status
 													? 'Active'
 													: 'Inactive'}
 											</td>
-											<td className='small text-end'>{dateTimeFormat(item.startTime)}</td>
+											<td className='small text-end'>
+												{dateTimeFormat(item.startTime)}
+											</td>
 										</tr>
 									))
 								)}
@@ -154,14 +182,17 @@ export default function Landing() {
 						</Card>
 					</div>
 					<div className='col-xl-6 col-lg-10 col-12'>
-						<div className='bg-white rounded-4 h-100'>
+						<div className='rounded-4 h-100'>
 							<Card
-								color='gradient2'
+								color='primaryL1_25'
 								title={process.env.NETWORK + ' Nodes Status'}
 								footerContent={<NodesChartFooter />}
 							>
 								<div className='d-flex justify-content-center mb-3'>
-									<PieChart data={[activeNodesCount || 1, deactiveNodesCount || 0]} large />
+									<PieChart
+										data={[activeNodesCount || 1, deactiveNodesCount || 0]}
+										large
+									/>
 								</div>
 							</Card>
 						</div>

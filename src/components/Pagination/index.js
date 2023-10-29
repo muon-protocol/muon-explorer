@@ -3,11 +3,11 @@ import { Icon } from '@iconify/react'
 import styled, { useTheme } from 'styled-components'
 
 const StyledSpan = styled.span`
-	color: ${({ theme }) => theme.palette.primary};
+	color: ${({ theme }) => theme.palette.primaryL3};
 `
 
 const StyledSpan2 = styled.span`
-	color: ${({ theme }) => theme.palette.primary2};
+	color: ${({ theme }) => theme.palette.primaryL1};
 `
 
 export default function Pagination({ LIMIT, dataLength, total, loading, page, setPage }) {
@@ -33,11 +33,15 @@ export default function Pagination({ LIMIT, dataLength, total, loading, page, se
 				</StyledSpan2>
 
 				<div className='d-flex align-items-center'>
-					<button className='btn border-0 p-0' onClick={handlePrevPage} disabled={page === 0 || loading}>
+					<button
+						className='btn border-0 p-0'
+						onClick={handlePrevPage}
+						disabled={page === 0 || loading}
+					>
 						<Icon
 							icon='material-symbols:arrow-left-rounded'
 							width={50}
-							color={page === 0 ? theme.palette.primary3 : theme.palette.primary2}
+							color={page === 0 ? theme.palette.primaryLow : theme.palette.primaryL1}
 						/>
 					</button>
 					<StyledSpan className='small'>
@@ -51,7 +55,11 @@ export default function Pagination({ LIMIT, dataLength, total, loading, page, se
 						<Icon
 							icon='material-symbols:arrow-right-rounded'
 							width={50}
-							color={page + 1 === Math.ceil(total / LIMIT) ? theme.palette.primary3 : theme.palette.primary2}
+							color={
+								page + 1 === Math.ceil(total / LIMIT)
+									? theme.palette.primaryLow
+									: theme.palette.primaryL1
+							}
 						/>
 					</button>
 				</div>

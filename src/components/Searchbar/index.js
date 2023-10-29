@@ -3,13 +3,19 @@ import { Icon } from '@iconify/react'
 import styled from 'styled-components'
 
 const StyledDiv = styled.div`
-	background-color: ${({ theme }) => theme.palette.gray8};
+	background-color: ${({ theme }) => theme.palette.input};
 	width: 20rem;
 	${({ theme }) => theme.breakpoints.xs`
         width: 100%;
     `};
 	& path {
-		fill: ${({ theme }) => theme.palette.gray5};
+		fill: ${({ theme }) => theme.palette.label};
+	}
+	& input {
+		color: ${({ theme }) => theme.palette.label};
+		&::placeholder {
+			color: ${({ theme }) => theme.palette.label};
+		}
 	}
 `
 

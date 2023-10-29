@@ -51,7 +51,13 @@ export default function RequestsTab() {
 		<Card
 			title='Latest Requests'
 			action='search'
-			actionContent={<Searchbar value={inputValue} setValue={setInputValue} placeholder='Req ID / Spender Addr' />}
+			actionContent={
+				<Searchbar
+					value={inputValue}
+					setValue={setInputValue}
+					placeholder='Req ID / Spender Addr'
+				/>
+			}
 			footerContent={
 				<Pagination
 					page={page}
@@ -64,7 +70,17 @@ export default function RequestsTab() {
 				/>
 			}
 		>
-			<Table head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}>
+			<Table
+				head={[
+					'Req ID',
+					'From',
+					'Target App',
+					'Method',
+					'Gateway Address',
+					'Start Time',
+					'Confirm Time',
+				]}
+			>
 				{!requests.length ? (
 					<tr>
 						<td className='small text-center fw-bold pt-4' colSpan={7}>

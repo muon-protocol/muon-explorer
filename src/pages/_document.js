@@ -39,10 +39,25 @@ export default class MyDocument extends Document {
 
 					<link rel='preconnect' href='https://fonts.googleapis.com' />
 					<link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='true' />
-					<link href='https://fonts.googleapis.com/css2?family=Lato&display=swap' rel='stylesheet' />
+					<link
+						href='https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap'
+						rel='stylesheet'
+					/>
 
-					<link rel='manifest' href='/manifest/manifest.json' />
-					<link rel='icon' type='image/x-icon' href='/manifest/favicon.ico' />
+					{process.env.NETWORK === 'Alice' ? (
+						<link rel='manifest' href='/manifest/alice/manifest.json' />
+					) : process.env.NETWORK === 'Pion' ? (
+						<link rel='manifest' href='/manifest/pion/manifest.json' />
+					) : (
+						<link rel='manifest' href='/manifest/pion/manifest.json' />
+					)}
+					{process.env.NETWORK === 'Alice' ? (
+						<link rel='icon' type='image/x-icon' href='/manifest/alice/favicon.ico' />
+					) : process.env.NETWORK === 'Pion' ? (
+						<link rel='icon' type='image/x-icon' href='/manifest/pion/favicon.ico' />
+					) : (
+						<link rel='icon' type='image/x-icon' href='/manifest/pion/favicon.ico' />
+					)}
 				</Head>
 				<body>
 					<Main />

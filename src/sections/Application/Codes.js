@@ -9,12 +9,12 @@ import 'prismjs/components/prism-javascript'
 const StyledAccordion = styled(Accordion)`
 	& .accordion-button {
 		border-radius: 1rem !important;
-		color: ${({ theme }) => theme.palette.gray2};
+		color: ${({ theme }) => theme.palette.text};
 		background-color: transparent;
 		box-shadow: none;
 
 		&:after {
-			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2368687f'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23747B87'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
 		}
 		&:focus {
 			box-shadow: none;
@@ -24,7 +24,7 @@ const StyledAccordion = styled(Accordion)`
 
 const StyledItem = styled(Accordion.Item)`
 	background-color: transparent;
-	border: 1px dashed ${({ theme }) => theme.palette.gray1} !important;
+	border: 1px dashed ${({ theme }) => theme.palette.grayL1} !important;
 `
 
 const StyledBody = styled(Accordion.Body)`

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { fromNow, fullFormat } from 'src/utils/times'
+import { Icon } from '@iconify/react'
 
 import Accordion from 'react-bootstrap/Accordion'
 
@@ -15,15 +16,26 @@ import { getSingleRequest } from 'src/redux/RequestsSlice'
 import { useSelector } from 'react-redux'
 
 const StyledSpan = styled.span`
-	color: ${({ theme }) => theme.palette.gray5};
+	color: ${({ theme }) => theme.palette.label};
+`
+
+const StyledLink = styled(Link)`
+	background-color: ${({ theme }) => theme.palette.primaryL1_25} !important;
+	padding: 4px !important;
+	z-index: 1000;
+	line-height: 10px;
+	& svg {
+		color: ${({ theme }) => theme.palette.white};
+	}
 `
 
 const StyledAccordion = styled(Accordion)`
 	& .accordion-button {
 		border-radius: 1rem !important;
-		color: ${({ theme }) => theme.palette.primary1};
+		color: ${({ theme }) => theme.palette.primaryL2};
 		background-color: transparent !important;
 		box-shadow: none;
+		font-size: 18px;
 
 		&:after {
 			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2368687f'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
@@ -33,7 +45,7 @@ const StyledAccordion = styled(Accordion)`
 		}
 	}
 	& .accordion-item {
-		border: 1px dashed ${({ theme }) => theme.palette.gray5} !important;
+		border: 1px dashed ${({ theme }) => theme.palette.grayL1} !important;
 		background-color: transparent !important;
 	}
 	& .accordion-body {
@@ -46,14 +58,15 @@ const StyledAccordion = styled(Accordion)`
 `
 
 const StyledDiv = styled.div`
-	border: 1px dashed ${({ theme }) => theme.palette.gray5} !important;
+	border: 1px dashed ${({ theme }) => theme.palette.grayL1} !important;
 	& h6 {
-		color: ${({ theme }) => theme.palette.primary1};
+		color: ${({ theme }) => theme.palette.primaryL2};
 	}
 `
 
 const StyledSpan2 = styled.span`
 	white-space: pre-wrap;
+	color: ${({ theme }) => theme.palette.text};
 `
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ query }) => {
@@ -94,7 +107,7 @@ export default function ApplicationPage() {
 	return (
 		<MainLayout title={`Request ${request?.reqId}`}>
 			<section className='mb-4 position-relative overflow-hidden'>
-				<Card color='gradient2'>
+				<Card color='primaryL1_25'>
 					<div className='row g-4 justify-content-center pb-3 px-xl-5 px-0'>
 						<div className='col-lg-9 col-12 d-flex align-items-center'>
 							<StyledSpan className='small'>Request ID:</StyledSpan>
@@ -104,8 +117,11 @@ export default function ApplicationPage() {
 						<div className='col-lg-3 col-12 d-flex align-items-center justify-content-lg-end'>
 							<StyledSpan className='small'>Application/Method:</StyledSpan>
 							<h6 className='fw-bold small mb-0 mx-2'>
-								<Link href={`/applications/${request?.app}`}>{request?.app}</Link>.{request?.method}
+								{request?.app}.{request?.method}
 							</h6>
+							<StyledLink href={`/applications/${request?.app}`} className='rounded-2'>
+								<Icon icon='bi:box-arrow-up-right' width={15} />
+							</StyledLink>
 						</div>
 						<div className='col-lg-6 col-12 d-flex flex-wrap align-items-center'>
 							<StyledSpan className='small'>Initial Request Time:</StyledSpan>
@@ -127,7 +143,7 @@ export default function ApplicationPage() {
 				<Card>
 					<div className='d-flex flex-column'>
 						<StyledDiv className='mb-3 rounded-4 p-3 d-flex flex-column'>
-							<h6 className='mb-4'>Signature</h6>
+							<h6 className='mb-4 medium'>Signature</h6>
 							<div className='d-flex flex-column px-3'>
 								<p className='small mb-1'>
 									Signature:

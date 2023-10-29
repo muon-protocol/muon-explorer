@@ -4,15 +4,20 @@ import aliceLogo from 'public/images/logo/alice.png'
 
 import muon_net_dark from 'public/images/logo/muon-net-dark.png'
 import muon_net_light from 'public/images/logo/muon-net-light.png'
+import muon_net_pion from 'public/images/logo/muon-net-pion.png'
 
 export const themeImageHandler = (logo) => {
 	if (logo) {
-		return process.env.NETWORK === 'Alice' ? aliceLogo : process.env.NETWORK === 'Pion' ? pionLogo : muonLogo
+		return process.env.NETWORK === 'Alice'
+			? aliceLogo
+			: process.env.NETWORK === 'Pion'
+			? pionLogo
+			: muonLogo
 	} else {
 		return process.env.NETWORK === 'Alice'
 			? muon_net_dark
 			: process.env.NETWORK === 'Pion'
-			? muon_net_light
+			? muon_net_pion
 			: muon_net_light
 	}
 }

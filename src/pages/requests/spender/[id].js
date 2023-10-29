@@ -47,7 +47,15 @@ export default function SpenderRequests() {
 					}
 				>
 					<Table
-						head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}
+						head={[
+							'Req ID',
+							'From',
+							'Target App',
+							'Method',
+							'Gateway Address',
+							'Start Time',
+							'Confirm Time',
+						]}
 					>
 						{!spenderRequests.length ? (
 							<tr>
@@ -65,7 +73,9 @@ export default function SpenderRequests() {
 									</td>
 									<td className='small'>
 										{item.data?.fee?.spender?.address ? (
-											<Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
+											<Link
+												href={`/requests/spender/${item.data?.fee?.spender?.address}`}
+											>
 												{item.data?.fee?.spender?.address.slice(0, 10) +
 													'...' +
 													item.data?.fee?.spender?.address.slice(-10)}
