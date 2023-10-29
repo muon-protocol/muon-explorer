@@ -45,18 +45,18 @@ export default class MyDocument extends Document {
 					/>
 
 					{process.env.NETWORK === 'Alice' ? (
-						<link rel='manifest' href='/manifest/alice/manifest.json' />
+						<link rel='manifest' href='/alice/manifest/alice/manifest.json' />
 					) : process.env.NETWORK === 'Pion' ? (
-						<link rel='manifest' href='/manifest/pion/manifest.json' />
+						<link rel='manifest' href='/pion/manifest/pion/manifest.json' />
 					) : (
-						<link rel='manifest' href='/manifest/pion/manifest.json' />
+						<link rel='manifest' href='/muon/manifest/pion/manifest.json' />
 					)}
 					{process.env.NETWORK === 'Alice' ? (
-						<link rel='icon' type='image/x-icon' href='/manifest/alice/favicon.ico' />
+						<link rel='icon' type='image/x-icon' href='/alice/manifest/alice/favicon.ico' />
 					) : process.env.NETWORK === 'Pion' ? (
-						<link rel='icon' type='image/x-icon' href='/manifest/pion/favicon.ico' />
+						<link rel='icon' type='image/x-icon' href='/pion/manifest/pion/favicon.ico' />
 					) : (
-						<link rel='icon' type='image/x-icon' href='/manifest/pion/favicon.ico' />
+						<link rel='icon' type='image/x-icon' href='/muon/manifest/pion/favicon.ico' />
 					)}
 				</Head>
 				<body>
