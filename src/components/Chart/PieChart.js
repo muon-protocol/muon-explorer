@@ -13,14 +13,14 @@ export default function PieChart({ data, large }) {
 		})
 
 		const dataArray = data.reduce(
-			(a, v) => [
+			(a, v, i) => [
 				...a,
 				{
 					name: `${Number(((v / total) * 100).toFixed(1))}%`,
 					value: v,
-					labelColor: Number(((v / total) * 100).toFixed(1)) > 50 ? theme.palette.primary1 : theme.palette.gray5,
-					cellColor:
-						Number(((v / total) * 100).toFixed(1)) > 50 ? 'rgba(81, 88, 246, 0.5)' : 'rgba(114, 81, 246, 0.25)',
+					labelColor: i === 0 ? theme.palette.primaryL2 : theme.palette.gray,
+					cellColor: i === 0 ? '#918EF5' : 'rgba(145, 142, 245, 0.5)',
+					strokeColor: i === 0 ? theme.palette.graphStroke : 'transparent',
 				},
 			],
 			[]
@@ -38,7 +38,8 @@ export default function PieChart({ data, large }) {
 				outerRadius={large ? 100 : 60}
 				data={handleData}
 				fill='#82ca9d'
-				stroke='none'
+				stroke={theme.palette.primaryL2}
+				strokeWidth={4}
 				dataKey='value'
 				label={({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
 					const RADIAN = Math.PI / 180
@@ -60,7 +61,7 @@ export default function PieChart({ data, large }) {
 				}}
 			>
 				{handleData.map((item, index) => (
-					<Cell key={index} fill={item.cellColor} style={{ outline: 'none' }} />
+					<Cell key={index} fill={item.cellColor} style={{ outline: 'none', stroke: item.strokeColor, strokeWidth: 4 }} />
 				))}
 			</Pie>
 		</CustomPieChart>

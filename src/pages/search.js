@@ -11,7 +11,9 @@ import { useSelector } from 'react-redux'
 import { dateTimeFormat } from 'src/utils/times'
 
 export default function Search() {
-	const { searchedApps, searchedReqs, searchedNodes, loading } = useSelector((store) => store.search)
+	const { searchedApps, searchedReqs, searchedNodes, loading } = useSelector(
+		(store) => store.search
+	)
 
 	return (
 		<MainLayout title='Search' landing>
@@ -35,7 +37,13 @@ export default function Search() {
 								<div className='mb-4'>
 									<h6 className='fw-bold'>Applications Result :</h6>
 									<Table
-										head={['App Name', 'Most Used Method', '#Methods', 'Nodes on app', 'Confirmed Requests']}
+										head={[
+											'App Name',
+											'Most Used Method',
+											'#Methods',
+											'Nodes on app',
+											'Confirmed Requests',
+										]}
 									>
 										{searchedApps.map((item, index) => (
 											<tr key={index}>
@@ -44,7 +52,9 @@ export default function Search() {
 												</td>
 												<td className='small'>{item.mostUsedMethod}</td>
 												<td className='small'>{item.methods.length || 0}</td>
-												<td className='small'>{item.data?.context.tss?.threshold?.max ?? ''}</td>
+												<td className='small'>
+													{item.data?.context.tss?.threshold?.max ?? ''}
+												</td>
 												<td className='small text-end'>{item.confirmed_requests}</td>
 											</tr>
 										))}
@@ -74,7 +84,9 @@ export default function Search() {
 												</td>
 												<td className='small' style={{ minWidth: '10rem' }}>
 													{item.data?.fee?.spender?.address ? (
-														<Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
+														<Link
+															href={`/requests/spender/${item.data?.fee?.spender?.address}`}
+														>
 															{item.data?.fee?.spender?.address.slice(0, 10) +
 																'...' +
 																item.data?.fee?.spender?.address.slice(-10)}
@@ -89,11 +101,15 @@ export default function Search() {
 												<td className='small'>{item.method}</td>
 												<td className='small'>
 													<Link href={`/nodes/${item.gwAddress}`}>
-														{item.gwAddress.slice(0, 10) + '...' + item.gwAddress.slice(-10)}
+														{item.gwAddress.slice(0, 10) +
+															'...' +
+															item.gwAddress.slice(-10)}
 													</Link>
 												</td>
 												<td className='small'>{dateTimeFormat(item.startedAt)}</td>
-												<td className='small text-end'>{dateTimeFormat(item.confirmedAt)}</td>
+												<td className='small text-end'>
+													{dateTimeFormat(item.confirmedAt)}
+												</td>
 											</tr>
 										))}
 									</Table>
@@ -102,22 +118,36 @@ export default function Search() {
 							{searchedNodes.length ? (
 								<div>
 									<h6 className='fw-bold'>Nodes Result :</h6>
-									<Table head={['Node ID', 'Node Address', 'Status', 'Start Time', 'Last Edit Time']}>
+									<Table
+										head={[
+											'Node ID',
+											'Node Address',
+											'Status',
+											'Start Time',
+											'Last Edit Time',
+										]}
+									>
 										{searchedNodes.slice(0, 10).map((item, index) => (
 											<tr key={index}>
 												<td className='small'>
 													<Link href={`/nodes/${item.id}`}>{item.id}</Link>
 												</td>
 												<td className='small pe-md-4'>
-													{item.nodeAddress.slice(0, 10) + '...' + item.nodeAddress.slice(-10)}
+													{item.nodeAddress.slice(0, 10) +
+														'...' +
+														item.nodeAddress.slice(-10)}
 												</td>
 												<td className='small pe-md-4'>
-													{item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status
+													{item?.tests?.networking &&
+													item?.tests?.peerInfo &&
+													item?.tests?.status
 														? 'Active'
 														: 'Inactive'}
 												</td>
 												<td className='small'>{dateTimeFormat(item.startTime)}</td>
-												<td className='small text-end'>{dateTimeFormat(item.lastEditTime)}</td>
+												<td className='small text-end'>
+													{dateTimeFormat(item.lastEditTime)}
+												</td>
 											</tr>
 										))}
 									</Table>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { dateFormat } from 'src/utils/times'
 
 import { LIMIT } from 'src/constants/applications'
 
@@ -47,7 +46,9 @@ export default function Applications() {
 				<Card
 					title={'Applications on ' + process.env.NETWORK}
 					action='search'
-					actionContent={<Searchbar value={inputValue} setValue={setInputValue} placeholder='App Name' />}
+					actionContent={
+						<Searchbar value={inputValue} setValue={setInputValue} placeholder='App Name' />
+					}
 					footerContent={
 						<Pagination
 							LIMIT={LIMIT}
@@ -60,7 +61,15 @@ export default function Applications() {
 						/>
 					}
 				>
-					<Table head={['App Name', 'Most Used Method', '#Methods', 'Nodes on app', 'Confirmed Requests']}>
+					<Table
+						head={[
+							'App Name',
+							'Most Used Method',
+							'#Methods',
+							'Nodes on app',
+							'Confirmed Requests',
+						]}
+					>
 						{loading ? (
 							<tr>
 								<td colSpan={7}>
@@ -81,7 +90,9 @@ export default function Applications() {
 									</td>
 									<td className='small'>{item.mostUsedMethod}</td>
 									<td className='small'>{item.methods.length || 0}</td>
-									<td className='small'>{item.data?.context?.tss?.threshold?.max ?? ''}</td>
+									<td className='small'>
+										{item.data?.context?.tss?.threshold?.max ?? ''}
+									</td>
 									<td className='small text-end'>{item.confirmed_requests}</td>
 								</tr>
 							))

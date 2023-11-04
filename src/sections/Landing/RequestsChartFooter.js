@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-import shape1 from 'public/images/shape1.png'
-import shape2 from 'public/images/shape2.png'
-import shape3 from 'public/images/shape3.png'
 import { useSelector } from 'react-redux'
+import { themeStatImageHandler } from 'src/utils/helpers'
 
 const StyledFooterCard = styled.div`
-	border-top: 2px solid ${({ theme }) => theme.palette.gray7};
+	border-top: 2px solid ${({ theme }) => theme.palette.white_50};
+	color: ${({ theme }) => theme.palette.label};
 `
 
-const StyledSpan = styled.span`
-	color: ${({ theme }) => theme.palette.primary1};
+const StyledH5 = styled.h5`
+	color: ${({ theme }) => theme.palette.statValue};
 `
 
 const RequestsChartFooterItem = ({ image, title, value, last }) => {
@@ -22,8 +21,8 @@ const RequestsChartFooterItem = ({ image, title, value, last }) => {
 				<Image src={image} alt='muon' className='img-fluid' />
 			</div>
 			<div className='d-flex flex-column'>
-				<span className='small'>{title}</span>
-				<StyledSpan className='fw-bold'>{value?.toLocaleString('en')}</StyledSpan>
+				<span className='small mb-2'>{title}</span>
+				<StyledH5 className='fw-bold mb-0'>{value?.toLocaleString('en')}</StyledH5>
 			</div>
 		</div>
 	)
@@ -49,9 +48,9 @@ export default function RequestsChartFooter() {
 	return (
 		<StyledFooterCard className='card-footer bg-transparent'>
 			<div className='d-flex flex-column flex-sm-row justify-content-between pt-2 px-md-4'>
-				<RequestsChartFooterItem image={shape1} title='Applications' value={totalApps} />
-				<RequestsChartFooterItem image={shape2} title='Active Nodes' value={activeNodesCount} />
-				<RequestsChartFooterItem image={shape3} title='Requests' value={sum} />
+				<RequestsChartFooterItem image={themeStatImageHandler(1)} title='Applications' value={totalApps} />
+				<RequestsChartFooterItem image={themeStatImageHandler(2)} title='Active Nodes' value={activeNodesCount} />
+				<RequestsChartFooterItem image={themeStatImageHandler(3)} title='Requests' value={sum} />
 			</div>
 		</StyledFooterCard>
 	)

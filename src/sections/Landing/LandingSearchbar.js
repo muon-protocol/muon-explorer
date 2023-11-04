@@ -8,22 +8,24 @@ import { useDispatch } from 'react-redux'
 import { getSearchedData } from 'src/redux/SearchSlice'
 
 const StyledDiv = styled.div`
-	background-color: ${({ theme }) => theme.palette.white};
+	background-color: ${({ theme, landing }) => theme.palette[landing ? 'homeInputBg' : 'cardBg']};
 	width: ${({ landing }) => (landing ? '100%' : '26rem')};
 	max-width: ${({ landing }) => (landing ? '100%' : '90vw')};
-	border: ${({ theme, landing }) => (landing ? 'none' : `1px solid ${theme.palette.gray7}`)};
+	border: ${({ theme, landing }) => landing ? `1px solid ${theme.palette.homeInputStroke}` : 'none'};
 	& input {
-		font-size: 13px;
+		font-size: ${({ landing }) => (landing ? '16px' : '13px')};
+		color: ${({ theme, landing }) => theme.palette[landing ? 'label' : 'grayL1']} !important;
 		&::placeholder {
 			font-size: ${({ landing }) => (landing ? 'normal' : 'small')};
+			color: ${({ theme, landing }) => theme.palette[landing ? 'label' : 'grayL1']} !important;
 		}
 	}
 `
 
 const StyledButton = styled.button`
-	background-color: ${({ theme }) => theme.palette.primary1};
+	background-color: ${({ theme }) => theme.palette.homeInputIcon};
 	line-height: 10px;
-
+	padding: ${({ landing }) => (landing ? '15px' : '5px')};
 	& path {
 		fill: ${({ theme }) => theme.palette.white};
 	}
@@ -48,7 +50,12 @@ export default function LandingSearchbar({ landing }) {
 			const foundApps = payload?.apps
 			const foundNodes = payload?.nodes
 
-			if (foundApps?.length === 1 && !foundReqs?.length && !foundNodes?.length && !foundSpenders?.length) {
+			if (
+				foundApps?.length === 1 &&
+				!foundReqs?.length &&
+				!foundNodes?.length &&
+				!foundSpenders?.length
+			) {
 				const appId = foundApps[0].id
 				push(`/applications/${appId}`)
 			} else if (pathname !== '/search') {
@@ -72,9 +79,9 @@ export default function LandingSearchbar({ landing }) {
 	}
 
 	return (
-		<StyledDiv className='rounded-pill d-flex align-items-center p-1' landing={landing}>
+		<StyledDiv className='rounded-pill d-flex align-items-center px-1 py-2' landing={landing}>
 			<input
-				className={`form-control my-${landing ? '3' : '0 py-0 pb-1'} mx-${
+				className={`form-control my-${landing ? '2' : '0 py-0 pb-1'} mx-${
 					landing ? '4' : '0'
 				} bg-transparent border-0`}
 				type='text'
@@ -84,9 +91,10 @@ export default function LandingSearchbar({ landing }) {
 				onKeyDown={handleOnKeyDown}
 			/>
 			<StyledButton
-				className={`border-0 rounded-circle p-${landing ? '2' : '1'} me-1`}
+				className='border-0 rounded-circle me-1'
 				disabled={!value}
 				onClick={handleSubmit}
+				landing={landing}
 			>
 				{loading ? (
 					<Icon icon='eos-icons:loading' width={landing ? 30 : 20} />

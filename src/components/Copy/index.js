@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { toast } from 'react-toastify'
 
 const StyledButton = styled.button`
-	background-color: ${({ theme }) => theme.palette.primary6} !important;
+	background-color: ${({ theme }) => theme.palette.primaryL1_25} !important;
 	padding: 4px !important;
 	z-index: 1000;
 	line-height: 10px;

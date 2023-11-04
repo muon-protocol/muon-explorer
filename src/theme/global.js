@@ -10,14 +10,14 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
     a {
         text-decoration: none !important;
-        color: initial;
+        color: ${({ theme }) => theme.palette.text};
     }
 
     body {
-        background-color: ${({ theme }) => theme.palette.gray8} !important;
+        background-color: ${({ theme }) => theme.palette.bg} !important;
         font-family: 'Lato';
         overflow-x: hidden;
-        color: ${({ theme }) => theme.palette.gray1};
+        color: ${({ theme }) => theme.palette.text};
         width: 100vw;
     }
 

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 
-import { themeImageHandler } from 'src/utils/helpers'
+import muon_net_alice from 'public/images/logo/muon-net.png'
 
 const FooterLogo = styled.div`
 	position: absolute;
@@ -13,16 +13,13 @@ const FooterLogo = styled.div`
 
 const StyledAnchor = styled.a`
 	& path {
-		fill: ${({ theme }) => theme.palette.gray6};
+		fill: ${({ theme }) => theme.palette.primaryL3};
 	}
 `
 
 const StyledHeading = styled.h6`
 	& span {
-		color: ${({ theme }) => theme.palette.gray3};
-	}
-	& a {
-		color: ${({ theme }) => theme.palette.gray1};
+		color: ${({ theme }) => theme.palette.primaryL3};
 	}
 `
 
@@ -41,8 +38,8 @@ export default function Footer() {
 				<div className='flex-grow-1'>
 					<FooterLogo className='d-flex'>
 						<StyledHeading className='ms-2'>
-							<span className='me-2'>Powered by</span>
-							<Image src={themeImageHandler()} alt='muon' />
+							<span className='me-2 small'>Powered by</span>
+							<Image src={muon_net_alice} alt='muon' />
 						</StyledHeading>
 					</FooterLogo>
 				</div>

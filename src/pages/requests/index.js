@@ -18,10 +18,14 @@ import Searchbar from 'src/components/Searchbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRequests } from 'src/redux/RequestsSlice'
 
-const LineChart = dynamic(() => import('src/components/Chart/LineChart'), { loading: () => <p>loading ...</p> })
+const LineChart = dynamic(() => import('src/components/Chart/LineChart'), {
+	loading: () => <p>loading ...</p>,
+})
 
 export default function Requests() {
-	const { requests, requestsLoading, totalReqs, requestsHistory } = useSelector((store) => store.requests)
+	const { requests, requestsLoading, totalReqs, requestsHistory } = useSelector(
+		(store) => store.requests
+	)
 
 	const dispatch = useDispatch()
 
@@ -57,10 +61,11 @@ export default function Requests() {
 		<MainLayout title='Requests'>
 			<section className='mb-4'>
 				<Card
+					color='primaryL1_25'
 					Header='h5'
 					title={process.env.NETWORK + ' Requests History'}
 					action='pills'
-					actionContent={<ChartPills color='secondary2' active={length} setActive={setLength} />}
+					actionContent={<ChartPills active={length} setActive={setLength} />}
 				>
 					<LineChart data={requestsHistory} length={length} />
 				</Card>
@@ -68,10 +73,15 @@ export default function Requests() {
 
 			<section className='mb-4'>
 				<Card
+					color='cardBg'
 					title={process.env.NETWORK + ' Requests'}
 					action='search'
 					actionContent={
-						<Searchbar value={inputValue} setValue={setInputValue} placeholder='Req ID / Spender Addr' />
+						<Searchbar
+							value={inputValue}
+							setValue={setInputValue}
+							placeholder='Req ID / Spender Addr'
+						/>
 					}
 					footerContent={
 						<Pagination
@@ -86,7 +96,15 @@ export default function Requests() {
 					}
 				>
 					<Table
-						head={['Req ID', 'From', 'Target App', 'Method', 'Gateway Address', 'Start Time', 'Confirm Time']}
+						head={[
+							'Req ID',
+							'From',
+							'Target App',
+							'Method',
+							'Gateway Address',
+							'Start Time',
+							'Confirm Time',
+						]}
 					>
 						{!requests.length ? (
 							<tr>
@@ -104,7 +122,9 @@ export default function Requests() {
 									</td>
 									<td className='small' style={{ minWidth: '10rem' }}>
 										{item.data?.fee?.spender?.address ? (
-											<Link href={`/requests/spender/${item.data?.fee?.spender?.address}`}>
+											<Link
+												href={`/requests/spender/${item.data?.fee?.spender?.address}`}
+											>
 												{item.data?.fee?.spender?.address.slice(0, 10) +
 													'...' +
 													item.data?.fee?.spender?.address.slice(-10)}

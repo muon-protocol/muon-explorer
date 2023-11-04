@@ -6,7 +6,7 @@ import Pills from 'src/components/Pills'
 import { useDispatch } from 'react-redux'
 import { getRequestHistory } from 'src/redux/RequestsSlice'
 
-const ChartPills = ({ color, active, setActive, app }) => {
+const ChartPills = ({ active, setActive, app }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -14,7 +14,7 @@ const ChartPills = ({ color, active, setActive, app }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch, active])
 
-	return <Pills items={items} active={active} setActive={(e) => setActive(Number(e))} color={color} />
+	return <Pills items={items} active={active} setActive={(e) => setActive(Number(e))} />
 }
 
 export default ChartPills

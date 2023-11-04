@@ -5,7 +5,7 @@
 	"trailingComma": "es5",
 	"tabWidth": 3,
 	"useTabs": true,
-	"printWidth": 120,
+	"printWidth": 100,
 	"bracketSameLine": false,
 	"bracketSpacing": true,
 	"embeddedLanguageFormatting": "auto",

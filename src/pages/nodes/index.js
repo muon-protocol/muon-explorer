@@ -4,10 +4,6 @@ import { dateTimeFormat } from 'src/utils/times'
 import styled from 'styled-components'
 import dynamic from 'next/dynamic'
 
-import Lottie from 'lottie-react'
-
-import nodeAnimation from 'public/animations/Nodes.json'
-
 import { LIMIT } from 'src/constants/applications'
 
 import useSearch from 'src/hooks/useSearch'
@@ -28,51 +24,30 @@ const PieChart = dynamic(() => import('src/components/Chart/PieChart'), {
 	ssr: false,
 })
 
-const StyledLottie = styled(Lottie)`
-	position: absolute;
-	left: -8.5rem;
-	top: -8.2rem;
-	width: 22rem;
-	opacity: 0.4;
-	z-index: -1;
-	mix-blend-mode: luminosity;
-	${({ theme }) => theme.breakpoints.md`
-        display: none;
-    `};
-`
-
-const StyledRow = styled.div`
-	width: 92%;
-	margin-left: auto;
-	${({ theme }) => theme.breakpoints.md`
-        width: 100%;
-        margin-left: unset;
-    `};
-`
-
 const StyledDevider = styled.div`
 	width: 100%;
-	border-top: 1px dashed ${({ theme }) => theme.palette.white};
+	border-top: 1px dashed ${({ theme }) => theme.palette.grayL1};
 `
 
 const StyledLink = styled(Link)`
-	color: ${({ theme }) => theme.palette.primary1};
+	color: ${({ theme }) => theme.palette.secondary} !important;
 `
 
 const StyledSpan = styled.span`
-	color: ${({ theme }) => theme.palette.gray5};
+	color: ${({ theme }) => theme.palette.label};
 `
 
 const StyledSpan2 = styled.span`
-	color: ${({ theme }) => theme.palette.gray1};
+	color: ${({ theme }) => theme.palette.gray};
 `
 
-const StyledH4 = styled.h4`
-	color: ${({ theme }) => theme.palette.primary1};
+const StyledH3 = styled.h3`
+	color: ${({ theme }) => theme.palette.primaryText};
 `
 
 const StyledH5 = styled.h5`
-	color: ${({ theme }) => theme.palette.primary1};
+	color: ${({ theme }) => theme.palette.primaryText};
+	font-weight: bold;
 `
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
@@ -88,7 +63,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ()
 })
 
 export default function Nodes({ total }) {
-	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount } = useSelector((store) => store.nodes)
+	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount } = useSelector(
+		(store) => store.nodes
+	)
 
 	const dispatch = useDispatch()
 
@@ -115,20 +92,23 @@ export default function Nodes({ total }) {
 	return (
 		<MainLayout title='Nodes'>
 			<section className='mb-4 position-relative overflow-hidden'>
-				<Card color='gradient2'>
-					<StyledRow className='row g-2 justify-content-end py-1'>
+				<Card color='primaryL1_25'>
+					<div className='row g-2 justify-content-end py-1 px-xl-5'>
 						<div className='col-lg-8 col-12 d-flex flex-column justify-content-center me-lg-4'>
 							<div className='row g-4 justify-content-lg-start justify-content-between'>
 								<div className='col-md-4 col-12 d-flex align-items-end'>
 									<StyledSpan className='me-xl-3 me-lg-2 me-3'>Total Nodes</StyledSpan>
-									<h4 className='fw-bold mb-0'>{total}</h4>
+									<h3 className='fw-bold mb-0'>{total}</h3>
 								</div>
 								<div className='col-md-7 col-12 d-flex align-items-end justify-content-lg-start justify-content-md-end ms-lg-4 ps-xl-4'>
 									<StyledSpan className='me-xl-3 me-lg-2 me-3'>Active Nodes</StyledSpan>
-									<StyledH4 className='fw-bold mb-0'>
+									<StyledH3 className='fw-bold mb-0'>
 										{activeNodesCount} (
-										{activeNodesCount && total ? ((activeNodesCount / total) * 100).toFixed(2) : 0}%)
-									</StyledH4>
+										{activeNodesCount && total
+											? ((activeNodesCount / total) * 100).toFixed(2)
+											: 0}
+										%)
+									</StyledH3>
 								</div>
 							</div>
 							<div className='w-100 my-4'>
@@ -137,24 +117,27 @@ export default function Nodes({ total }) {
 							<div className='row g-4'>
 								<div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
 									<StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
-									<StyledH5 className='fw-bold'>
-										<StyledSpan2 className='me-2'>{total} </StyledSpan2>({activeNodesCount})
-									</StyledH5>
+									<div className='d-flex align-items-center fw-bold'>
+										<h5 className='me-2'>{total}</h5>
+										<StyledH5>({activeNodesCount})</StyledH5>
+									</div>
 								</div>
 								<div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-center'>
 									<div className='d-flex flex-column'>
 										<StyledSpan className='mb-2'>Tier - 2 (Pro nodes)</StyledSpan>
-										<StyledH5 className='fw-bold'>
-											<StyledSpan2 className='me-2'>0 </StyledSpan2>(0)
-										</StyledH5>
+										<div className='d-flex align-items-center fw-bold'>
+											<h5 className='me-2'>0</h5>
+											<StyledH5>(0)</StyledH5>
+										</div>
 									</div>
 								</div>
 								<div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-end'>
 									<div className='d-flex flex-column'>
 										<StyledSpan className='mb-2'>Tier - 3 (Master nodes)</StyledSpan>
-										<StyledH5 className='fw-bold'>
-											<StyledSpan2 className='me-2'>0 </StyledSpan2>(0)
-										</StyledH5>
+										<div className='d-flex align-items-center fw-bold'>
+											<h5 className='me-2'>0</h5>
+											<StyledH5>(0)</StyledH5>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -162,8 +145,7 @@ export default function Nodes({ total }) {
 						<div className='col-lg-3 col-12 d-flex justify-content-center me-lg-3'>
 							<PieChart data={[activeNodesCount || 2, deactiveNodesCount || 1]} />
 						</div>
-					</StyledRow>
-					<StyledLottie animationData={nodeAnimation} loop={true} />
+					</div>
 				</Card>
 			</section>
 
@@ -171,7 +153,9 @@ export default function Nodes({ total }) {
 				<Card
 					title={process.env.NETWORK + ' Nodes'}
 					action='search'
-					actionContent={<Searchbar value={inputValue} setValue={setInputValue} placeholder='Node ID' />}
+					actionContent={
+						<Searchbar value={inputValue} setValue={setInputValue} placeholder='Node ID' />
+					}
 					footerContent={
 						<Pagination
 							LIMIT={LIMIT}
@@ -202,16 +186,21 @@ export default function Nodes({ total }) {
 								<tr key={index}>
 									<td className='small'>{item.id}</td>
 									<td className='small pe-md-4'>
-										{item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status ? (
+										{item?.tests?.networking &&
+										item?.tests?.peerInfo &&
+										item?.tests?.status ? (
 											<span>Active</span>
 										) : (
-											<StyledSpan>Inactive</StyledSpan>
+											<StyledSpan2>Inactive</StyledSpan2>
 										)}
 									</td>
 									<td className='small pe-md-4'>Tier-1 (Starter)</td>
 									<td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
 									<td className='small text-end'>
-										<StyledLink href={`/nodes/${item.id}`} className='text-decoration-underline'>
+										<StyledLink
+											href={`/nodes/${item.id}`}
+											className='text-decoration-underline'
+										>
 											View details
 										</StyledLink>
 									</td>
