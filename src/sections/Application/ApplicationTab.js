@@ -15,7 +15,7 @@ const StyledNavItem = styled(Nav.Link)`
 	padding: 5px 0;
 	color: ${({ theme }) => theme.palette.label};
 	border-radius: 0 !important;
-	background-color: ${({ theme }) => theme.palette.grayD2} !important;
+	background-color: ${({ theme }) => theme.palette.tabBg} !important;
 	&.code {
 		padding-inline: 2.5rem !important;
 	}

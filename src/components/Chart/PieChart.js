@@ -18,8 +18,9 @@ export default function PieChart({ data, large }) {
 				{
 					name: `${Number(((v / total) * 100).toFixed(1))}%`,
 					value: v,
-					labelColor: i === 0 ? theme.palette.primaryL2 : theme.palette.gray8,
+					labelColor: i === 0 ? theme.palette.primaryL2 : theme.palette.gray,
 					cellColor: i === 0 ? '#918EF5' : 'rgba(145, 142, 245, 0.5)',
+					strokeColor: i === 0 ? theme.palette.graphStroke : 'transparent',
 				},
 			],
 			[]
@@ -37,7 +38,8 @@ export default function PieChart({ data, large }) {
 				outerRadius={large ? 100 : 60}
 				data={handleData}
 				fill='#82ca9d'
-				stroke='none'
+				stroke={theme.palette.primaryL2}
+				strokeWidth={4}
 				dataKey='value'
 				label={({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
 					const RADIAN = Math.PI / 180
@@ -59,7 +61,7 @@ export default function PieChart({ data, large }) {
 				}}
 			>
 				{handleData.map((item, index) => (
-					<Cell key={index} fill={item.cellColor} style={{ outline: 'none' }} />
+					<Cell key={index} fill={item.cellColor} style={{ outline: 'none', stroke: item.strokeColor, strokeWidth: 4 }} />
 				))}
 			</Pie>
 		</CustomPieChart>

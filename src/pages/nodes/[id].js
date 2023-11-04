@@ -21,7 +21,8 @@ const StyledDevider = styled.div`
 `
 
 const StyledH5 = styled.h5`
-	color: ${({ theme, active }) => theme.palette[active ? 'green' : 'red']};
+	color: ${({ theme, active }) => theme.palette[active ? 'uptime' : 'red']};
+	font-weight: 600;
 `
 
 const StyledButton = styled.button`

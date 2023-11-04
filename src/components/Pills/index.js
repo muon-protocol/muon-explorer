@@ -3,7 +3,7 @@ import { Nav } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const StyledNav = styled(Nav)`
-	background-color: ${({ theme }) => theme.palette.grayD2};
+	background-color: ${({ theme }) => theme.palette.dateRangeBg};
 `
 
 const NavLink = styled(Nav.Link)`

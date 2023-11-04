@@ -19,7 +19,7 @@ const StyledDiv = styled.div`
 const StyledDiv2 = styled(StyledDiv)`
 	top: 100vh !important;
 	left: 50vw !important;
-	background: ${({ theme }) => theme.palette.primary25} !important;
+	background: ${({ theme }) => theme.palette.primaryL1_25} !important;
 `
 
 export default function MainLayout({ children, title, landing }) {

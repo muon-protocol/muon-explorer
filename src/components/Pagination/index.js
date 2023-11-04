@@ -41,7 +41,7 @@ export default function Pagination({ LIMIT, dataLength, total, loading, page, se
 						<Icon
 							icon='material-symbols:arrow-left-rounded'
 							width={50}
-							color={page === 0 ? theme.palette.primaryLow : theme.palette.primaryL1}
+							color={page === 0 ? theme.palette.primaryL3 : theme.palette.primaryL1}
 						/>
 					</button>
 					<StyledSpan className='small'>
@@ -57,7 +57,7 @@ export default function Pagination({ LIMIT, dataLength, total, loading, page, se
 							width={50}
 							color={
 								page + 1 === Math.ceil(total / LIMIT)
-									? theme.palette.primaryLow
+									? theme.palette.primaryL3
 									: theme.palette.primaryL1
 							}
 						/>

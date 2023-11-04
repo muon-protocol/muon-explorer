@@ -7,8 +7,11 @@ const StyledTH = styled.th`
 `
 
 const StyledTable = styled.table`
+	& tbody td {
+		color: ${({ theme }) => theme.palette.text} !important;
+	}
 	& tbody tr:hover {
-		background: ${({ theme }) => theme.palette.gray8} !important;
+		background: ${({ theme }) => theme.palette.rowHover} !important;
 	}
 	& tbody td {
 		background-color: transparent !important;
@@ -21,7 +24,7 @@ const StyledTable = styled.table`
 		}
 	}
 	& a:hover {
-		color: ${({ theme }) => theme.palette.primary};
+		color: ${({ theme }) => theme.palette.primaryMain};
 	}
 `
 

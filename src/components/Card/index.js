@@ -6,8 +6,6 @@ import styled from 'styled-components'
 const StyledCard = styled.div`
 	background: ${({ theme, color }) => theme.palette[color]};
 	color: ${({ theme }) => theme.palette.text} !important;
-	border: ${({ theme, border }) =>
-		border ? `1px solid ${theme.palette.gray7}` : 'none'} !important;
 	& .card-body {
 		color: ${({ theme }) => theme.palette.text} !important;
 	}
@@ -33,16 +31,14 @@ export default function Card(props) {
 		actionContent,
 		footerContent,
 		shrink,
-		border,
 	} = props
 
 	return (
 		<StyledCard
-			className={`card rounded-4 ${
+			className={`card border-0 rounded-4 ${
 				shrink ? 'p-0' : 'p-3'
 			} position-relative overflow-hidden h-100`}
 			color={color}
-			border={border}
 		>
 			{title && (
 				<div className='card-header border-0 bg-transparent d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center'>

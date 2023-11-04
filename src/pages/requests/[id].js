@@ -32,7 +32,7 @@ const StyledLink = styled(Link)`
 const StyledAccordion = styled(Accordion)`
 	& .accordion-button {
 		border-radius: 1rem !important;
-		color: ${({ theme }) => theme.palette.primaryL2};
+		color: ${({ theme }) => theme.palette.primaryText};
 		background-color: transparent !important;
 		box-shadow: none;
 		font-size: 18px;
@@ -60,7 +60,7 @@ const StyledAccordion = styled(Accordion)`
 const StyledDiv = styled.div`
 	border: 1px dashed ${({ theme }) => theme.palette.grayL1} !important;
 	& h6 {
-		color: ${({ theme }) => theme.palette.primaryL2};
+		color: ${({ theme }) => theme.palette.primaryText};
 	}
 `
 

@@ -44,7 +44,7 @@ const StyledLabel = styled.div`
 	border-radius: 0 50rem 50rem 0;
 	width: 8.8rem;
 	color: ${({ theme }) => theme.palette.text};
-	background-color: ${({ theme }) => theme.palette.gray2};
+	background-color: ${({ theme }) => theme.palette.inputNameBg};
 	& span:first-of-type {
 		text-transform: capitalize;
 	}
@@ -70,8 +70,8 @@ const StyledButton = styled.button`
 	width: 8.8rem;
 	font-size: small;
 	letter-spacing: 0.6px;
-	color: ${({ theme }) => theme.palette.text} !important;
-	background-color: ${({ theme }) => theme.palette.primaryL1} !important;
+	color: ${({ theme }) => theme.palette.white} !important;
+	background-color: ${({ theme }) => theme.palette.button} !important;
 	& path {
 		fill: ${({ theme }) => theme.palette.white};
 	}

@@ -42,11 +42,11 @@ const StyledSpan2 = styled.span`
 `
 
 const StyledH3 = styled.h3`
-	color: ${({ theme }) => theme.palette.primaryL1};
+	color: ${({ theme }) => theme.palette.primaryText};
 `
 
 const StyledH5 = styled.h5`
-	color: ${({ theme }) => theme.palette.primaryL1};
+	color: ${({ theme }) => theme.palette.primaryText};
 	font-weight: bold;
 `
 

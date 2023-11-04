@@ -25,7 +25,7 @@ const StyledCard = styled.div`
 	&.custom-card svg circle.outer {
 		stroke-dasharray: 308px;
 		stroke-dashoffset: calc(308px - (308px * var(--percent)) / 100);
-		stroke: ${({ theme }) => theme.palette.primaryL2};
+		stroke: ${({ theme }) => theme.palette.primaryMain};
 	}
 
 	&.custom-card .number {
@@ -34,6 +34,7 @@ const StyledCard = styled.div`
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background: ${({ theme }) => theme.palette.primaryL1};
+		color: ${({ theme }) => theme.palette.white};
 		width: 60%;
 		height: 60%;
 	}

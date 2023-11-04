@@ -8,9 +8,10 @@ import { useDispatch } from 'react-redux'
 import { getSearchedData } from 'src/redux/SearchSlice'
 
 const StyledDiv = styled.div`
-	background-color: ${({ theme, landing }) => theme.palette[landing ? 'input' : 'cardBg']};
+	background-color: ${({ theme, landing }) => theme.palette[landing ? 'homeInputBg' : 'cardBg']};
 	width: ${({ landing }) => (landing ? '100%' : '26rem')};
 	max-width: ${({ landing }) => (landing ? '100%' : '90vw')};
+	border: ${({ theme, landing }) => landing ? `1px solid ${theme.palette.homeInputStroke}` : 'none'};
 	& input {
 		font-size: ${({ landing }) => (landing ? '16px' : '13px')};
 		color: ${({ theme, landing }) => theme.palette[landing ? 'label' : 'grayL1']} !important;
@@ -22,7 +23,7 @@ const StyledDiv = styled.div`
 `
 
 const StyledButton = styled.button`
-	background-color: ${({ theme }) => theme.palette.primaryL1};
+	background-color: ${({ theme }) => theme.palette.homeInputIcon};
 	line-height: 10px;
 	padding: ${({ landing }) => (landing ? '15px' : '5px')};
 	& path {

@@ -8,7 +8,7 @@ import { Nav, Navbar } from 'react-bootstrap'
 
 import LandingSearchbar from 'src/sections/Landing/LandingSearchbar'
 
-import { themeImageHandler } from 'src/utils/helpers'
+import { themeLogoImageHandler } from 'src/utils/helpers'
 
 const StyledLink = styled(Link)`
 	color: ${({ theme }) => theme.palette.text} !important;
@@ -50,7 +50,7 @@ export default function Header({ landing }) {
 			<Navbar expand='lg' className='py-2'>
 				<div className='d-flex flex-grow-1'>
 					<Link className='navbar-brand d-flex' href='/'>
-						<Image src={themeImageHandler(true)} alt='muon' />
+						<Image src={themeLogoImageHandler()} alt='muon' />
 						<div className='ms-2'>
 							<StyledHeading className='fw-bold mb-0'>{process.env.NETWORK}</StyledHeading>
 							<StyledHeading className='fw-bold'>Explorer</StyledHeading>

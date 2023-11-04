@@ -68,7 +68,7 @@ export default function LineChart({ data, length, small }) {
 				<Area
 					type='monotone'
 					dataKey='value'
-					stroke={theme.palette.primaryL3}
+					stroke={theme.palette.graphStroke}
 					strokeWidth={3}
 					fill={theme.palette.primaryL1}
 					dot={false}

@@ -27,7 +27,7 @@ const StyledSpan = styled.span`
 `
 
 const StyledDiv = styled.div`
-	background-color: ${({ theme }) => theme.palette.darkGreen};
+	background-color: ${({ theme }) => theme.palette.uptime};
 	line-height: 10px;
 	& path {
 		fill: ${({ theme }) => theme.palette.white};
@@ -59,7 +59,7 @@ const StyledTabs = styled(Tabs)`
 		margin-left: 1rem;
 
 		&.active {
-			color: ${({ theme }) => theme.palette.text};
+			color: ${({ theme }) => theme.palette.appTabActive};
 			font-weight: bold;
 		}
 	}
@@ -111,11 +111,17 @@ export default function ApplicationPage({ staticRequestHistory }) {
 										<StyledSpan className='small'>App ID</StyledSpan>
 										<div className='d-flex align-items-center mt-2'>
 											<h6 className='medium mb-0'>
-												{app?.data.appId.slice(0, 4) +
+												{app?.data.appId ?
+													app?.data.appId?.slice(0, 4) +
 													'...' +
-													app?.data.appId.slice(-4)}
+													app?.data.appId?.slice(-4)
+													:
+													'No data'
+												}
 											</h6>
-											<Copy text={app?.data.appId} />
+											{app?.data.appId &&
+												<Copy text={app?.data.appId} />
+											}
 										</div>
 									</div>
 								</div>
@@ -128,14 +134,14 @@ export default function ApplicationPage({ staticRequestHistory }) {
 											<h6 className='medium mb-0'>
 												{app?.data.context
 													? (app?.data.context.seed?.slice(0, 4) ?? '') +
-													  '...' +
-													  (app?.data.context.seed?.slice(-4) ?? '') +
-													  ' / ' +
-													  (app?.data.context.tss?.publicKey?.x?.slice(0, 4) ?? '') +
-													  '...' +
-													  (app?.data.context.tss?.publicKey?.x?.slice(-4) ?? '') +
-													  ' / ' +
-													  (app?.data.context.tss?.publicKey?.yParity ?? '')
+													'...' +
+													(app?.data.context.seed?.slice(-4) ?? '') +
+													' / ' +
+													(app?.data.context.tss?.publicKey?.x?.slice(0, 4) ?? '') +
+													'...' +
+													(app?.data.context.tss?.publicKey?.x?.slice(-4) ?? '') +
+													' / ' +
+													(app?.data.context.tss?.publicKey?.yParity ?? '')
 													: 'No data'}
 											</h6>
 											{app?.data.context && (
@@ -159,10 +165,10 @@ export default function ApplicationPage({ staticRequestHistory }) {
 											<h6 className='medium mb-0'>
 												{app?.data.context
 													? (app?.data.context.tss?.publicKey?.address?.slice(0, 5) ??
-															'') +
-													  '...' +
-													  (app?.data.context.tss?.publicKey?.address?.slice(-5) ??
-															'')
+														'') +
+													'...' +
+													(app?.data.context.tss?.publicKey?.address?.slice(-5) ??
+														'')
 													: 'No data'}
 											</h6>
 											{app?.data.context && (
@@ -177,8 +183,8 @@ export default function ApplicationPage({ staticRequestHistory }) {
 										<h6 className='medium mb-0 mt-2'>
 											{app?.data.context
 												? (app?.data.context.tss?.threshold?.t ?? '') +
-												  ' / ' +
-												  (app?.data.context.tss?.threshold?.max ?? '')
+												' / ' +
+												(app?.data.context.tss?.threshold?.max ?? '')
 												: 'No data'}
 										</h6>
 									</div>
@@ -220,7 +226,7 @@ export default function ApplicationPage({ staticRequestHistory }) {
 			</section>
 
 			<section className='mb-4'>
-				<Card color='grayD2' shrink>
+				<Card color='appTabBg' shrink>
 					<StyledTabs activeKey={activeTab} onSelect={(e) => setActiveTab(e)} unmountOnExit>
 						<Tab eventKey='application' title='Application'>
 							<ApplicationTab />
