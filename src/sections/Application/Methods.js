@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { methodQuery } from 'src/redux/ApplicationsSlice'
 
 // import { handleRequest } from 'src/utils/requestMuonWallet'
+// import { handleRequest } from 'src/utils/requestMuonWallet'
 
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
