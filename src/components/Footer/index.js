@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 
-import muon_net_alice from 'public/images/logo/muon-net.png'
+import muon_net from 'public/images/logo/muon-net.png'
 
 const FooterLogo = styled.div`
 	position: absolute;
@@ -39,7 +39,7 @@ export default function Footer() {
 					<FooterLogo className='d-flex'>
 						<StyledHeading className='ms-2'>
 							<span className='me-2 small'>Powered by</span>
-							<Image src={muon_net_alice} alt='muon' />
+							<Image src={muon_net} alt='muon' />
 						</StyledHeading>
 					</FooterLogo>
 				</div>
