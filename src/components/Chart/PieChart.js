@@ -61,7 +61,11 @@ export default function PieChart({ data, large }) {
 				}}
 			>
 				{handleData.map((item, index) => (
-					<Cell key={index} fill={item.cellColor} style={{ outline: 'none', stroke: item.strokeColor, strokeWidth: 4 }} />
+					<Cell
+						key={index}
+						fill={item.cellColor}
+						style={{ outline: 'none', stroke: item.strokeColor, strokeWidth: 4 }}
+					/>
 				))}
 			</Pie>
 		</CustomPieChart>

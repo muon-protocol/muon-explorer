@@ -11,7 +11,8 @@ const StyledDiv = styled.div`
 	background-color: ${({ theme, landing }) => theme.palette[landing ? 'homeInputBg' : 'cardBg']};
 	width: ${({ landing }) => (landing ? '100%' : '26rem')};
 	max-width: ${({ landing }) => (landing ? '100%' : '90vw')};
-	border: ${({ theme, landing }) => landing ? `1px solid ${theme.palette.homeInputStroke}` : 'none'};
+	border: ${({ theme, landing }) =>
+		landing ? `1px solid ${theme.palette.homeInputStroke}` : 'none'};
 	& input {
 		font-size: ${({ landing }) => (landing ? '16px' : '13px')};
 		color: ${({ theme, landing }) => theme.palette[landing ? 'label' : 'grayL1']} !important;

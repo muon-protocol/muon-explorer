@@ -111,17 +111,13 @@ export default function ApplicationPage({ staticRequestHistory }) {
 										<StyledSpan className='small'>App ID</StyledSpan>
 										<div className='d-flex align-items-center mt-2'>
 											<h6 className='medium mb-0'>
-												{app?.data.appId ?
-													app?.data.appId?.slice(0, 4) +
-													'...' +
-													app?.data.appId?.slice(-4)
-													:
-													'No data'
-												}
+												{app?.data.appId
+													? app?.data.appId?.slice(0, 4) +
+													  '...' +
+													  app?.data.appId?.slice(-4)
+													: 'No data'}
 											</h6>
-											{app?.data.appId &&
-												<Copy text={app?.data.appId} />
-											}
+											{app?.data.appId && <Copy text={app?.data.appId} />}
 										</div>
 									</div>
 								</div>
@@ -134,14 +130,14 @@ export default function ApplicationPage({ staticRequestHistory }) {
 											<h6 className='medium mb-0'>
 												{app?.data.context
 													? (app?.data.context.seed?.slice(0, 4) ?? '') +
-													'...' +
-													(app?.data.context.seed?.slice(-4) ?? '') +
-													' / ' +
-													(app?.data.context.tss?.publicKey?.x?.slice(0, 4) ?? '') +
-													'...' +
-													(app?.data.context.tss?.publicKey?.x?.slice(-4) ?? '') +
-													' / ' +
-													(app?.data.context.tss?.publicKey?.yParity ?? '')
+													  '...' +
+													  (app?.data.context.seed?.slice(-4) ?? '') +
+													  ' / ' +
+													  (app?.data.context.tss?.publicKey?.x?.slice(0, 4) ?? '') +
+													  '...' +
+													  (app?.data.context.tss?.publicKey?.x?.slice(-4) ?? '') +
+													  ' / ' +
+													  (app?.data.context.tss?.publicKey?.yParity ?? '')
 													: 'No data'}
 											</h6>
 											{app?.data.context && (
@@ -165,10 +161,10 @@ export default function ApplicationPage({ staticRequestHistory }) {
 											<h6 className='medium mb-0'>
 												{app?.data.context
 													? (app?.data.context.tss?.publicKey?.address?.slice(0, 5) ??
-														'') +
-													'...' +
-													(app?.data.context.tss?.publicKey?.address?.slice(-5) ??
-														'')
+															'') +
+													  '...' +
+													  (app?.data.context.tss?.publicKey?.address?.slice(-5) ??
+															'')
 													: 'No data'}
 											</h6>
 											{app?.data.context && (
@@ -183,8 +179,8 @@ export default function ApplicationPage({ staticRequestHistory }) {
 										<h6 className='medium mb-0 mt-2'>
 											{app?.data.context
 												? (app?.data.context.tss?.threshold?.t ?? '') +
-												' / ' +
-												(app?.data.context.tss?.threshold?.max ?? '')
+												  ' / ' +
+												  (app?.data.context.tss?.threshold?.max ?? '')
 												: 'No data'}
 										</h6>
 									</div>

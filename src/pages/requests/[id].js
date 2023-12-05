@@ -205,7 +205,9 @@ export default function ApplicationPage() {
 												</StyledSpan2>
 											</div>
 										) : (
-											<StyledSpan2 className='px-3'>{String(request?.data.result)}</StyledSpan2>
+											<StyledSpan2 className='px-3'>
+												{String(request?.data.result)}
+											</StyledSpan2>
 										)
 									) : null}
 								</Accordion.Body>

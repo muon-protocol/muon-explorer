@@ -57,9 +57,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ()
 })
 
 export default function Nodes() {
-	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount, tiers } = useSelector(
-		(store) => store.nodes
-	)
+	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount, tiers } =
+		useSelector((store) => store.nodes)
 
 	const dispatch = useDispatch()
 
@@ -115,7 +114,9 @@ export default function Nodes() {
 								</div>
 								<div className='col-md-2 col-sm-4 col-6 d-flex flex-column'>
 									<StyledSpan className='mb-2'>Tier-1</StyledSpan>
-									<h5 className='me-2 fw-bold'>{tiers && tiers['1'] ? tiers['1'] : totalNodesCount}</h5>
+									<h5 className='me-2 fw-bold'>
+										{tiers && tiers['1'] ? tiers['1'] : totalNodesCount}
+									</h5>
 								</div>
 								<div className='col-md-2 col-sm-4 col-6 d-flex justify-content-lg-center'>
 									<div className='d-flex flex-column'>

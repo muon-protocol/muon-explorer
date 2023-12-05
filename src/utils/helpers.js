@@ -14,14 +14,26 @@ export const themeLogoImageHandler = () => {
 	return process.env.NETWORK === 'Alice'
 		? aliceLogo
 		: process.env.NETWORK === 'Pion'
-			? pionLogo
-			: muonLogo
+		? pionLogo
+		: muonLogo
 }
 
 export const themeStatImageHandler = (num) => {
 	return process.env.NETWORK === 'Alice'
-		? num === 1 ? aliceShape1 : num === 2 ? aliceShape2 : aliceShape3
+		? num === 1
+			? aliceShape1
+			: num === 2
+			? aliceShape2
+			: aliceShape3
 		: process.env.NETWORK === 'Pion'
-			? num === 1 ? pionShape1 : num === 2 ? pionShape2 : pionShape3
-			: num === 1 ? pionShape1 : num === 2 ? pionShape2 : pionShape3
+		? num === 1
+			? pionShape1
+			: num === 2
+			? pionShape2
+			: pionShape3
+		: num === 1
+		? pionShape1
+		: num === 2
+		? pionShape2
+		: pionShape3
 }

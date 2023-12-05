@@ -48,9 +48,21 @@ export default function RequestsChartFooter() {
 	return (
 		<StyledFooterCard className='card-footer bg-transparent'>
 			<div className='d-flex flex-column flex-sm-row justify-content-between pt-2 px-md-4'>
-				<RequestsChartFooterItem image={themeStatImageHandler(1)} title='Applications' value={totalApps} />
-				<RequestsChartFooterItem image={themeStatImageHandler(2)} title='Active Nodes' value={activeNodesCount} />
-				<RequestsChartFooterItem image={themeStatImageHandler(3)} title='Requests' value={sum} />
+				<RequestsChartFooterItem
+					image={themeStatImageHandler(1)}
+					title='Applications'
+					value={totalApps}
+				/>
+				<RequestsChartFooterItem
+					image={themeStatImageHandler(2)}
+					title='Active Nodes'
+					value={activeNodesCount}
+				/>
+				<RequestsChartFooterItem
+					image={themeStatImageHandler(3)}
+					title='Requests'
+					value={sum}
+				/>
 			</div>
 		</StyledFooterCard>
 	)
