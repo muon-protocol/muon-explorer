@@ -38,6 +38,15 @@ export const getSingleNode = createAsyncThunk('getSingleNode', async (id) => {
 	}
 })
 
+export const getTiers = createAsyncThunk('getTiers', async () => {
+	try {
+		const { data } = await axiosInstance.get(`/api/v1/tiers`)
+		return data
+	} catch (err) {
+		throw err
+	}
+})
+
 const NodesSlice = createSlice({
 	name: 'nodes',
 	initialState: {
@@ -48,6 +57,7 @@ const NodesSlice = createSlice({
 		activeNodesCount: 0,
 		deactiveNodesCount: 0,
 		node: null,
+		tiers: null,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -103,6 +113,20 @@ const NodesSlice = createSlice({
 				state.node = action.payload.result
 			})
 			.addCase(getSingleNode.rejected, (state) => {
+				state.loading = false
+			})
+
+		// ---------------------------------------------------------------------
+
+		builder
+			.addCase(getTiers.pending, (state) => {
+				state.loading = true
+			})
+			.addCase(getTiers.fulfilled, (state, action) => {
+				state.loading = false
+				state.tiers = action.payload.result
+			})
+			.addCase(getTiers.rejected, (state) => {
 				state.loading = false
 			})
 

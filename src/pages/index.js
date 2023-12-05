@@ -161,7 +161,7 @@ export default function Landing() {
 											<td className='small'>
 												<Link href={`/nodes/${item.id}`}>{item.id}</Link>
 											</td>
-											<td className='small'>Tier-1 (Starter)</td>
+											<td className='small'>Tier-{item?.tier || 'not-set'}</td>
 											<td
 												className={`small
 													${item?.tests?.networking && item?.tests?.peerInfo && item?.tests?.status ? 'active' : 'inactive'}`}

@@ -16,7 +16,7 @@ import Searchbar from 'src/components/Searchbar'
 import Loader from 'src/components/Loader'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getActiveNodes, getAllNodes, getDeactiveNodes } from 'src/redux/NodesSlice'
+import { getActiveNodes, getAllNodes, getDeactiveNodes, getTiers } from 'src/redux/NodesSlice'
 import { wrapper } from 'src/redux/store'
 
 const PieChart = dynamic(() => import('src/components/Chart/PieChart'), {
@@ -45,25 +45,19 @@ const StyledH3 = styled.h3`
 	color: ${({ theme }) => theme.palette.primaryText};
 `
 
-const StyledH5 = styled.h5`
-	color: ${({ theme }) => theme.palette.primaryText};
-	font-weight: bold;
-`
-
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
 	const req1 = store.dispatch(getAllNodes({}))
 	const req2 = store.dispatch(getActiveNodes({}))
 	const req3 = store.dispatch(getDeactiveNodes({}))
-	const allRes = await Promise.all([req1, req2, req3])
+	const req4 = store.dispatch(getTiers())
+	await Promise.all([req1, req2, req3, req4])
 	return {
-		props: {
-			total: allRes[0].payload?.total_count,
-		},
+		props: {},
 	}
 })
 
-export default function Nodes({ total }) {
-	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount } = useSelector(
+export default function Nodes() {
+	const { nodes, loading, totalNodesCount, deactiveNodesCount, activeNodesCount, tiers } = useSelector(
 		(store) => store.nodes
 	)
 
@@ -98,14 +92,14 @@ export default function Nodes({ total }) {
 							<div className='row g-4 justify-content-lg-start justify-content-between'>
 								<div className='col-md-4 col-12 d-flex align-items-end'>
 									<StyledSpan className='me-xl-3 me-lg-2 me-3'>Total Nodes</StyledSpan>
-									<h3 className='fw-bold mb-0'>{total}</h3>
+									<h3 className='fw-bold mb-0'>{totalNodesCount}</h3>
 								</div>
 								<div className='col-md-7 col-12 d-flex align-items-end justify-content-lg-start justify-content-md-end ms-lg-4 ps-xl-4'>
 									<StyledSpan className='me-xl-3 me-lg-2 me-3'>Active Nodes</StyledSpan>
 									<StyledH3 className='fw-bold mb-0'>
 										{activeNodesCount} (
-										{activeNodesCount && total
-											? ((activeNodesCount / total) * 100).toFixed(2)
+										{activeNodesCount && totalNodesCount
+											? ((activeNodesCount / totalNodesCount) * 100).toFixed(2)
 											: 0}
 										%)
 									</StyledH3>
@@ -114,30 +108,31 @@ export default function Nodes({ total }) {
 							<div className='w-100 my-4'>
 								<StyledDevider />
 							</div>
-							<div className='row g-4'>
-								<div className='col-md-4 col-sm-6 col-12 d-flex flex-column'>
-									<StyledSpan className='mb-2'>Tier - 1 (Starter nodes)</StyledSpan>
-									<div className='d-flex align-items-center fw-bold'>
-										<h5 className='me-2'>{total}</h5>
-										<StyledH5>({activeNodesCount})</StyledH5>
+							<div className='row justify-content-between g-4'>
+								<div className='col-md-2 col-sm-4 col-6 d-flex flex-column'>
+									<StyledSpan className='mb-2'>Tier not set</StyledSpan>
+									<h5 className='me-2 fw-bold'>{tiers && tiers['0'] ? tiers['0'] : 0}</h5>
+								</div>
+								<div className='col-md-2 col-sm-4 col-6 d-flex flex-column'>
+									<StyledSpan className='mb-2'>Tier-1</StyledSpan>
+									<h5 className='me-2 fw-bold'>{tiers && tiers['1'] ? tiers['1'] : totalNodesCount}</h5>
+								</div>
+								<div className='col-md-2 col-sm-4 col-6 d-flex justify-content-lg-center'>
+									<div className='d-flex flex-column'>
+										<StyledSpan className='mb-2'>Tier-2</StyledSpan>
+										<h5 className='me-2'>{tiers && tiers['2'] ? tiers['2'] : 0}</h5>
 									</div>
 								</div>
-								<div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-center'>
+								<div className='col-md-2 col-sm-4 col-6 d-flex justify-content-lg-end'>
 									<div className='d-flex flex-column'>
-										<StyledSpan className='mb-2'>Tier - 2 (Pro nodes)</StyledSpan>
-										<div className='d-flex align-items-center fw-bold'>
-											<h5 className='me-2'>0</h5>
-											<StyledH5>(0)</StyledH5>
-										</div>
+										<StyledSpan className='mb-2'>Tier-3</StyledSpan>
+										<h5 className='me-2'>{tiers && tiers['3'] ? tiers['3'] : 0}</h5>
 									</div>
 								</div>
-								<div className='col-md-4 col-sm-6 col-12 d-flex justify-content-lg-end'>
+								<div className='col-md-2 col-sm-4 col-6 d-flex justify-content-lg-end'>
 									<div className='d-flex flex-column'>
-										<StyledSpan className='mb-2'>Tier - 3 (Master nodes)</StyledSpan>
-										<div className='d-flex align-items-center fw-bold'>
-											<h5 className='me-2'>0</h5>
-											<StyledH5>(0)</StyledH5>
-										</div>
+										<StyledSpan className='mb-2'>Tier-4</StyledSpan>
+										<h5 className='me-2'>{tiers && tiers['4'] ? tiers['4'] : 0}</h5>
 									</div>
 								</div>
 							</div>
@@ -194,7 +189,7 @@ export default function Nodes({ total }) {
 											<StyledSpan2>Inactive</StyledSpan2>
 										)}
 									</td>
-									<td className='small pe-md-4'>Tier-1 (Starter)</td>
+									<td className='small pe-md-4'>Tier-{item?.tier || 'not-set'}</td>
 									<td className='small pe-md-4'>{dateTimeFormat(item.startTime)}</td>
 									<td className='small text-end'>
 										<StyledLink
