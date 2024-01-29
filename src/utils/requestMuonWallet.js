@@ -83,7 +83,8 @@ export const handleRequest = async (appName, method, params, filtered, setResult
 				resolve()
 			}, 1000)
 		})
-		const muon = new Muon()
+		const link = process.env.BASE_URL + '/query/v1'
+		const muon = new Muon(link)
 		const res = await muon.request(appName, method, params)
 		if (res?.success) {
 			setResults([...filtered, { method, res: JSON.stringify(res.result, null, '\t') }])
