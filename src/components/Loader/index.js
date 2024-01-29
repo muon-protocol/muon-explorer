@@ -13,8 +13,8 @@ const spin = keyframes`
 `
 
 const StyledDiv = styled.div`
-	border: 3px solid ${({ theme }) => theme.palette.gray11};
-	border-top: 3px solid ${({ theme }) => theme.palette.primary1};
+	border: 3px solid ${({ theme }) => theme.palette.primaryL3};
+	border-top: 3px solid ${({ theme }) => theme.palette.primaryL1};
 	border-radius: 50%;
 	width: 35px;
 	height: 35px;

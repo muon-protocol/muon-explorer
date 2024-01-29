@@ -11,8 +11,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { methodQuery } from 'src/redux/ApplicationsSlice'
 
-// import { handleRequest } from 'src/utils/requestMuonWallet'
-// import { handleRequest } from 'src/utils/requestMuonWallet'
+import { handleRequest } from 'src/utils/requestMuonWallet'
 
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
@@ -185,35 +184,35 @@ export default function Methods({ openMethods, setOpenMethods }) {
 			return
 		}
 		const filtered = results.filter((i) => i.method !== method)
-		// if (app.name === 'Twaper') {
-		// 	try {
-		// 		setRequestLoading(true)
-		// 		await handleRequest(app.name, method, methodArgs, filtered, setResults)
-		// 		setRequestLoading(false)
-		// 	} catch (err) {
-		// 		setRequestLoading(false)
-		// 	}
-		// } else {
-		try {
-			let params = ''
-			Object.entries(methodArgs).forEach((item) => {
-				params = params.concat(`&params[${item[0]}]=${item[1]}`)
-			})
-			const res = await dispatch(methodQuery({ app: app.id, method, params }))
-			if (res.payload?.success) {
-				setResults([
-					...filtered,
-					{ method, res: JSON.stringify(res.payload.result, null, '\t') },
-				])
-				toast.success('Query Successful')
-			} else {
-				toast.warn(res.payload?.error?.message || 'Query Failed')
+		if (process.env.NETWORK === 'Alice' && app.name === 'Twaper') {
+			try {
+				setRequestLoading(true)
+				await handleRequest(app.name, method, methodArgs, filtered, setResults)
+				setRequestLoading(false)
+			} catch (err) {
+				setRequestLoading(false)
 			}
-		} catch (err) {
-			console.error(err)
-			toast.error('Something went wrong')
+		} else {
+			try {
+				let params = ''
+				Object.entries(methodArgs).forEach((item) => {
+					params = params.concat(`&params[${item[0]}]=${item[1]}`)
+				})
+				const res = await dispatch(methodQuery({ app: app.id, method, params }))
+				if (res.payload?.success) {
+					setResults([
+						...filtered,
+						{ method, res: JSON.stringify(res.payload.result, null, '\t') },
+					])
+					toast.success('Query Successful')
+				} else {
+					toast.warn(res.payload?.error?.message || 'Query Failed')
+				}
+			} catch (err) {
+				console.error(err)
+				toast.error('Something went wrong')
+			}
 		}
-		// }
 	}
 
 	const handleActiveExample = (method) => {
