@@ -23,9 +23,9 @@ const StyledHeading = styled.h6`
 	}
 `
 
-const FooterIcon = ({ icon, last }) => {
+const FooterIcon = ({ icon, last, href }) => {
 	return (
-		<StyledAnchor className={last ? '' : 'me-4'} href='#'>
+		<StyledAnchor className={last ? '' : 'me-4'} href={href} target='_blank'>
 			<Icon icon={icon} width='34' />
 		</StyledAnchor>
 	)
@@ -44,10 +44,10 @@ export default function Footer() {
 					</FooterLogo>
 				</div>
 				<div className='d-flex mb-4 mb-md-0 align-self-center'>
-					<FooterIcon icon='ic:baseline-discord' />
-					<FooterIcon icon='mdi:twitter' />
-					<FooterIcon icon='ic:baseline-telegram' />
-					<FooterIcon icon='ic:baseline-discord' last />
+					<FooterIcon icon='ic:baseline-discord' href='https://discord.gg/muonnetwork' />
+					<FooterIcon icon='mdi:twitter' href='https://twitter.com/muon_net' />
+					<FooterIcon icon='ic:baseline-telegram' last href='https://t.me/Muon_net' />
+					{/* <FooterIcon icon='ic:baseline-discord' last /> */}
 				</div>
 			</div>
 		</footer>
